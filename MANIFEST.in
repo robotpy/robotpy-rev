@@ -1,0 +1,5 @@
+include LICENSE
+include gen/*.j2 gen/*.yml gen/hooks.py
+include rev/_impl/rev_roborio.cpp
+include rev/_impl/wpilibc/frc/*.cpp rev/_impl/wpilibc/frc/*.h
+include rev/_impl/autogen/*.cpp rev/_impl/autogen/*.hpp rev/_impl/autogen/*.inc
