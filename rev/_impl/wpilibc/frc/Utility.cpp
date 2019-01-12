@@ -14,139 +14,13 @@
 
 #include <cstdio>
 #include <cstdlib>
-#include <cstring>
 
-#include <hal/DriverStation.h>
-#include <hal/HAL.h>
-#include <wpi/Path.h>
 #include <wpi/SmallString.h>
 #include <wpi/raw_ostream.h>
 
 #include "frc/ErrorBase.h"
 
-using namespace frc;
-
-bool wpi_assert_impl(bool conditionValue, const wpi::Twine& conditionText,
-                     const wpi::Twine& message, wpi::StringRef fileName,
-                     int lineNumber, wpi::StringRef funcName) {
-  if (!conditionValue) {
-    wpi::SmallString<128> locBuf;
-    wpi::raw_svector_ostream locStream(locBuf);
-    locStream << funcName << " [" << wpi::sys::path::filename(fileName) << ":"
-              << lineNumber << "]";
-
-    wpi::SmallString<128> errorBuf;
-    wpi::raw_svector_ostream errorStream(errorBuf);
-
-    errorStream << "Assertion \"" << conditionText << "\" ";
-
-    if (message.isTriviallyEmpty() ||
-        (message.isSingleStringRef() && message.getSingleStringRef().empty())) {
-      errorStream << "failed.\n";
-    } else {
-      errorStream << "failed: " << message << "\n";
-    }
-
-    std::string stack = GetStackTrace(2);
-
-    // Print the error and send it to the DriverStation
-    HAL_SendError(1, 1, 0, errorBuf.c_str(), locBuf.c_str(), stack.c_str(), 1);
-  }
-
-  return conditionValue;
-}
-
-/**
- * Common error routines for wpi_assertEqual_impl and wpi_assertNotEqual_impl.
- *
- * This should not be called directly; it should only be used by
- * wpi_assertEqual_impl and wpi_assertNotEqual_impl.
- */
-void wpi_assertEqual_common_impl(const wpi::Twine& valueA,
-                                 const wpi::Twine& valueB,
-                                 const wpi::Twine& equalityType,
-                                 const wpi::Twine& message,
-                                 wpi::StringRef fileName, int lineNumber,
-                                 wpi::StringRef funcName) {
-  wpi::SmallString<128> locBuf;
-  wpi::raw_svector_ostream locStream(locBuf);
-  locStream << funcName << " [" << wpi::sys::path::filename(fileName) << ":"
-            << lineNumber << "]";
-
-  wpi::SmallString<128> errorBuf;
-  wpi::raw_svector_ostream errorStream(errorBuf);
-
-  errorStream << "Assertion \"" << valueA << " " << equalityType << " "
-              << valueB << "\" ";
-
-  if (message.isTriviallyEmpty() ||
-      (message.isSingleStringRef() && message.getSingleStringRef().empty())) {
-    errorStream << "failed.\n";
-  } else {
-    errorStream << "failed: " << message << "\n";
-  }
-
-  std::string trace = GetStackTrace(3);
-
-  // Print the error and send it to the DriverStation
-  HAL_SendError(1, 1, 0, errorBuf.c_str(), locBuf.c_str(), trace.c_str(), 1);
-}
-
-bool wpi_assertEqual_impl(int valueA, int valueB,
-                          const wpi::Twine& valueAString,
-                          const wpi::Twine& valueBString,
-                          const wpi::Twine& message, wpi::StringRef fileName,
-                          int lineNumber, wpi::StringRef funcName) {
-  if (!(valueA == valueB)) {
-    wpi_assertEqual_common_impl(valueAString, valueBString, "==", message,
-                                fileName, lineNumber, funcName);
-  }
-  return valueA == valueB;
-}
-
-bool wpi_assertNotEqual_impl(int valueA, int valueB,
-                             const wpi::Twine& valueAString,
-                             const wpi::Twine& valueBString,
-                             const wpi::Twine& message, wpi::StringRef fileName,
-                             int lineNumber, wpi::StringRef funcName) {
-  if (!(valueA != valueB)) {
-    wpi_assertEqual_common_impl(valueAString, valueBString, "!=", message,
-                                fileName, lineNumber, funcName);
-  }
-  return valueA != valueB;
-}
-
 namespace frc {
-
-int GetFPGAVersion() {
-  int32_t status = 0;
-  int version = HAL_GetFPGAVersion(&status);
-  wpi_setGlobalErrorWithContext(status, HAL_GetErrorMessage(status));
-  return version;
-}
-
-int64_t GetFPGARevision() {
-  int32_t status = 0;
-  int64_t revision = HAL_GetFPGARevision(&status);
-  wpi_setGlobalErrorWithContext(status, HAL_GetErrorMessage(status));
-  return revision;
-}
-
-uint64_t GetFPGATime() {
-  int32_t status = 0;
-  uint64_t time = HAL_GetFPGATime(&status);
-  wpi_setGlobalErrorWithContext(status, HAL_GetErrorMessage(status));
-  return time;
-}
-
-bool GetUserButton() {
-  int32_t status = 0;
-
-  bool value = HAL_GetFPGAButton(&status);
-  wpi_setGlobalError(status);
-
-  return value;
-}
 
 #ifndef _WIN32
 

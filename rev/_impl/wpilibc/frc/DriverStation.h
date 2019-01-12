@@ -7,17 +7,7 @@
 
 #pragma once
 
-#include <array>
-#include <atomic>
-#include <memory>
-#include <string>
-#include <thread>
-
-#include <hal/DriverStationTypes.h>
 #include <wpi/Twine.h>
-#include <wpi/condition_variable.h>
-#include <wpi/deprecated.h>
-#include <wpi/mutex.h>
 
 #include "frc/ErrorBase.h"
 
@@ -30,16 +20,6 @@ namespace frc {
  */
 class DriverStation : public ErrorBase {
  public:
-
-  ~DriverStation() override;
-
-
-  /**
-   * Return a reference to the singleton DriverStation.
-   *
-   * @return Reference to the DS instance
-   */
-  static DriverStation& GetInstance();
 
   /**
    * Report an error to the DriverStation messages window.
@@ -62,35 +42,6 @@ class DriverStation : public ErrorBase {
    */
   static void ReportError(bool isError, int code, const wpi::Twine& error,
                           const wpi::Twine& location, const wpi::Twine& stack);
-
-  /**
-   * Check if the FPGA outputs are enabled.
-   *
-   * The outputs may be disabled if the robot is disabled or e-stopped, the
-   * watchdog has expired, or if the roboRIO browns out.
-   *
-   * @return True if the FPGA outputs are enabled.
-   * @deprecated Use RobotController static class method
-   */
-  WPI_DEPRECATED("Use RobotController static class method")
-  bool IsSysActive() const;
-
-  /**
-   * Return the approximate match time.
-   *
-   * The FMS does not send an official match time to the robots, but does send
-   * an approximate match time. The value will count down the time remaining in
-   * the current period (auto or teleop).
-   *
-   * Warning: This is not an official time (so it cannot be used to dispute ref
-   * calls or guarantee that a function will trigger before the match ends).
-   *
-   * The Practice Match function of the DS approximates the behaviour seen on
-   * the field.
-   *
-   * @return Time remaining in current match period (auto or teleop)
-   */
-  double GetMatchTime() const;
 
 };
 
