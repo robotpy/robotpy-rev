@@ -2,12 +2,11 @@ language: python
 dist: xenial
 
 python:
-  - "3.5"
   - "3.6"
   - "3.7"
 
 install:
-  - pip install pytest coverage header2whatever pytest-cov
+  - pip install pytest coverage header2whatever sphinxify pytest-cov
   - python setup.py sdist
   - "pip install dist/robotpy-rev-*.tar.gz"
 script:
@@ -19,7 +18,7 @@ jobs:
   # Check to see if the compilation succeeds
   - python: "3.7"
     install:
-    - FORCE_HAL_INSTALL=1 pip install pybind11 header2whatever robotpy-hal-roborio
+    - FORCE_HAL_INSTALL=1 pip install pybind11 header2whatever sphinxify robotpy-hal-roborio
     script:
     - TRAVIS_BUILD=1 python setup.py sdist build
   
@@ -36,7 +35,7 @@ jobs:
     python: "3.6"
     if: tag IS present
     install:
-    - pip install header2whatever
+    - pip install header2whatever sphinxify
     script: skip
     deploy:
     - provider: pypi

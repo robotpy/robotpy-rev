@@ -1,8 +1,9 @@
-import re
+import sphinxify
 
 _annotations = {
     "short": "int",
     "int": "int",
+    "unsigned int": "int",
     "uint8_t": "int",
     "uint16_t": "int",
     "int32_t": "int",
@@ -11,7 +12,6 @@ _annotations = {
     "double": "float",
     "char": "str",
     "bool": "bool",
-    "ctre::phoenix::motorcontrol::ControlMode": "ControlMode",
     "rev::CANError": "CANError",
     "void": "None",
 }
@@ -85,41 +85,15 @@ def _to_annotation(ctypename):
     return _annotations.get(ctypename, computed)
 
 
-def process_enum(e):
-    ename = e["name"].split("_")[0] + "_"
-    for v in e["values"]:
-        name = v["name"]
-        if name.startswith(ename):
-            name = name[len(ename) :]
-        name = name.rstrip("_")
-        if name == "None":
-            name = "None_"
-        elif name[0].isdigit():
-            name = v["name"][0] + name
-        v["x_name"] = name
-
-
 def header_hook(header, data):
     """Called for each header"""
 
-    # fix enum names
     for e in header.enums:
         e["x_namespace"] = e["namespace"]
-        process_enum(e)
 
 
-def function_hook(fn, data):
-    """Called for each function in the header"""
-
-    # only output functions if a module name is defined
-    if "module_name" not in data:
-        return
-
+def public_method_hook(fn, data):
     # Ignore operators, move constructors, copy constructors
-    # if fn["name"] == "CANDigitalInput":
-    #     import pprint
-
-    #     pprint.pprint(fn)
     if (
         fn["name"].startswith("operator")
         or fn.get("destructor")
@@ -127,11 +101,6 @@ def function_hook(fn, data):
     ):
         fn["data"] = {"ignore": True}
         return
-
-    # Mangle the name appropriately
-    # m = re.match(r"c_%s_(.*)" % data["module_name"], fn["name"])
-    # if not m:
-    #     raise Exception("Unexpected fn %s" % fn["name"])
 
     # Python exposed function name converted to camelcase
     x_name = fn["name"]
@@ -145,19 +114,17 @@ def function_hook(fn, data):
     x_param_checks = []
     x_return_checks = []
 
-    param_offset = 0  # if x_name.startswith("create") else 1
-
-    data = data.get("data", {}).get(fn["name"])
+    data = data.get(fn["name"])
     if data is None:
         # ensure every function is in our yaml
-        print("WARNING", fn["name"])
+        print("WARNING:", fn["parent"]["name"], "method", fn["name"], "missing")
         data = {}
         # assert False, fn['name']
 
     param_defaults = data.get("defaults", {})
     param_override = data.get("param_override", {})
 
-    for i, p in enumerate(fn["parameters"][param_offset:]):
+    for i, p in enumerate(fn["parameters"]):
         if p["name"] == "":
             p["name"] = "param%s" % i
         p["x_type"] = p["raw_type"]
@@ -214,9 +181,7 @@ def function_hook(fn, data):
     # is an error code, suppress the error code. This matches the Java
     # APIs, and the user can retrieve the error code from getLastError if
     # they really care
-    if (not len(x_rets) or fn["rtnType"] != "ctre::phoenix::ErrorCode") and fn[
-        "rtnType"
-    ] not in ("void", "void *"):
+    if not len(x_rets) and fn["rtnType"] != "void":
         x_callstart = "auto __ret ="
         x_rets.insert(
             0,
@@ -229,8 +194,8 @@ def function_hook(fn, data):
 
         # Save some time in the common case -- set the error code to 0
         # if there's a single retval and the type is ErrorCode
-        if fn["rtnType"] == "ctre::phoenix::ErrorCode":
-            x_param_checks.append("retval = ErrorCode.OK")
+        if fn["rtnType"] == "CANError":
+            x_param_checks.append("retval = CANError.kOK")
 
     if len(x_rets) == 1 and x_rets[0]["x_type"] != "void":
         x_wrap_return = "return %s;" % x_rets[0]["name"]
@@ -267,16 +232,21 @@ def function_hook(fn, data):
     if x_out_params:
         x_temprefs = ";".join(["%(x_type)s %(name)s" % p for p in x_out_params]) + ";"
 
-    args_comma = ", " if x_in_params else ""
-
     if "return" in data.get("code", ""):
         raise ValueError("%s: Do not use return, assign to retval instead" % fn["name"])
 
     # Rename internal functions
     if data.get("internal", False):
         x_name = "_" + x_name
-    if data.get("rename", False):
+    elif data.get("rename", False):
         x_name = data["rename"]
+    elif fn["constructor"]:
+        x_name = "__init__"
+
+    if "doc" in data:
+        doc = data["doc"]
+    elif "doxygen" in fn:
+        doc = sphinxify.process_raw(fn["doxygen"])
 
     name = fn["name"]
 
@@ -287,8 +257,16 @@ def function_hook(fn, data):
 
 
 def class_hook(cls, data):
-    for fn in cls["methods"]["public"]:
-        function_hook(fn, data)
+    data = data.get("data", {})
+    data = data.get(cls["name"])
+    if data is None:
+        print("WARNING: class", cls["name"], "missing")
+        data = {}
+
+    # fix enum paths
     for e in cls["enums"]["public"]:
         e["x_namespace"] = e["namespace"] + "::" + cls["name"] + "::"
-        process_enum(e)
+
+    cls["data"] = data
+    for fn in cls["methods"]["public"]:
+        public_method_hook(fn, data)

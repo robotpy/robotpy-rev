@@ -1,7 +1,7 @@
 {% macro genenum(enum) %}
 py::enum_<{{ enum.x_namespace }}{{ enum.name }}>(m, "{{ enum.name }}")
   {% for val in enum['values'] %}
-    .value("{{ val.x_name }}", {{ enum.x_namespace }}{{ enum.name }}::{{ val.name }})
+    .value("{{ val.name }}", {{ enum.x_namespace }}{{ enum.name }}::{{ val.name }})
   {% endfor %};
 {% endmacro %}
 

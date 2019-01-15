@@ -1,0 +1,31 @@
+---
+CANDigitalInput:
+  CANDigitalInput:  # constructor
+    ignore: true
+
+CANEncoder:
+  CANEncoder:  # constructor
+    ignore: true
+
+CANPIDController:
+  CANPIDController:  # constructor
+    ignore: true
+
+CANSparkMax:
+  CANSparkMax:  # constructor
+    param_override:
+      type:
+        x_type: rev::CANSparkMaxLowLevel::MotorType
+  SetInverted:
+    set: inverted
+  GetInverted:
+    get: inverted
+  PIDWrite:
+    rename: pidWrite
+    code: |
+      self.set(output)
+  BurnFlash:
+    code: ""
+
+ExternalFollower:
+  ignore: true  # CppHeaderParser bug

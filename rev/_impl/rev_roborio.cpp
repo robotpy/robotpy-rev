@@ -16,11 +16,6 @@ typedef py::call_guard<py::gil_scoped_release> release_gil;
 #include "rev/ControlType.h"
 
 PYBIND11_MODULE(rev_roborio, m) {
-
-    //#include "autogen/CANDigitalInput.cpp.inc"
-    // #include "autogen/CANEncoder.cpp.inc"
-    // #include "autogen/CANPIDController.cpp.inc"
-     #include "autogen/CANSparkMax.cpp.inc"
-
-    #include "autogen/rev_enums.cpp.inc"
+  #include "autogen/rev_enums.cpp.inc"
+  #include "autogen/rev_classes.cpp.inc"
 }
