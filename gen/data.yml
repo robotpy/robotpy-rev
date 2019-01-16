@@ -43,6 +43,17 @@ CANSparkMax:
           x_type: rev::CANSparkMaxLowLevel::MotorType
       code: |
         # super().__init__(deviceID, type)
+        self._hal_data = NotifyDict({
+            "value": 0.0,
+            "inverted": False,
+            "idle_mode": IdleMode.kCoast,
+            "ramp_rate": 0.0,
+        })
+        # TODO stick this into the global HAL data
+    Set:
+      set: value
+    Get:
+      get: value
     SetInverted:
       set: inverted
     GetInverted:
@@ -65,7 +76,31 @@ CANSparkMax:
         retval = CANDigitalInput(self, LimitSwitch.kReverse, polarity)
     SetSmartCurrentLimit:
       ignore: true  # overload
+    SetIdleMode:
+      set: idle_mode
+    GetIdleMode:
+      get: idle_mode
+    SetRampRate:
+      set: ramp_rate
+    GetRampRate:
+      get: ramp_rate
     Follow:
       ignore: true  # overload
+    GetFaults:
+      code: |
+        retval = 0
+    GetStickyFaults:
+      code: |
+        retval = 0
+    GetFault:
+      code: |
+        retval = False
+    GetStickyFault:
+      code: |
+        retval = False
+    ClearFaults:
+      code: ""
     BurnFlash:
       code: ""
+    SetCANTimeout:
+      set: can_timeout
