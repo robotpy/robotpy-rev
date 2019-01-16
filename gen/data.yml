@@ -29,6 +29,18 @@ CANSparkMax:
     rename: pidWrite
     code: |
       self.set(output)
+  GetEncoder:
+    code: |
+      retval = CANEncoder(self)
+  GetPIDController:
+    code: |
+      retval = CANPIDController(self)
+  GetForwardLimitSwitch:
+    code: |
+      retval = CANDigitalInput(self, LimitSwitch.kForward, polarity)
+  GetReverseLimitSwitch:
+    code: |
+      retval = CANDigitalInput(self, LimitSwitch.kReverse, polarity)
   SetSmartCurrentLimit:
     ignore: true  # overload
   Follow:
