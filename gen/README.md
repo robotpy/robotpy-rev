@@ -7,7 +7,7 @@ for the REV libraries from the headers distributed with their binaries.
 Requirements
 ------------
 
-    pip install header2whatever
+    pip install header2whatever sphinxify
 
 Generation
 ----------
