@@ -137,6 +137,7 @@ def public_method_hook(fn, data):
         if "forward_declared" in p:
             p["x_pyann_type"] = repr(p["x_pyann_type"])
             fn["forward_declare"] = True
+            fn["parent"]["has_fwd_declare"] = True
         p["x_pyann"] = "%(name)s: %(x_pyann_type)s" % p
         p["x_pyarg"] = 'py::arg("%(name)s")' % p
 

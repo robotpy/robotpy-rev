@@ -21,7 +21,7 @@
 {% endfor %}
 {% endfor %}
 {% for header in headers %}
-{% for cls in header.classes if 'ignore' not in cls.data %}
+{% for cls in header.classes if 'has_fwd_declare' in cls %}
   {{ cls.name.lower() }}
   {% for fn in cls.methods.public if 'forward_declare' in fn %}
   {{ genmethod(cls, fn) }}
