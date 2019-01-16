@@ -141,13 +141,9 @@ def public_method_hook(fn, data):
         p["x_pyann"] = "%(name)s: %(x_pyann_type)s" % p
         p["x_pyarg"] = 'py::arg("%(name)s")' % p
 
-        if p["name"] in param_defaults:
-            _pname = param_defaults.pop(p["name"])
-            p["x_pyann"] += " = " + str(_pname)
-            p["x_pyarg"] += "=" + str(_pname)
-        elif p["name"].lower() == "timeoutms":
-            p["x_pyann"] += " = 0"
-            p["x_pyarg"] += "=0"
+        if "default" in p:
+            p["x_pyann"] += " = " + p["default"]
+            p["x_pyarg"] += "=" + p["default"]
 
         if p["name"] in param_override:
             p.update(param_override[p["name"]])
@@ -174,8 +170,6 @@ def public_method_hook(fn, data):
 
         p["x_type"] += "&" * p["reference"]
         p["x_decl"] = "%s %s" % (p["x_type"], p["name"])
-
-    assert not param_defaults
 
     x_callstart = ""
     x_callend = ""
