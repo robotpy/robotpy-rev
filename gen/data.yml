@@ -24,6 +24,10 @@ CANSparkMax:
     rename: pidWrite
     code: |
       self.set(output)
+  SetSmartCurrentLimit:
+    ignore: true  # overload
+  Follow:
+    ignore: true  # overload
   BurnFlash:
     code: ""
 
