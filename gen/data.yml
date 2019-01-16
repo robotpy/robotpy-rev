@@ -33,8 +33,8 @@ CANSparkMaxLowLevel:
       ignore: true  # overload
 
 CANSparkMax:
-  __bases__: CANSparkMaxLowLevel
-  cpp_inherits: rev::CANSparkMaxLowLevel
+  # __bases__: CANSparkMaxLowLevel
+  # cpp_inherits: rev::CANSparkMaxLowLevel
 
   methods:
     CANSparkMax:  # constructor
@@ -42,7 +42,7 @@ CANSparkMax:
         type:
           x_type: rev::CANSparkMaxLowLevel::MotorType
       code: |
-        super().__init__(deviceID, type)
+        # super().__init__(deviceID, type)
     SetInverted:
       set: inverted
     GetInverted:
