@@ -281,5 +281,6 @@ def class_hook(cls, data):
         e["x_namespace"] = e["namespace"] + "::" + cls["name"] + "::"
 
     cls["data"] = data
+    methods_data = data.get("methods", {})
     for fn in cls["methods"]["public"]:
-        public_method_hook(fn, data)
+        public_method_hook(fn, methods_data)
