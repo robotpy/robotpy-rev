@@ -1,4 +1,11 @@
-from ._impl import CANSparkMax, MotorType, CANError
+from ._impl import (
+    CANSparkMax,
+    MotorType,
+    CANError,
+    LimitSwitch,
+    LimitSwitchPolarity,
+    ControlType,
+)
 
 try:
     from .version import __version__
