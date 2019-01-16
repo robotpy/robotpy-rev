@@ -2,25 +2,42 @@
 CANDigitalInput:
   CANDigitalInput:  # constructor
     code: |
-      self.device = device
-      self.limitSwitch = limitSwitch
-      self.polarity = polarity
+      self._device = device
+      self._limitSwitch = limitSwitch
+      # TODO store polarity (not here judging by the header)
 
 CANEncoder:
   CANEncoder:  # constructor
     code: |
-      self.device = device
+      self._device = device
 
 CANPIDController:
   CANPIDController:  # constructor
     code: |
-      self.device = device
+      self._device = device
+
+CANSparkMaxLowLevel:
+  CANSparkMaxLowLevel:  # constructor
+    param_override:
+      type:
+        x_type: rev::CANSparkMaxLowLevel::MotorType
+  GetFirmwareVersion:
+    ignore: true  # overload
+  SetParameter:
+    ignore: true  # overload
+  GetParameter:
+    ignore: true  # overload
 
 CANSparkMax:
+  __bases__: CANSparkMaxLowLevel
+  cpp_inherits: rev::CANSparkMaxLowLevel
+
   CANSparkMax:  # constructor
     param_override:
       type:
         x_type: rev::CANSparkMaxLowLevel::MotorType
+    code: |
+      super().__init__(deviceID, type)
   SetInverted:
     set: inverted
   GetInverted:
@@ -47,6 +64,3 @@ CANSparkMax:
     ignore: true  # overload
   BurnFlash:
     code: ""
-
-ExternalFollower:
-  ignore: true  # CppHeaderParser bug

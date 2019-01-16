@@ -13,6 +13,8 @@ _annotations = {
     "char": "str",
     "bool": "bool",
     "rev::CANError": "CANError",
+    "std::vector<uint8_t>": "typing.List[int]",
+    "std::string": "str",
     "void": "None",
 }
 
@@ -263,6 +265,11 @@ def public_method_hook(fn, data):
 
 
 def class_hook(cls, data):
+    # work around CppHeaderParser hoisting structs nested in classes to top
+    if cls["parent"] is not None:
+        cls["data"] = {"ignore": True}
+        return
+
     data = data.get("data", {})
     data = data.get(cls["name"])
     if data is None:

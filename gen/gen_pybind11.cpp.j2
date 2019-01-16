@@ -12,7 +12,7 @@
 
 {% for header in headers %}
 {% for cls in header.classes if 'ignore' not in cls.data %}
-  py::class_<rev::{{ cls.name }}> {{ cls.name.lower() }}(m, "{{ cls.name }}");
+  py::class_<{{ cls.namespace }}::{{ cls.name }}{% if 'cpp_inherits' in cls.data %}, {{ cls.data.cpp_inherits }}{% endif %}> {{ cls.name.lower() }}(m, "{{ cls.name }}");
   {{ cls.name.lower() }}
   {% for fn in cls.methods.public if 'ignore' not in fn.data and 'forward_declare' not in fn %}
   {{ genmethod(cls, fn) }}
