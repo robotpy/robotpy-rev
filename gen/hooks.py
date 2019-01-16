@@ -250,7 +250,9 @@ def public_method_hook(fn, data):
     if "doc" in data:
         doc = data["doc"]
     elif "doxygen" in fn:
-        doc = sphinxify.process_raw(fn["doxygen"])
+        # work around a CppHeaderParser bug
+        doc = fn["doxygen"].rpartition("*//*")[2]
+        doc = sphinxify.process_raw(doc)
 
     name = fn["name"]
 
