@@ -1,15 +1,20 @@
 ---
 CANDigitalInput:
   CANDigitalInput:  # constructor
-    ignore: true
+    code: |
+      self.device = device
+      self.limitSwitch = limitSwitch
+      self.polarity = polarity
 
 CANEncoder:
   CANEncoder:  # constructor
-    ignore: true
+    code: |
+      self.device = device
 
 CANPIDController:
   CANPIDController:  # constructor
-    ignore: true
+    code: |
+      self.device = device
 
 CANSparkMax:
   CANSparkMax:  # constructor

@@ -66,8 +66,8 @@ def _gen_check(pname, ptype, strict=False):
     elif ptype is None:
         return '%s is None' % pname
     
-    elif ptype == 'rev::CANError':
-        return 'isinstance(%s, CANError)' % (pname,)
+    elif ptype.startswith("rev::"):
+        return 'isinstance(%s, %s)' % (pname, ptype.rsplit("::", 1)[1])
 
     else:
         # TODO: do validation here
@@ -127,11 +127,14 @@ def public_method_hook(fn, data):
     for i, p in enumerate(fn["parameters"]):
         if p["name"] == "":
             p["name"] = "param%s" % i
-        p["x_type"] = p["raw_type"]
+        p["x_type"] = p.get("enum", p["raw_type"])
         p["x_callname"] = p["name"]
 
         # Python annotations for sim
-        p["x_pyann_type"] = _to_annotation(p["raw_type"])
+        p["x_pyann_type"] = _to_annotation(p["x_type"])
+        if "forward_declared" in p:
+            p["x_pyann_type"] = repr(p["x_pyann_type"])
+            fn["forward_declare"] = True
         p["x_pyann"] = "%(name)s: %(x_pyann_type)s" % p
         p["x_pyarg"] = 'py::arg("%(name)s")' % p
 
@@ -161,11 +164,12 @@ def public_method_hook(fn, data):
 
             x_out_params.append(p)
         else:
-            chk = _gen_check(p["name"], p["raw_type"])
+            chk = _gen_check(p["name"], p["x_type"])
             if chk:
                 x_param_checks.append("assert %s" % chk)
             x_in_params.append(p)
 
+        p["x_type"] += "&" * p["reference"]
         p["x_decl"] = "%s %s" % (p["x_type"], p["name"])
 
     assert not param_defaults
