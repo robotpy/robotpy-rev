@@ -292,12 +292,16 @@ def class_hook(cls, data):
 
 
 def pid_get(fn, data):
-    data["code"] = 'retval = self._hal_data["pid%d_{}" % slotID]'.format(
-        fn["name"][3:].lower()
+    data["code"] = (
+        "assert 0 <= slotID <= 3\n"
+        'retval = self._hal_data["pid%d_{}" % slotID]'.format(fn["name"][3:].lower())
     )
 
 
 def pid_set(fn, data):
-    data["code"] = 'self._hal_data["pid%d_{}" % slotID] = float({})'.format(
-        fn["name"][3:].lower(), fn["parameters"][0]["name"]
+    data["code"] = (
+        "assert 0 <= slotID <= 3\n"
+        'self._hal_data["pid%d_{}" % slotID] = float({})'.format(
+            fn["name"][3:].lower(), fn["parameters"][0]["name"]
+        )
     )
