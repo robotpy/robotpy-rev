@@ -33,6 +33,35 @@ CANPIDController:
         self._device = device
         self._hal_data = device._hal_data
 
+    SetP:
+      hook: pid_set
+    SetI:
+      hook: pid_set
+    SetD:
+      hook: pid_set
+    SetFF:
+      hook: pid_set
+    SetIZone:
+      hook: pid_set
+    SetOutputRange:
+      code: |
+        self._hal_data["pid%d_outputmin" % slotID] = min
+        self._hal_data["pid%d_outputmax" % slotID] = max
+    GetP:
+      hook: pid_get
+    GetI:
+      hook: pid_get
+    GetD:
+      hook: pid_get
+    GetFF:
+      hook: pid_get
+    GetIZone:
+      hook: pid_get
+    GetOutputMin:
+      hook: pid_get
+    GetOutputMax:
+      hook: pid_get
+
 CANSparkMaxLowLevel:
   methods:
     CANSparkMaxLowLevel:  # constructor
@@ -78,6 +107,17 @@ CANSparkMax:
             "idle_mode": IdleMode.kCoast,
             "ramp_rate": 0.0,
         })
+        for i in range(4):
+            pid = "pid%d_" % i
+            self._hal_data.update({
+                pid + "p": 0.0,
+                pid + "i": 0.0,
+                pid + "d": 0.0,
+                pid + "ff": 0.0,
+                pid + "izone": 0.0,
+                pid + "outputmin": 0.0,
+                pid + "outputmax": 0.0,
+            })
         # TODO stick this into the global HAL data
 
     Set:

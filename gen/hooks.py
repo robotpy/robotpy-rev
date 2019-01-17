@@ -251,6 +251,9 @@ def public_method_hook(fn, data):
         doc = fn["doxygen"].rpartition("*//*")[2]
         doc = sphinxify.process_raw(doc)
 
+    if "hook" in data:
+        eval(data["hook"])(fn, data)
+
     name = fn["name"]
 
     hascode = "code" in data or "get" in data or "set" in data
@@ -279,3 +282,15 @@ def class_hook(cls, data):
     methods_data = data.get("methods", {})
     for fn in cls["methods"]["public"]:
         public_method_hook(fn, methods_data)
+
+
+def pid_get(fn, data):
+    data["code"] = 'retval = self._hal_data["pid%d_{}" % slotID]'.format(
+        fn["name"][3:].lower()
+    )
+
+
+def pid_set(fn, data):
+    data["code"] = 'self._hal_data["pid%d_{}" % slotID] = float({})'.format(
+        fn["name"][3:].lower(), fn["parameters"][0]["name"]
+    )
