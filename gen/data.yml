@@ -93,16 +93,16 @@ CANSparkMax:
             "position": 0.0,
             "velocity": 0.0,
             "limit_switches": {
-                LimitSwitch.kForward: {
+                LimitSwitch.kForward: NotifyDict({
                     "value": False,
                     "enable": False,
                     "polarity": None,
-                },
-                LimitSwitch.kReverse: {
+                }),
+                LimitSwitch.kReverse: NotifyDict({
                     "value": False,
                     "enable": False,
                     "polarity": None,
-                },
+                }),
             },
             "idle_mode": IdleMode.kCoast,
             "ramp_rate": 0.0,
