@@ -16,6 +16,11 @@ class {{ cls.name }}{% if '__bases__' in cls.data %}({{ cls.data['__bases__'] }}
   {% for fn in cls.methods.public %}
   {% if 'simfn' in fn.data %}
     {{ fn.data.simfn  | indent(width=4) }}
+  {% elif 'overload' in fn.data %}
+    @typing.overload
+    def {{ fn.x_name }}(self{% if fn.x_in_params %}, {{ fn.x_in_params | join(', ', attribute='x_pyann') }}{% endif %}) -> {{ fn.x_pyann_ret }}:
+        ...
+
   {% elif 'ignore' not in fn.data %}
     def {{ fn.x_name }}(self{% if fn.x_in_params %}, {{ fn.x_in_params | join(', ', attribute='x_pyann') }}{% endif %}) -> {{ fn.x_pyann_ret }}:
     {% if fn.doc is defined %}

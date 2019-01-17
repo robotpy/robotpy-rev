@@ -255,6 +255,8 @@ def public_method_hook(fn, data):
         eval(data["hook"])(fn, data)
 
     name = fn["name"]
+    # XXX this probably isn't correct...
+    x_returns = fn["namespace"] + fn["returns"]
 
     hascode = "code" in data or "get" in data or "set" in data
 

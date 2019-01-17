@@ -69,11 +69,11 @@ CANSparkMaxLowLevel:
         type:
           x_type: rev::CANSparkMaxLowLevel::MotorType
     GetFirmwareVersion:
-      ignore: true  # overload
+      ignore: true  # overload + out param
     SetParameter:
-      ignore: true  # overload
+      overload: true
     GetParameter:
-      ignore: true  # overload
+      ignore: true  # overload + out param
 
 CANSparkMax:
   # __bases__: CANSparkMaxLowLevel
@@ -145,7 +145,7 @@ CANSparkMax:
       code: |
         retval = CANDigitalInput(self, LimitSwitch.kReverse, polarity)
     SetSmartCurrentLimit:
-      ignore: true  # overload
+      overload: true
     SetIdleMode:
       set: idle_mode
     GetIdleMode:
@@ -155,7 +155,7 @@ CANSparkMax:
     GetRampRate:
       get: ramp_rate
     Follow:
-      ignore: true  # overload
+      ignore: true  # overload + struct
     GetFaults:
       code: |
         retval = 0
