@@ -34,7 +34,7 @@ CANPIDController:
         self._hal_data = device._hal_data
     SetReference:
       code: |
-        self._hal_data["value"] = value
+        self._hal_data["value"] = float(value)
         self._hal_data["ctrl_type"] = ctrl
         self._hal_data["pid_slot"] = pidSlot
         self._hal_data["arb_ff"] = arbFeedForward
@@ -130,7 +130,7 @@ CANSparkMax:
 
     Set:
       code: |
-        self._hal_data["value"] = speed
+        self._hal_data["value"] = float(speed)
         self._hal_data["ctrl_type"] = ControlType.kDutyCycle
     Get:
       get: value
