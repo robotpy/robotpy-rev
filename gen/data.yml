@@ -96,12 +96,12 @@ CANSparkMax:
                 LimitSwitch.kForward: NotifyDict({
                     "value": False,
                     "enable": False,
-                    "polarity": None,
+                    "polarity": LimitSwitchPolarity.kNormallyOpen,
                 }),
                 LimitSwitch.kReverse: NotifyDict({
                     "value": False,
                     "enable": False,
-                    "polarity": None,
+                    "polarity": LimitSwitchPolarity.kNormallyOpen,
                 }),
             },
             "idle_mode": IdleMode.kCoast,
