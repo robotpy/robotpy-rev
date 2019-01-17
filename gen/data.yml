@@ -138,6 +138,12 @@ CANSparkMax:
       set: inverted
     GetInverted:
       get: inverted
+    Disable:
+      code: |
+        self.set(0)
+    StopMotor:
+      code: |
+        self.disable()
     PIDWrite:
       rename: pidWrite
       code: |
