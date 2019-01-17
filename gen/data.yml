@@ -114,6 +114,7 @@ CANSparkMax:
             },
             "idle_mode": IdleMode.kCoast,
             "ramp_rate": 0.0,
+            "motor_temp": 25.0,  # ~room temperature
         })
         for i in range(4):
             pid = "pid%d_" % i
@@ -184,6 +185,9 @@ CANSparkMax:
     GetStickyFault:
       code: |
         retval = False
+
+    GetMotorTemperature:
+      get: motor_temp
     ClearFaults:
       code: ""
     BurnFlash:
