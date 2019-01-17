@@ -5,19 +5,33 @@ CANDigitalInput:
       code: |
         self._device = device
         self._limitSwitch = limitSwitch
-        # TODO store polarity (not here judging by the header)
+        self._hal_data = device._hal_data["limit_switches"][limitSwitch]
+        self._hal_data["polarity"] = polarity
+
+    Get:
+      get: value
+    EnableLimitSwitch:
+      set: enable
+    IsLimitSwitchEnabled:
+      get: enable
 
 CANEncoder:
   methods:
     CANEncoder:  # constructor
       code: |
         self._device = device
+        self._hal_data = device._hal_data
+    GetPosition:
+      get: position
+    GetVelocity:
+      get: velocity
 
 CANPIDController:
   methods:
     CANPIDController:  # constructor
       code: |
         self._device = device
+        self._hal_data = device._hal_data
 
 CANSparkMaxLowLevel:
   methods:
@@ -44,12 +58,28 @@ CANSparkMax:
       code: |
         # super().__init__(deviceID, type)
         self._hal_data = NotifyDict({
+            "motor_type": type,
             "value": 0.0,
             "inverted": False,
+            "position": 0.0,
+            "velocity": 0.0,
+            "limit_switches": {
+                LimitSwitch.kForward: {
+                    "value": False,
+                    "enable": False,
+                    "polarity": None,
+                },
+                LimitSwitch.kReverse: {
+                    "value": False,
+                    "enable": False,
+                    "polarity": None,
+                },
+            },
             "idle_mode": IdleMode.kCoast,
             "ramp_rate": 0.0,
         })
         # TODO stick this into the global HAL data
+
     Set:
       set: value
     Get:
