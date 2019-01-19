@@ -37,7 +37,7 @@ CANPIDController:
         self._hal_data["value"] = float(value)
         self._hal_data["ctrl_type"] = ctrl
         self._hal_data["pid_slot"] = pidSlot
-        self._hal_data["arb_ff"] = arbFeedForward
+        self._hal_data["arb_ff"] = arbFeedforward
     SetP:
       hook: pid_set
     SetI:
