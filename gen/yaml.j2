@@ -1,0 +1,8 @@
+---
+{% for cls in header.classes %}
+{% for fn in cls.methods.public %}
+{{ fn.name }}:
+  code: |
+    raise NotImplementedError
+{% endfor %}
+{% endfor %}s

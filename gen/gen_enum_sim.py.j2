@@ -1,0 +1,20 @@
+{% macro genenum(enum) %}
+
+class {{ enum.name }}(enum.Enum):
+{% for val in enum['values'] %}
+    {{ val.name }} = {{ val.value | replace(' ', '') }}
+{% endfor %}
+{% endmacro -%}
+
+import enum
+
+{% for header in headers %}
+{% for enum in header.enums %}
+{{ genenum(enum) }}
+{% endfor %}
+{% for cls in header.classes %}
+{% for enum in cls.enums.public %}
+{{ genenum(enum) }}
+{% endfor %}
+{% endfor %}
+{% endfor %}

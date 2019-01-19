@@ -12,7 +12,7 @@ import subprocess
 import sys
 import setuptools
 
-rev_lib_version = "1.0.24"
+rev_lib_version = "1.0.27"
 
 setup_dir = dirname(__file__)
 git_dir = join(setup_dir, ".git")
@@ -248,28 +248,16 @@ class Downloader:
     @property
     def revsrc(self):
         if not self._revsrc or not exists(self._revsrc):
-            # Download and extract
-            url = (
-                "https://www.revrobotics.com/content/sw/max/sdk/SPARK-MAX-roboRIO-SDK-%s.zip"
-                % (rev_lib_version)
-            )
-            self._revsrc = self._download_and_extract_zip(url, to=self._revsrc)
-
-            # But there are embedded zips that need to be extracted
-            base = [
-                "maven",
-                "com",
-                "revrobotics",
-                "frc",
-                "SparkMax-cpp",
-                rev_lib_version,
+            # Download and extract three libs
+            base = "https://www.revrobotics.com/content/sw/max/sdk/maven/com/revrobotics/frc/"
+            dirs = [
+                "SparkMax-cpp/%(version)s/SparkMax-cpp-%(version)s-headers.zip",
+                "SparkMax-cpp/%(version)s/SparkMax-cpp-%(version)s-linuxathenastatic.zip",
             ]
-            for f in [
-                "SparkMax-cpp-%(version)s-headers.zip",
-                "SparkMax-cpp-%(version)s-linuxathenastatic.zip",
-            ]:
-                zip_fname = join(self._revsrc, *base, f % dict(version=rev_lib_version))
-                self._extract_zip(zip_fname, self._revsrc)
+
+            for l in dirs:
+                url = base + (l % dict(version=rev_lib_version))
+                self._revsrc = self._download_and_extract_zip(url, to=self._revsrc)
 
         return self._revsrc
 
@@ -349,23 +337,20 @@ else:
 
 class SDist(sdist):
     def run(self):
-        # from header2whatever import batch_convert
-        # import CppHeaderParser
+        from header2whatever import batch_convert
 
-        # CppHeaderParser.ignoreSymbols.append("CCIEXPORT")
+        # Do this before deleting the autogen directory, as it may fail
+        revsrc = get.revsrc
 
-        # # Do this before deleting the autogen directory, as it may fail
-        # revsrc = get.revsrc
+        config_path = join(setup_dir, "gen", "gen.yml")
+        outdir = join(setup_dir, "rev", "_impl", "autogen")
 
-        # config_path = join(setup_dir, "gen", "gen.yml")
-        # outdir = join(setup_dir, "rev", "_impl", "autogen")
+        shutil.rmtree(outdir, ignore_errors=True)
 
-        # shutil.rmtree(outdir, ignore_errors=True)
+        batch_convert(config_path, outdir, revsrc)
 
-        # batch_convert(config_path, outdir, revsrc)
-
-        # with open(join(outdir, "__init__.py"), "w"):
-        #     pass
+        with open(join(outdir, "__init__.py"), "w"):
+            pass
 
         super().run()
 

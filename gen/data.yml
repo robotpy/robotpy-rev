@@ -1,0 +1,196 @@
+---
+CANDigitalInput:
+  methods:
+    CANDigitalInput:  # constructor
+      code: |
+        self._device = device
+        self._limitSwitch = limitSwitch
+        self._hal_data = device._hal_data["limit_switches"][limitSwitch]
+        self._hal_data["polarity"] = polarity
+
+    Get:
+      get: value
+    EnableLimitSwitch:
+      set: enable
+    IsLimitSwitchEnabled:
+      get: enable
+
+CANEncoder:
+  methods:
+    CANEncoder:  # constructor
+      code: |
+        self._device = device
+        self._hal_data = device._hal_data
+    GetPosition:
+      get: position
+    GetVelocity:
+      get: velocity
+
+CANPIDController:
+  methods:
+    CANPIDController:  # constructor
+      code: |
+        self._device = device
+        self._hal_data = device._hal_data
+    SetReference:
+      code: |
+        self._hal_data["value"] = float(value)
+        self._hal_data["ctrl_type"] = ctrl
+        self._hal_data["pid_slot"] = pidSlot
+        self._hal_data["arb_ff"] = arbFeedforward
+    SetP:
+      hook: pid_set
+    SetI:
+      hook: pid_set
+    SetD:
+      hook: pid_set
+    SetFF:
+      hook: pid_set
+    SetIZone:
+      hook: pid_set
+    SetOutputRange:
+      code: |
+        self._hal_data["pid%d_outputmin" % slotID] = min
+        self._hal_data["pid%d_outputmax" % slotID] = max
+    GetP:
+      hook: pid_get
+    GetI:
+      hook: pid_get
+    GetD:
+      hook: pid_get
+    GetFF:
+      hook: pid_get
+    GetIZone:
+      hook: pid_get
+    GetOutputMin:
+      hook: pid_get
+    GetOutputMax:
+      hook: pid_get
+
+CANSparkMaxLowLevel:
+  methods:
+    CANSparkMaxLowLevel:  # constructor
+      param_override:
+        type:
+          x_type: rev::CANSparkMaxLowLevel::MotorType
+    GetFirmwareVersion:
+      ignore: true  # overload + out param
+    SetParameter:
+      overload: true
+    GetParameter:
+      ignore: true  # overload + out param
+
+CANSparkMax:
+  # __bases__: CANSparkMaxLowLevel
+  # cpp_inherits: rev::CANSparkMaxLowLevel
+
+  methods:
+    CANSparkMax:  # constructor
+      param_override:
+        type:
+          x_type: rev::CANSparkMaxLowLevel::MotorType
+      code: |
+        # super().__init__(deviceID, type)
+        self._hal_data = NotifyDict({
+            "motor_type": type,
+            "value": 0.0,
+            "inverted": False,
+            "position": 0.0,
+            "velocity": 0.0,
+            "ctrl_type": ControlType.kDutyCycle,
+            "pid_slot": 0,
+            "arb_ff": 0.0,
+            "limit_switches": {
+                LimitSwitch.kForward: NotifyDict({
+                    "value": False,
+                    "enable": False,
+                    "polarity": LimitSwitchPolarity.kNormallyOpen,
+                }),
+                LimitSwitch.kReverse: NotifyDict({
+                    "value": False,
+                    "enable": False,
+                    "polarity": LimitSwitchPolarity.kNormallyOpen,
+                }),
+            },
+            "idle_mode": IdleMode.kCoast,
+            "ramp_rate": 0.0,
+            "motor_temp": 25.0,  # ~room temperature
+        })
+        for i in range(4):
+            pid = "pid%d_" % i
+            self._hal_data.update({
+                pid + "p": 0.0,
+                pid + "i": 0.0,
+                pid + "d": 0.0,
+                pid + "ff": 0.0,
+                pid + "izone": 0.0,
+                pid + "outputmin": 0.0,
+                pid + "outputmax": 0.0,
+            })
+        # TODO stick this into the global HAL data
+
+    Set:
+      code: |
+        self._hal_data["value"] = float(speed)
+        self._hal_data["ctrl_type"] = ControlType.kDutyCycle
+    Get:
+      get: value
+    SetInverted:
+      set: inverted
+    GetInverted:
+      get: inverted
+    Disable:
+      code: |
+        self.set(0)
+    StopMotor:
+      code: |
+        self.disable()
+    PIDWrite:
+      rename: pidWrite
+      code: |
+        self.set(output)
+    GetEncoder:
+      code: |
+        retval = CANEncoder(self)
+    GetPIDController:
+      code: |
+        retval = CANPIDController(self)
+    GetForwardLimitSwitch:
+      code: |
+        retval = CANDigitalInput(self, LimitSwitch.kForward, polarity)
+    GetReverseLimitSwitch:
+      code: |
+        retval = CANDigitalInput(self, LimitSwitch.kReverse, polarity)
+    SetSmartCurrentLimit:
+      overload: true
+    SetIdleMode:
+      set: idle_mode
+    GetIdleMode:
+      get: idle_mode
+    SetRampRate:
+      set: ramp_rate
+    GetRampRate:
+      get: ramp_rate
+    Follow:
+      ignore: true  # overload + struct
+    GetFaults:
+      code: |
+        retval = 0
+    GetStickyFaults:
+      code: |
+        retval = 0
+    GetFault:
+      code: |
+        retval = False
+    GetStickyFault:
+      code: |
+        retval = False
+
+    GetMotorTemperature:
+      get: motor_temp
+    ClearFaults:
+      code: ""
+    BurnFlash:
+      code: ""
+    SetCANTimeout:
+      set: can_timeout
