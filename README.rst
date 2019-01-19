@@ -4,7 +4,9 @@ robotpy-rev
 This is a python wrapper around the REV Spark MAX API. The RobotPy project
 is not associated with or endorsed by REV Robotics.
 
-**WARNING**: THESE BINDINGS DO NOT WORK YET!!
+**WARNING**: These bindings are still a work in progress, and some things
+may not work quite right yet. Please try them out and let us know how
+it goes!
 
 Documentation
 =============
