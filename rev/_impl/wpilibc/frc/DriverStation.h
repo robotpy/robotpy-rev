@@ -7,22 +7,11 @@
 
 #pragma once
 
-#include <array>
-#include <atomic>
-#include <memory>
-#include <string>
-#include <thread>
-
-#include <hal/DriverStationTypes.h>
 #include <wpi/Twine.h>
-#include <wpi/condition_variable.h>
-#include <wpi/deprecated.h>
-#include <wpi/mutex.h>
 
 #include "frc/ErrorBase.h"
 
 namespace frc {
-
 
 /**
  * Provide access to the network communication data to / from the Driver
@@ -30,10 +19,6 @@ namespace frc {
  */
 class DriverStation : public ErrorBase {
  public:
-
-  ~DriverStation() override;
-
-
   /**
    * Return a reference to the singleton DriverStation.
    *
@@ -64,18 +49,6 @@ class DriverStation : public ErrorBase {
                           const wpi::Twine& location, const wpi::Twine& stack);
 
   /**
-   * Check if the FPGA outputs are enabled.
-   *
-   * The outputs may be disabled if the robot is disabled or e-stopped, the
-   * watchdog has expired, or if the roboRIO browns out.
-   *
-   * @return True if the FPGA outputs are enabled.
-   * @deprecated Use RobotController static class method
-   */
-  WPI_DEPRECATED("Use RobotController static class method")
-  bool IsSysActive() const;
-
-  /**
    * Return the approximate match time.
    *
    * The FMS does not send an official match time to the robots, but does send
@@ -91,7 +64,6 @@ class DriverStation : public ErrorBase {
    * @return Time remaining in current match period (auto or teleop)
    */
   double GetMatchTime() const;
-
 };
 
 }  // namespace frc
