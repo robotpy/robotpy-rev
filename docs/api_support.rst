@@ -18,13 +18,12 @@ Simulation
 .. warning:: Simulation is not very usable yet
 
 The RobotPy project tries to implement simulation functionality for commonly
-used pieces of the REV API. Unfortunately, the API is huge and changes every
-year, so there are obscure/complex pieces that just haven't been implemented
-yet.
+used pieces of the REV API. Unfortunately, the API is somewhat large,
+so there are obscure/complex pieces that just haven't been implemented yet.
 
 If you run into one of these functions that aren't implemented and you'd like
 to see it implemented in simulation, please file an
-`issue on github <https://github.com/robotpy/robotpy-rev/issues>`_ and lets
+`issue on github <https://github.com/robotpy/robotpy-rev/issues>`_ and let's
 talk about it.
 
 .. note:: The best way to ensure that simulation functionality you require gets

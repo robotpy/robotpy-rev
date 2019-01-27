@@ -1,6 +1,13 @@
 Motor Controllers
 =================
 
+.. autoclass:: rev.CANSparkMax
+    :members:
+    :undoc-members:
+
+Enumerations
+------------
+
 .. autoclass:: rev.CANError
     :members:
     :undoc-members:
@@ -18,10 +25,6 @@ Motor Controllers
     :undoc-members:
 
 .. autoclass:: rev.MotorType
-    :members:
-    :undoc-members:
-
-.. autoclass:: rev.CANSparkMax
     :members:
     :undoc-members:
 
