@@ -5,6 +5,7 @@ from ._impl import (
     LimitSwitch,
     LimitSwitchPolarity,
     ControlType,
+    IdleMode,
 )
 
 try:
