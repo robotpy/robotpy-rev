@@ -16,6 +16,10 @@ Enumerations
     :members:
     :undoc-members:
 
+.. autoclass:: rev.IdleMode
+    :members:
+    :undoc-members:
+
 .. autoclass:: rev.LimitSwitch
     :members:
     :undoc-members:
