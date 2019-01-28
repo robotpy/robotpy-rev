@@ -4,6 +4,11 @@ Motor Controllers
 .. autoclass:: rev.CANSparkMax
     :members:
     :undoc-members:
+    :show-inheritance:
+
+.. autoclass:: rev._impl.autogen.sim.CANSparkMaxLowLevel
+    :members:
+    :undoc-members:
 
 Enumerations
 ------------
@@ -13,6 +18,10 @@ Enumerations
     :undoc-members:
 
 .. autoclass:: rev.ControlType
+    :members:
+    :undoc-members:
+
+.. autoclass:: rev.FaultID
     :members:
     :undoc-members:
 
@@ -29,6 +38,21 @@ Enumerations
     :undoc-members:
 
 .. autoclass:: rev.MotorType
+    :members:
+    :undoc-members:
+
+Low-level enumerations
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: rev.ConfigParameter
+    :members:
+    :undoc-members:
+
+.. autoclass:: rev.ParameterStatus
+    :members:
+    :undoc-members:
+
+.. autoclass:: rev.PeriodicFrame
     :members:
     :undoc-members:
 

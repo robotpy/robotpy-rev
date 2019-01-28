@@ -6,6 +6,10 @@ from ._impl import (
     LimitSwitchPolarity,
     ControlType,
     IdleMode,
+    FaultID,
+    ConfigParameter,
+    ParameterStatus,
+    PeriodicFrame,
 )
 
 try:

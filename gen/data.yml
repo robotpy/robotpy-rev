@@ -90,19 +90,52 @@ CANPIDController:
 CANSparkMaxLowLevel:
   methods:
     CANSparkMaxLowLevel:  # constructor
-      param_override:
-        type:
-          x_type: rev::CANSparkMaxLowLevel::MotorType
+      skip_pybind: true
+      code: |
+        raise TypeError("Cannot instantiate CANSparkMaxLowLevel")
     GetFirmwareVersion:
       ignore: true  # overload + out param
+    GetSerialNumber:
+      code: |
+        retval = []
+    GetDeviceId:
+      code: |
+        retval = self._deviceID
+    SetMotorType:
+      set: motorType
+    GetMotorType:
+      get: motorType
+    SetPeriodicFramePeriod:
+      code: |
+        self._hal_data["frame_period"][frame] = periodMs
+    SetControlFramePeriod:
+      set: control_period_ms
+    GetControlFramePeriod:
+      get: control_period_ms
+    # TODO GetParameterType
     SetParameter:
       overload: true
     GetParameter:
       ignore: true  # overload + out param
 
+  sim_class_extra: |
+    def setParameter(
+        self,
+        parameterID: ConfigParameter,
+        value: typing.Union[float, int]
+    ) -> ParameterStatus:
+        """
+        .. note:: This function works on a real robot, but has not yet
+                  been implemented in simulation mode. See :ref:`api_support`
+                  for more details.
+        """
+        assert isinstance(parameterID, ConfigParameter)
+        assert isinstance(value, (float, int))
+        raise NotImplementedError("setParameter not implemented in simulation (file a bug on github if you need it)")
+
 CANSparkMax:
-  # __bases__: CANSparkMaxLowLevel
-  # cpp_inherits: rev::CANSparkMaxLowLevel
+  __bases__: CANSparkMaxLowLevel
+  cpp_inherits: rev::CANSparkMaxLowLevel
 
   methods:
     CANSparkMax:  # constructor
@@ -110,11 +143,12 @@ CANSparkMax:
         type:
           x_type: rev::CANSparkMaxLowLevel::MotorType
       code: |
-        # super().__init__(deviceID, type)
+        # everything that would be in the low-level constructor
+        # do not call super().__init__()
+        self._deviceID = deviceID
         self._faults = NotifyDict({})  # type: typing.Dict[FaultID, bool]
         # camel case for stored parameters (see CANSparkMaxLowLevel::ConfigParameter)
         self._hal_data = NotifyDict({
-            "motorType": type,
             "can_timeout": 20,
             "value": 0.0,
             "inverted": False,
@@ -128,6 +162,9 @@ CANSparkMax:
             "limitSwitchRevPolarity": LimitSwitchPolarity.kNormallyOpen,
             "hardLimitFwdEn": False,
             "hardLimitRevEn": False,
+            "smartCurrentStallLimit": 40,  # TODO
+            "smartCurrentFreeLimit": 0,  # TODO
+            "smartCurrentConfig": 20000,
             "currentChop": 60.0,  # TODO
             "currentChopCycles": 0,
             "idleMode": IdleMode.kCoast,
@@ -135,6 +172,12 @@ CANSparkMax:
             "bus_voltage": 12.0,
             "output_current": 0.1,
             "motor_temp": 25.0,  # ~room temperature
+            "frame_period": NotifyDict({
+                PeriodicFrame.kStatus0: 10,
+                PeriodicFrame.kStatus1: 20,
+                PeriodicFrame.kStatus2: 50,
+            }),
+            "control_period_ms": 10,
         })
         for i in range(4):
             self._hal_data.update({
@@ -146,8 +189,10 @@ CANSparkMax:
                 "outputMin_%d" % i: 0.0,
                 "outputMax_%d" % i: 0.0,
             })
+        self.setMotorType(type)
         hal_data["CAN"]["sparkmax-%d" % deviceID] = self._hal_data
         hal.report(hal.UsageReporting.kResourceType_RevSparkMaxCAN, deviceID)
+
         self.clearFaults()
 
     Set:

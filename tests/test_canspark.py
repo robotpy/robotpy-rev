@@ -2,6 +2,13 @@ def test_init(rev):
     rev.CANSparkMax(0, rev.MotorType.kBrushless)
 
 
+def test_get_proxies(rev):
+    sm = rev.CANSparkMax(0, rev.MotorType.kBrushless)
+    sm.getEncoder()
+    sm.getPIDController()
+    sm.getForwardLimitSwitch(rev.LimitSwitchPolarity.kNormallyOpen)
+
+
 def test_current_limit(rev, hal_data):
     sm = rev.CANSparkMax(1, rev.MotorType.kBrushless)
 
@@ -15,3 +22,18 @@ def test_current_limit(rev, hal_data):
 
     assert hal_data["CAN"]["sparkmax-1"]["currentChop"] == 52.5
     assert hal_data["CAN"]["sparkmax-1"]["currentChopCycles"] == 5
+
+
+def test_faults(rev, hal_data):
+    sm = rev.CANSparkMax(1, rev.MotorType.kBrushed)
+    rev_sw = sm.getReverseLimitSwitch(rev.LimitSwitchPolarity.kNormallyOpen)
+    hal_data["CAN"]["sparkmax-1"]["faults"][rev.FaultID.kHardLimitRev] = False
+    assert not rev_sw.get()
+
+
+def test_frame_period(rev, hal_data):
+    sm = rev.CANSparkMax(2, rev.MotorType.kBrushed)
+    sm.setPeriodicFramePeriod(rev.PeriodicFrame.kStatus2, 20)
+    assert (
+        hal_data["CAN"]["sparkmax-2"]["frame_period"][rev.PeriodicFrame.kStatus2] == 20
+    )
