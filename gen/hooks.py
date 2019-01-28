@@ -292,16 +292,24 @@ def class_hook(cls, data):
 
 
 def pid_get(fn, data):
+    param_name = fn["name"][3:]
+    if param_name == "FF":
+        param_name = "F"
+    param_name = param_name[0].lower() + param_name[1:]
     data["code"] = (
         "assert 0 <= slotID <= 3\n"
-        'retval = self._hal_data["pid%d_{}" % slotID]'.format(fn["name"][3:].lower())
+        'retval = self._hal_data["{}_%d" % slotID]'.format(param_name)
     )
 
 
 def pid_set(fn, data):
+    param_name = fn["name"][3:]
+    if param_name == "FF":
+        param_name = "F"
+    param_name = param_name[0].lower() + param_name[1:]
     data["code"] = (
         "assert 0 <= slotID <= 3\n"
-        'self._hal_data["pid%d_{}" % slotID] = float({})'.format(
-            fn["name"][3:].lower(), fn["parameters"][0]["name"]
+        'self._hal_data["{}_%d" % slotID] = float({})'.format(
+            param_name, fn["parameters"][0]["name"]
         )
     )

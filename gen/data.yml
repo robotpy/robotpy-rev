@@ -5,15 +5,35 @@ CANDigitalInput:
       code: |
         self._device = device
         self._limitSwitch = limitSwitch
-        self._hal_data = device._hal_data["limit_switches"][limitSwitch]
-        self._hal_data["polarity"] = polarity
-
+        polarity_param = (
+            "limitSwitchFwdPolarity"
+            if limitSwitch is LimitSwitch.kForward
+            else "limitSwitchRevPolarity"
+        )
+        device._hal_data[polarity_param] = polarity
     Get:
-      get: value
+      code: |
+        retval = self._device.getFault(
+            FaultID.kHardLimitFwd
+            if self._limitSwitch is LimitSwitch.kForward
+            else FaultID.kHardLimitRev
+        )
     EnableLimitSwitch:
-      set: enable
+      code: |
+        param = (
+            "hardLimitFwdEn"
+            if self._limitSwitch is LimitSwitch.kForward
+            else "hardLimitRevEn"
+        )
+        self._device._hal_data[param] = enable
     IsLimitSwitchEnabled:
-      get: enable
+      code: |
+        param = (
+            "hardLimitFwdEn"
+            if self._limitSwitch is LimitSwitch.kForward
+            else "hardLimitRevEn"
+        )
+        retval = self._device._hal_data[param]
 
 CANEncoder:
   methods:
@@ -34,7 +54,7 @@ CANPIDController:
         self._hal_data = device._hal_data
     SetReference:
       code: |
-        self._hal_data["value"] = float(value)
+        self._hal_data["value"] = float(value)  # TODO
         self._hal_data["ctrl_type"] = ctrl
         self._hal_data["pid_slot"] = pidSlot
         self._hal_data["arb_ff"] = arbFeedforward
@@ -50,8 +70,8 @@ CANPIDController:
       hook: pid_set
     SetOutputRange:
       code: |
-        self._hal_data["pid%d_outputmin" % slotID] = min
-        self._hal_data["pid%d_outputmax" % slotID] = max
+        self._hal_data["outputMin_%d" % slotID] = float(min)
+        self._hal_data["outputMax_%d" % slotID] = float(max)
     GetP:
       hook: pid_get
     GetI:
@@ -91,8 +111,11 @@ CANSparkMax:
           x_type: rev::CANSparkMaxLowLevel::MotorType
       code: |
         # super().__init__(deviceID, type)
+        self._faults = NotifyDict({})  # type: typing.Dict[FaultID, bool]
+        # camel case for stored parameters (see CANSparkMaxLowLevel::ConfigParameter)
         self._hal_data = NotifyDict({
-            "motor_type": type,
+            "motorType": type,
+            "can_timeout": 20,
             "value": 0.0,
             "inverted": False,
             "position": 0.0,
@@ -100,41 +123,41 @@ CANSparkMax:
             "ctrl_type": ControlType.kDutyCycle,
             "pid_slot": 0,
             "arb_ff": 0.0,
-            "limit_switches": {
-                LimitSwitch.kForward: NotifyDict({
-                    "value": False,
-                    "enable": False,
-                    "polarity": LimitSwitchPolarity.kNormallyOpen,
-                }),
-                LimitSwitch.kReverse: NotifyDict({
-                    "value": False,
-                    "enable": False,
-                    "polarity": LimitSwitchPolarity.kNormallyOpen,
-                }),
-            },
-            "idle_mode": IdleMode.kCoast,
-            "ramp_rate": 0.0,
+            "faults": self._faults,
+            "limitSwitchFwdPolarity": LimitSwitchPolarity.kNormallyOpen,
+            "limitSwitchRevPolarity": LimitSwitchPolarity.kNormallyOpen,
+            "hardLimitFwdEn": False,
+            "hardLimitRevEn": False,
+            "currentChop": 60.0,  # TODO
+            "currentChopCycles": 0,
+            "idleMode": IdleMode.kCoast,
+            "rampRate": 0.0,
+            "bus_voltage": 12.0,
+            "output_current": 0.1,
             "motor_temp": 25.0,  # ~room temperature
         })
         for i in range(4):
-            pid = "pid%d_" % i
             self._hal_data.update({
-                pid + "p": 0.0,
-                pid + "i": 0.0,
-                pid + "d": 0.0,
-                pid + "ff": 0.0,
-                pid + "izone": 0.0,
-                pid + "outputmin": 0.0,
-                pid + "outputmax": 0.0,
+                "p_%d" % i: 0.0,
+                "i_%d" % i: 0.0,
+                "d_%d" % i: 0.0,
+                "f_%d" % i: 0.0,
+                "iZone_%d" % i: 0.0,
+                "outputMin_%d" % i: 0.0,
+                "outputMax_%d" % i: 0.0,
             })
-        # TODO stick this into the global HAL data
+        hal_data["CANSparkMax"][deviceID] = self._hal_data
+        hal.report(hal.UsageReporting.kResourceType_RevSparkMaxCAN, deviceID)
+        self.clearFaults()
 
     Set:
       code: |
         self._hal_data["value"] = float(speed)
         self._hal_data["ctrl_type"] = ControlType.kDutyCycle
+        self._hal_data["pid_slot"] = 0
+        self._hal_data["arb_ff"] = 0.0
     Get:
-      get: value
+      get: value  # close enough
     SetInverted:
       set: inverted
     GetInverted:
@@ -163,33 +186,75 @@ CANSparkMax:
         retval = CANDigitalInput(self, LimitSwitch.kReverse, polarity)
     SetSmartCurrentLimit:
       overload: true
+    SetSecondaryCurrentLimit:
+      code: |
+        self._hal_data["currentChop"] = float(limit)
+        self._hal_data["currentChopCycles"] = chopCycles
+      doc: |
+        Sets the secondary current limit in Amps.
+
+        The motor controller will disable the output of the controller briefly
+        if the current limit is exceeded to reduce the current. This limit is
+        a simplified 'on/off' controller. This limit is enabled by default
+        but is set higher than the default Smart Current Limit.
+
+        The time the controller is off after the current limit is reached
+        is determined by the parameter limitCycles, which is the number of
+        PWM cycles (20kHz). The recommended value is the default of 0 which
+        is the minimum time and is part of a PWM cycle from when the over
+        current is detected. This allows the controller to regulate the current
+        close to the limit value.
+
+        The total time is set by the equation::
+
+          t = (50us - t0) + 50us * limitCycles
+          t = total off time after over current
+          t0 = time from the start of the PWM cycle until over current is detected
+
+        :param limit: The current limit in Amps.
+        :param limitCycles: The number of additional PWM cycles to turn
+                            the driver off after overcurrent is detected.
     SetIdleMode:
-      set: idle_mode
+      set: idleMode
     GetIdleMode:
-      get: idle_mode
+      get: idleMode
     SetRampRate:
-      set: ramp_rate
+      set: rampRate
     GetRampRate:
-      get: ramp_rate
+      get: rampRate
     Follow:
       ignore: true  # overload + struct
+    # TODO IsFollower
     GetFaults:
       code: |
         retval = 0
+        for faultID, value in self._faults.items():
+            retval |= value << faultID.value
     GetStickyFaults:
       code: |
         retval = 0
     GetFault:
       code: |
-        retval = False
+        retval = self._faults.get(faultID, False)
     GetStickyFault:
       code: |
         retval = False
-
+    GetBusVoltage:
+      get: bus_voltage
+    GetAppliedOutput:
+      get: value
+    GetOutputCurrent:
+      get: output_current
     GetMotorTemperature:
       get: motor_temp
     ClearFaults:
-      code: ""
+      code: |
+        faults = self._hal_data["faults"]
+        faults.clear()
+        faults.update({
+            FaultID.kHardLimitFwd: False,
+            FaultID.kHardLimitRev: False,
+        })
     BurnFlash:
       code: ""
     SetCANTimeout:
