@@ -233,7 +233,13 @@ CANSparkMax:
     GetRampRate:
       get: rampRate
     Follow:
-      ignore: true  # overload + struct
+      overloads:
+        "rev::CANSparkMax&, bool":
+          param_override:
+            leader:
+              x_pyann_type: '"CANSparkMax"'
+        "ExternalFollower, int, bool":
+          ignore: true  # TODO struct
     # TODO IsFollower
     GetFaults:
       code: |
