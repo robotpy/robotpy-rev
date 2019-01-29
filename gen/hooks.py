@@ -18,6 +18,8 @@ _annotations = {
     "void": "None",
 }
 
+_values = {"false": "False", "true": "True"}
+
 # fmt: off
 
 def _gen_check(pname, ptype, strict=False):
@@ -143,17 +145,19 @@ def public_method_hook(fn, data):
             p["x_pyann_type"] = repr(p["x_pyann_type"])
             fn["forward_declare"] = True
             fn["parent"]["has_fwd_declare"] = True
+
+        if p["name"] in param_override:
+            p.update(param_override[p["name"]])
+
         p["x_pyann"] = "%(name)s: %(x_pyann_type)s" % p
         p["x_pyarg"] = 'py::arg("%(name)s")' % p
 
         if "default" in p:
-            p["x_pyann"] += " = " + p["default"]
+            p["default"] = str(p["default"])
+            p["x_pyann"] += " = " + _values.get(p["default"], p["default"])
             p["x_pyarg"] += "=" + p["default"]
 
-        if p["name"] in param_override:
-            p.update(param_override[p["name"]])
-            x_in_params.append(p)
-        elif p["pointer"]:
+        if p["pointer"]:
             p["x_callname"] = "&%(x_callname)s" % p
             x_out_params.append(p)
         elif p["array"]:
