@@ -98,7 +98,11 @@ CANSparkMaxLowLevel:
       code: |
         raise TypeError("Cannot instantiate CANSparkMaxLowLevel")
     GetFirmwareVersion:
-      ignore: true  # overload + out param
+      overloads:
+        # TODO ()
+        "bool&":
+          ignore: true
+    # TODO GetFirmwareString
     GetSerialNumber:
       code: |
         retval = []
@@ -120,7 +124,16 @@ CANSparkMaxLowLevel:
     SetParameter:
       overload: true
     GetParameter:
-      ignore: true  # overload + out param
+      overloads:
+        "rev::CANSparkMaxLowLevel::ConfigParameter, double&":
+          rename: getParameterDouble
+        "rev::CANSparkMaxLowLevel::ConfigParameter, uint32_t&":
+          rename: getParameterInt
+        "rev::CANSparkMaxLowLevel::ConfigParameter, int32_t&":
+          ignore: true
+        "rev::CANSparkMaxLowLevel::ConfigParameter, bool&":
+          rename: getParameterBoolean
+      ignore: true  # out param
 
   sim_class_extra: |
     def setParameter(
