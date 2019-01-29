@@ -185,7 +185,17 @@ CANSparkMax:
       code: |
         retval = CANDigitalInput(self, LimitSwitch.kReverse, polarity)
     SetSmartCurrentLimit:
-      overload: true
+      overloads:
+        "unsigned int":
+          ignore: true
+        "unsigned int, unsigned int, unsigned int":
+          param_override:
+            freeLimit:
+              default: 0
+      code: |
+        self._hal_data["smartCurrentStallLimit"] = stallLimit
+        self._hal_data["smartCurrentFreeLimit"] = freeLimit
+        self._hal_data["smartCurrentConfig"] = limitRPM
     SetSecondaryCurrentLimit:
       code: |
         self._hal_data["currentChop"] = float(limit)
