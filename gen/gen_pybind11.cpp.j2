@@ -6,8 +6,8 @@
   {% if fn.constructor %}
     .def(py::init<{{ fn.parameters | join(', ', attribute='x_type') }}>(), {{ fn.x_in_params | join(', ', attribute='x_pyarg') }}, release_gil())
   {% else %}
-    .def("{{ fn.x_name }}", {% if 'overload' in fn.data %}py::overload_cast<{{ fn.x_in_params | join(', ', attribute='x_type')}}>({% endif -%}
-	     &{{ fn.namespace }}{{ cls.name }}::{{ fn.name }}{% if 'overload' in fn.data %}){% endif -%}
+    .def("{{ fn.x_name }}", {% if 'overload' in fn.data or 'overloads' in fn.data %}py::overload_cast<{{ fn.x_in_params | join(', ', attribute='x_type')}}>({% endif -%}
+	     &{{ fn.namespace }}{{ cls.name }}::{{ fn.name }}{% if 'overload' in fn.data or 'overloads' in fn.data %}){% endif -%}
 		 {% if fn.x_in_params %}, {{ fn.x_in_params | join(', ', attribute='x_pyarg') }}{% endif %}, release_gil())
   {% endif %}
 {% endmacro -%}

@@ -130,7 +130,20 @@ def public_method_hook(fn, data):
         data = {}
         # assert False, fn['name']
 
-    param_defaults = data.get("defaults", {})
+    if "overloads" in data:
+        _sig = ", ".join(
+            p.get("enum", p["raw_type"]) + "&" * p["reference"]
+            for p in fn["parameters"]
+        )
+        if _sig in data["overloads"]:
+            data = data.copy()
+            data.update(data["overloads"][_sig])
+        else:
+            print(
+                "WARNING: Missing overload %s::%s(%s)"
+                % (fn["parent"]["name"], fn["name"], _sig)
+            )
+
     param_override = data.get("param_override", {})
 
     for i, p in enumerate(fn["parameters"]):
@@ -176,6 +189,9 @@ def public_method_hook(fn, data):
             if chk:
                 x_param_checks.append("assert %s" % chk)
             x_in_params.append(p)
+
+        if p["constant"]:
+            p["x_type"] = "const " + p["x_type"]
 
         p["x_type"] += "&" * p["reference"]
         p["x_decl"] = "%s %s" % (p["x_type"], p["name"])
