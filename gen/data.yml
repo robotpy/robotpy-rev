@@ -189,7 +189,7 @@ CANSparkMax:
     SetSecondaryCurrentLimit:
       code: |
         self._hal_data["currentChop"] = float(limit)
-        self._hal_data["currentChopCycles"] = chopCycles
+        self._hal_data["currentChopCycles"] = limitCycles
       doc: |
         Sets the secondary current limit in Amps.
 
