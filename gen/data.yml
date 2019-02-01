@@ -152,36 +152,42 @@ CANSparkMax:
         self._deviceID = deviceID
         self._inverted = False
         self._faults = NotifyDict({})  # type: typing.Dict[FaultID, bool]
-        # camel case for stored parameters (see CANSparkMaxLowLevel::ConfigParameter)
         self._hal_data = NotifyDict({
+            "control_period_ms": 10,
             "can_timeout": 20,
-            "value": 0.0,
-            "position": 0.0,
-            "velocity": 0.0,
-            "ctrlType": ControlType.kDutyCycle,
-            "pid_slot": 0,
-            "arb_ff": 0.0,
-            "faults": self._faults,
-            "limitSwitchFwdPolarity": False,
-            "limitSwitchRevPolarity": False,
-            "hardLimitFwdEn": True,
-            "hardLimitRevEn": True,
-            "smartCurrentStallLimit": 80,
-            "smartCurrentFreeLimit": 20,
-            "smartCurrentConfig": 10000,
-            "currentChop": 115.0,
-            "currentChopCycles": 0,
-            "idleMode": IdleMode.kCoast,
-            "rampRate": 0.0,
-            "bus_voltage": 12.0,
-            "output_current": 0.1,
-            "motor_temp": 25.0,  # ~room temperature
             "frame_period": NotifyDict({
                 PeriodicFrame.kStatus0: 10,
                 PeriodicFrame.kStatus1: 20,
                 PeriodicFrame.kStatus2: 50,
             }),
-            "control_period_ms": 10,
+            "value": 0.0,
+            "position": 0.0,
+            "velocity": 0.0,
+            "pid_slot": 0,
+            "arb_ff": 0.0,
+            "faults": self._faults,
+            "bus_voltage": 12.0,
+            "output_current": 0.1,
+            "motor_temp": 25.0,  # ~room temperature
+            # config parameters in camel case (see CANSparkMaxLowLevel::ConfigParameter)
+            "motorType": MotorType.kBrushless,
+            "sensorType": SensorType.kHallSensor,
+            "ctrlType": ControlType.kDutyCycle,
+            "idleMode": IdleMode.kCoast,
+            "polePairs": 7,
+            "currentChop": 115.0,
+            "currentChopCycles": 0,
+            "limitSwitchFwdPolarity": False,
+            "limitSwitchRevPolarity": False,
+            "hardLimitFwdEn": True,
+            "hardLimitRevEn": True,
+            "rampRate": 0.0,
+            "smartCurrentStallLimit": 80,
+            "smartCurrentFreeLimit": 20,
+            "smartCurrentConfig": 10000,
+            "encoderCountsPerRev": 4096,
+            "encoderAverageDepth": 64,
+            "encoderSampleDelta": 200,
         })
         for i in range(4):
             self._hal_data.update({
@@ -190,6 +196,7 @@ CANSparkMax:
                 "d_%d" % i: 0.0,
                 "f_%d" % i: 0.0,
                 "iZone_%d" % i: 0.0,
+                "dFilter_%d" % i: 0.0,
                 "outputMin_%d" % i: 0.0,
                 "outputMax_%d" % i: 0.0,
             })
@@ -326,7 +333,7 @@ CANSparkMax:
       get: motor_temp
     ClearFaults:
       code: |
-        faults = self._hal_data["faults"]
+        faults = self._faults
         faults.clear()
         faults.update({
             FaultID.kHardLimitFwd: False,
