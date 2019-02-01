@@ -54,6 +54,9 @@ CANPIDController:
         self._hal_data = device._hal_data
     SetReference:
       code: |
+        if self._device._inverted:
+            value = -value
+            arbFeedforward = -arbFeedforward
         self._hal_data["value"] = float(value)  # TODO
         self._hal_data["ctrlType"] = ctrl
         self._hal_data["pid_slot"] = pidSlot
@@ -146,12 +149,12 @@ CANSparkMax:
         # everything that would be in the low-level constructor
         # do not call super().__init__()
         self._deviceID = deviceID
+        self._inverted = False
         self._faults = NotifyDict({})  # type: typing.Dict[FaultID, bool]
         # camel case for stored parameters (see CANSparkMaxLowLevel::ConfigParameter)
         self._hal_data = NotifyDict({
             "can_timeout": 20,
             "value": 0.0,
-            "inverted": False,
             "position": 0.0,
             "velocity": 0.0,
             "ctrlType": ControlType.kDutyCycle,
@@ -197,6 +200,8 @@ CANSparkMax:
 
     Set:
       code: |
+        if self._inverted:
+            speed = -speed
         self._hal_data["value"] = float(speed)
         self._hal_data["ctrlType"] = ControlType.kDutyCycle
         self._hal_data["pid_slot"] = 0
@@ -204,9 +209,11 @@ CANSparkMax:
     Get:
       get: value  # close enough
     SetInverted:
-      set: inverted
+      code: |
+        self._inverted = isInverted
     GetInverted:
-      get: inverted
+      code: |
+        retval = self._inverted
     Disable:
       code: |
         self.set(0)
