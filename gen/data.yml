@@ -164,12 +164,12 @@ CANSparkMax:
             "faults": self._faults,
             "limitSwitchFwdPolarity": False,
             "limitSwitchRevPolarity": False,
-            "hardLimitFwdEn": False,
-            "hardLimitRevEn": False,
-            "smartCurrentStallLimit": 40,  # TODO
-            "smartCurrentFreeLimit": 0,  # TODO
-            "smartCurrentConfig": 20000,
-            "currentChop": 60.0,  # TODO
+            "hardLimitFwdEn": True,
+            "hardLimitRevEn": True,
+            "smartCurrentStallLimit": 80,
+            "smartCurrentFreeLimit": 20,
+            "smartCurrentConfig": 10000,
+            "currentChop": 115.0,
             "currentChopCycles": 0,
             "idleMode": IdleMode.kCoast,
             "rampRate": 0.0,
