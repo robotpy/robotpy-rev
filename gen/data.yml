@@ -10,6 +10,7 @@ CANDigitalInput:
             if limitSwitch is LimitSwitch.kForward
             else "limitSwitchRevPolarity"
         )
+        polarity = polarity is LimitSwitchPolarity.kNormallyClosed
         device._hal_data[polarity_param] = polarity
     Get:
       code: |
@@ -161,8 +162,8 @@ CANSparkMax:
             "pid_slot": 0,
             "arb_ff": 0.0,
             "faults": self._faults,
-            "limitSwitchFwdPolarity": LimitSwitchPolarity.kNormallyOpen,
-            "limitSwitchRevPolarity": LimitSwitchPolarity.kNormallyOpen,
+            "limitSwitchFwdPolarity": False,
+            "limitSwitchRevPolarity": False,
             "hardLimitFwdEn": False,
             "hardLimitRevEn": False,
             "smartCurrentStallLimit": 40,  # TODO
