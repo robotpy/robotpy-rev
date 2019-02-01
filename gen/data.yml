@@ -281,9 +281,17 @@ CANSparkMax:
     GetIdleMode:
       get: idleMode
     SetRampRate:
-      set: rampRate
+      code: |
+        if rate != 0.0:
+            rate = 1 / rate
+        else:
+            rate = 0.0
+        self._hal_data["rampRate"] = rate
     GetRampRate:
-      get: rampRate
+      code: |
+        retval = self._hal_data["rampRate"]
+        if retval != 0.0:
+          retval = 1 / retval
     Follow:
       overloads:
         "rev::CANSparkMax&, bool":
