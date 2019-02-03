@@ -146,7 +146,7 @@ CANSparkMax:
                 "outputMin_%d" % i: 0.0,
                 "outputMax_%d" % i: 0.0,
             })
-        hal_data["CANSparkMax"][deviceID] = self._hal_data
+        hal_data["CAN"]["sparkmax-%d" % deviceID] = self._hal_data
         hal.report(hal.UsageReporting.kResourceType_RevSparkMaxCAN, deviceID)
         self.clearFaults()
 
