@@ -10,8 +10,6 @@ from hal_impl.data import hal_data, NotifyDict
 
 from .sim_enums import *
 
-hal_data["CANSparkMax"] = NotifyDict()
-
 {% for header in headers %}
 {% for cls in header.classes if 'ignore' not in cls.data %}
 

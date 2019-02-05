@@ -55,7 +55,7 @@ CANPIDController:
     SetReference:
       code: |
         self._hal_data["value"] = float(value)  # TODO
-        self._hal_data["ctrl_type"] = ctrl
+        self._hal_data["ctrlType"] = ctrl
         self._hal_data["pid_slot"] = pidSlot
         self._hal_data["arb_ff"] = arbFeedforward
     SetP:
@@ -120,7 +120,7 @@ CANSparkMax:
             "inverted": False,
             "position": 0.0,
             "velocity": 0.0,
-            "ctrl_type": ControlType.kDutyCycle,
+            "ctrlType": ControlType.kDutyCycle,
             "pid_slot": 0,
             "arb_ff": 0.0,
             "faults": self._faults,
@@ -146,14 +146,14 @@ CANSparkMax:
                 "outputMin_%d" % i: 0.0,
                 "outputMax_%d" % i: 0.0,
             })
-        hal_data["CANSparkMax"][deviceID] = self._hal_data
+        hal_data["CAN"]["sparkmax-%d" % deviceID] = self._hal_data
         hal.report(hal.UsageReporting.kResourceType_RevSparkMaxCAN, deviceID)
         self.clearFaults()
 
     Set:
       code: |
         self._hal_data["value"] = float(speed)
-        self._hal_data["ctrl_type"] = ControlType.kDutyCycle
+        self._hal_data["ctrlType"] = ControlType.kDutyCycle
         self._hal_data["pid_slot"] = 0
         self._hal_data["arb_ff"] = 0.0
     Get:
