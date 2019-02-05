@@ -18,6 +18,8 @@ _annotations = {
     "void": "None",
 }
 
+_values = {"false": "False", "true": "True"}
+
 # fmt: off
 
 def _gen_check(pname, ptype, strict=False):
@@ -128,7 +130,20 @@ def public_method_hook(fn, data):
         data = {}
         # assert False, fn['name']
 
-    param_defaults = data.get("defaults", {})
+    if "overloads" in data:
+        _sig = ", ".join(
+            p.get("enum", p["raw_type"]) + "&" * p["reference"]
+            for p in fn["parameters"]
+        )
+        if _sig in data["overloads"]:
+            data = data.copy()
+            data.update(data["overloads"][_sig])
+        else:
+            print(
+                "WARNING: Missing overload %s::%s(%s)"
+                % (fn["parent"]["name"], fn["name"], _sig)
+            )
+
     param_override = data.get("param_override", {})
 
     for i, p in enumerate(fn["parameters"]):
@@ -143,17 +158,19 @@ def public_method_hook(fn, data):
             p["x_pyann_type"] = repr(p["x_pyann_type"])
             fn["forward_declare"] = True
             fn["parent"]["has_fwd_declare"] = True
+
+        if p["name"] in param_override:
+            p.update(param_override[p["name"]])
+
         p["x_pyann"] = "%(name)s: %(x_pyann_type)s" % p
         p["x_pyarg"] = 'py::arg("%(name)s")' % p
 
         if "default" in p:
-            p["x_pyann"] += " = " + p["default"]
+            p["default"] = str(p["default"])
+            p["x_pyann"] += " = " + _values.get(p["default"], p["default"])
             p["x_pyarg"] += "=" + p["default"]
 
-        if p["name"] in param_override:
-            p.update(param_override[p["name"]])
-            x_in_params.append(p)
-        elif p["pointer"]:
+        if p["pointer"]:
             p["x_callname"] = "&%(x_callname)s" % p
             x_out_params.append(p)
         elif p["array"]:
@@ -172,6 +189,9 @@ def public_method_hook(fn, data):
             if chk:
                 x_param_checks.append("assert %s" % chk)
             x_in_params.append(p)
+
+        if p["constant"]:
+            p["x_type"] = "const " + p["x_type"]
 
         p["x_type"] += "&" * p["reference"]
         p["x_decl"] = "%s %s" % (p["x_type"], p["name"])
@@ -260,9 +280,6 @@ def public_method_hook(fn, data):
         eval(data["hook"])(fn, data)
 
     name = fn["name"]
-    # XXX this probably isn't correct...
-    x_returns = fn["namespace"] + fn["returns"]
-
     hascode = "code" in data or "get" in data or "set" in data
 
     # lazy :)

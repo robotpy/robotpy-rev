@@ -92,18 +92,14 @@ def has_flag(compiler, flagname):
 
 
 def cpp_flag(compiler):
-    """Return the -std=c++[11/14] compiler flag.
+    """Return the -std=c++14 compiler flag.
 
-    The c++14 is prefered over c++11 (when it is available).
+    This ensures that the compiler actually supports C++14.
+    Attempts to give a friendly error message otherwise.
     """
     if has_flag(compiler, "-std=c++14"):
         return "-std=c++14"
-    elif has_flag(compiler, "-std=c++11"):
-        return "-std=c++11"
-    else:
-        raise RuntimeError(
-            "Unsupported compiler -- at least C++11 support " "is needed!"
-        )
+    raise RuntimeError("Unsupported compiler -- at least C++14 support is needed!")
 
 
 class BuildExt(build_ext):
