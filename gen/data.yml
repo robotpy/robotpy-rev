@@ -55,13 +55,7 @@ CANPIDController:
         self._hal_data = device._hal_data
     SetReference:
       code: |
-        if self._device._inverted:
-            value = -value
-            arbFeedforward = -arbFeedforward
-        self._hal_data["value"] = float(value)  # TODO
-        self._hal_data["ctrlType"] = ctrl
-        self._hal_data["pid_slot"] = pidSlot
-        self._hal_data["arb_ff"] = arbFeedforward
+        self._setpointCommand(value, ctrl, pidSlot, arbFeedforward)
     SetP:
       hook: pid_set
     SetI:
@@ -150,6 +144,26 @@ CANSparkMaxLowLevel:
         assert isinstance(value, (float, int))
         raise NotImplementedError("setParameter not implemented in simulation (file a bug on github if you need it)")
 
+    def _setpointCommand(
+        self,
+        value: float,
+        ctrl: ControlType = ControlType.kDutyCycle,
+        pidSlot: int = 0,
+        arbFeedforward: float = 0.0,
+    ) -> None:
+        if arbFeedforward > 32.0:
+            arbFeedforward = 32.0
+        elif arbFeedforward < -32.0:
+            arbFeedforward = -32.0
+        if self._inverted:
+            value = -value
+            arbFeedforward = -arbFeedforward
+        self._hal_data["value"] = float(value)  # TODO
+        self._hal_data["ctrlType"] = ctrl
+        self._hal_data["pid_slot"] = pidSlot
+        self._hal_data["arb_ff"] = float(arbFeedforward)
+
+
 CANSparkMax:
   __bases__: CANSparkMaxLowLevel
   cpp_inherits: rev::CANSparkMaxLowLevel
@@ -221,12 +235,7 @@ CANSparkMax:
 
     Set:
       code: |
-        if self._inverted:
-            speed = -speed
-        self._hal_data["value"] = float(speed)
-        self._hal_data["ctrlType"] = ControlType.kDutyCycle
-        self._hal_data["pid_slot"] = 0
-        self._hal_data["arb_ff"] = 0.0
+        self._setpointCommand(speed)
     Get:
       get: value  # close enough
     SetInverted:
