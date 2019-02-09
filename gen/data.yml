@@ -44,8 +44,26 @@ CANEncoder:
         self._hal_data = device._hal_data
     GetPosition:
       get: position
+      invert: true
     GetVelocity:
       get: velocity
+      invert: true
+    SetPosition:
+      code: |
+        retval = self._device.setEncPosition(position)
+    SetPositionConversionFactor:
+      set: positionConversionFactor
+    SetVelocityConversionFactor:
+      set: velocityConversionFactor
+    GetPositionConversionFactor:
+      get: positionConversionFactor
+    GetVelocityConversionFactor:
+      get: velocityConversionFactor
+
+  sim_class_extra: |
+    @property
+    def _inverted(self) -> bool:
+        return self._device._inverted
 
 CANPIDController:
   methods:
@@ -62,12 +80,17 @@ CANPIDController:
       hook: pid_set
     SetD:
       hook: pid_set
+    SetDFilter:
+      hook: pid_set
     SetFF:
       hook: pid_set
     SetIZone:
       hook: pid_set
     SetOutputRange:
       code: |
+        if self._inverted:
+            # XXX REV does this actually make sense?
+            min, max = max, min
         self._hal_data["outputMin_%d" % slotID] = float(min)
         self._hal_data["outputMax_%d" % slotID] = float(max)
     GetP:
@@ -76,14 +99,67 @@ CANPIDController:
       hook: pid_get
     GetD:
       hook: pid_get
+    GetDFilter:
+      hook: pid_get
     GetFF:
       hook: pid_get
     GetIZone:
       hook: pid_get
     GetOutputMin:
-      hook: pid_get
+      code: |
+        param = "outputMax" if self._inverted else "outputMin"
+        retval = self._hal_data["%s_%d" % (param, slotID)]
     GetOutputMax:
+      code: |
+        param = "outputMin" if self._inverted else "outputMax"
+        retval = self._hal_data["%s_%d" % (param, slotID)]
+    SetSmartMotionMaxVelocity:
+      hook: pid_set
+    SetSmartMotionMaxAccel:
+      hook: pid_set
+    SetSmartMotionMinOutputVelocity:
+      hook: pid_set
+    SetSmartMotionAllowedClosedLoopError:
+      hook: pid_set
+    SetSmartMotionAccelStrategy:
+      code: |
+        assert 0 <= slotID <= 3
+        self._hal_data["smartMotionAccelStrategy_%d" % slotID] = accelStrategy
+    GetSmartMotionMaxVelocity:
       hook: pid_get
+    GetSmartMotionMaxAccel:
+      hook: pid_get
+    GetSmartMotionMinOutputVelocity:
+      hook: pid_get
+    GetSmartMotionAllowedClosedLoopError:
+      hook: pid_get
+    GetSmartMotionAccelStrategy:
+      hook: pid_get
+    SetIMaxAccum:
+      #hook: pid_set
+      code: |
+        if self._inverted:
+            # XXX REV does this actually make sense?
+            iMaxAccum = -iMaxAccum
+        self._hal_data["iMaxAccum_%d" % slotID] = iMaxAccum
+    GetIMaxAccum:
+      #hook: pid_get
+      code: |
+        retval = self._hal_data["iMaxAccum_%d" % slotID]
+        if self._inverted:
+            # XXX REV does this actually make sense?
+            retval = -retval
+    SetIAccum:
+      code: |
+        retval = self._device.setIAccum(iAccum)
+    GetIAccum:
+      get: i_accum
+      invert: true
+
+  sim_class_extra: |
+    @property
+    def _inverted(self) -> bool:
+        return self._device._inverted
 
 CANSparkMaxLowLevel:
   methods:
@@ -110,10 +186,6 @@ CANSparkMaxLowLevel:
     SetPeriodicFramePeriod:
       code: |
         self._hal_data["frame_period"][frame] = periodMs
-    SetControlFramePeriod:
-      set: control_period_ms
-    GetControlFramePeriod:
-      get: control_period_ms
     # TODO GetParameterType
     SetParameter:
       overload: true
@@ -128,6 +200,65 @@ CANSparkMaxLowLevel:
         "rev::CANSparkMaxLowLevel::ConfigParameter, bool&":
           rename: getParameterBoolean
       ignore: true  # out param
+    SetEncPosition:
+      set: position
+      invert: true
+    SetIAccum:
+      set: i_accum
+      invert: true  # NOTE: C++/Java inconsistency
+    RestoreFactoryDefaults:
+      code: |
+        # config parameters in camel case (see CANSparkMaxLowLevel::ConfigParameter)
+        self._hal_data.update({
+            "motorType": MotorType.kBrushless,
+            "sensorType": SensorType.kHallSensor,
+            "ctrlType": ControlType.kDutyCycle,
+            "idleMode": IdleMode.kCoast,
+            "polePairs": 7,
+            "currentChop": 115.0,
+            "currentChopCycles": 0,
+
+            "limitSwitchFwdPolarity": False,
+            "limitSwitchRevPolarity": False,
+            "hardLimitFwdEn": True,
+            "hardLimitRevEn": True,
+
+            "openLoopRampRate": 0.0,
+            # TODO follower config
+            "smartCurrentStallLimit": 80,
+            "smartCurrentFreeLimit": 20,
+            "smartCurrentConfig": 10000,
+
+            "encoderCountsPerRev": 4096,
+            "encoderAverageDepth": 64,
+            "encoderSampleDelta": 200,
+            "voltageCompMode": 0,
+            "compensatedNominalVoltage": 0.0,
+
+            "positionConversionFactor": 1.0,
+            "velocityConversionFactor": 1.0,
+            "closedLoopRampRate": 0.0,
+        })
+        for i in range(4):
+            self._hal_data.update({
+                "p_%d" % i: 0.0,
+                "i_%d" % i: 0.0,
+                "d_%d" % i: 0.0,
+                "f_%d" % i: 0.0,
+                "iZone_%d" % i: 0.0,
+                "dFilter_%d" % i: 0.0,
+                "outputMin_%d" % i: 0.0,
+                "outputMax_%d" % i: 0.0,
+
+                # TODO get defaults for Smart Motion
+                "smartMotionMaxVelocity_%d" % i: 0.0,
+                "smartMotionMaxAccel_%d" % i: 0.0,
+                "smartMotionMinVelOutput_%d" % i: 0.0,
+                "smartMotionAllowedClosedLoopError_%d" % i: 0.0,
+                "smartMotionAccelStrategy_%d" % i: AccelStrategy.kTrapezoidal,
+
+                "iMaxAccum_%d" % i: 0.0,
+            })
 
   sim_class_extra: |
     def setParameter(
@@ -181,7 +312,6 @@ CANSparkMax:
         self._faults = NotifyDict({})  # type: typing.Dict[FaultID, bool]
         self._hal_data = NotifyDict({
             "type": "sparkmax",  # make the robotpy-ctre sim ui happy
-            "control_period_ms": 10,
             "can_timeout": 20,
             "frame_period": NotifyDict({
                 PeriodicFrame.kStatus0: 10,
@@ -197,41 +327,16 @@ CANSparkMax:
             "bus_voltage": 12.0,
             "output_current": 0.1,
             "motor_temp": 25.0,  # ~room temperature
-            # config parameters in camel case (see CANSparkMaxLowLevel::ConfigParameter)
-            "motorType": MotorType.kBrushless,
-            "sensorType": SensorType.kHallSensor,
-            "ctrlType": ControlType.kDutyCycle,
-            "idleMode": IdleMode.kCoast,
-            "polePairs": 7,
-            "currentChop": 115.0,
-            "currentChopCycles": 0,
-            "limitSwitchFwdPolarity": False,
-            "limitSwitchRevPolarity": False,
-            "hardLimitFwdEn": True,
-            "hardLimitRevEn": True,
-            "rampRate": 0.0,
-            "smartCurrentStallLimit": 80,
-            "smartCurrentFreeLimit": 20,
-            "smartCurrentConfig": 10000,
-            "encoderCountsPerRev": 4096,
-            "encoderAverageDepth": 64,
-            "encoderSampleDelta": 200,
+            # config parameters in restoreFactoryDefaults
         })
-        for i in range(4):
-            self._hal_data.update({
-                "p_%d" % i: 0.0,
-                "i_%d" % i: 0.0,
-                "d_%d" % i: 0.0,
-                "f_%d" % i: 0.0,
-                "iZone_%d" % i: 0.0,
-                "dFilter_%d" % i: 0.0,
-                "outputMin_%d" % i: 0.0,
-                "outputMax_%d" % i: 0.0,
-            })
+        self.restoreFactoryDefaults()
         self.setMotorType(type)
         hal_data["CAN"]["sparkmax-%d" % deviceID] = self._hal_data
         hal.report(hal.UsageReporting.kResourceType_RevSparkMaxCAN, deviceID)
 
+        # Initialize conversion factors to 1
+        self.getEncoder().setPositionConversionFactor(1)
+        self.getEncoder().setVelocityConversionFactor(1)
         self.clearFaults()
 
     Set:
@@ -250,7 +355,7 @@ CANSparkMax:
         self.set(0)
     StopMotor:
       code: |
-        self.disable()
+        self.set(0)
     PIDWrite:
       rename: pidWrite
       code: |
@@ -311,18 +416,40 @@ CANSparkMax:
       set: idleMode
     GetIdleMode:
       get: idleMode
-    SetRampRate:
+    EnableVoltageCompensation:
+      code: |
+        self._hal_data["compensatedNominalVoltage"] = nominalVoltage
+        self._hal_data["voltageCompMode"] = 2
+    DisableVoltageCompensation:
+      code: |
+        self._hal_data["voltageCompMode"] = 0
+        self._hal_data["compensatedNominalVoltage"] = 0.0
+    GetVoltageCompensationNominalVoltage:
+      get: compensatedNominalVoltage
+    SetOpenLoopRampRate:
       code: |
         if rate != 0.0:
             rate = 1 / rate
         else:
             rate = 0.0
-        self._hal_data["rampRate"] = rate
-    GetRampRate:
+        self._hal_data["openLoopRampRate"] = rate
+    GetOpenLoopRampRate:
       code: |
-        retval = self._hal_data["rampRate"]
+        retval = self._hal_data["openLoopRampRate"]
         if retval != 0.0:
-          retval = 1 / retval
+            retval = 1 / retval
+    SetClosedLoopRampRate:
+      code: |
+        if rate != 0.0:
+            rate = 1 / rate
+        else:
+            rate = 0.0
+        self._hal_data["closedLoopRampRate"] = rate
+    GetClosedLoopRampRate:
+      code: |
+        retval = self._hal_data["closedLoopRampRate"]
+        if retval != 0.0:
+            retval = 1 / retval
     Follow:
       overloads:
         "rev::CANSparkMax&, bool":

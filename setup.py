@@ -12,7 +12,7 @@ import subprocess
 import sys
 import setuptools
 
-rev_lib_version = "1.0.27"
+rev_lib_version = "1.1.5"
 
 setup_dir = dirname(__file__)
 git_dir = join(setup_dir, ".git")
@@ -249,6 +249,7 @@ class Downloader:
             dirs = [
                 "SparkMax-cpp/%(version)s/SparkMax-cpp-%(version)s-headers.zip",
                 "SparkMax-cpp/%(version)s/SparkMax-cpp-%(version)s-linuxathenastatic.zip",
+                "SparkMax-driver/%(version)s/SparkMax-driver-%(version)s-linuxathenastatic.zip",
             ]
 
             for l in dirs:
@@ -270,7 +271,7 @@ if exists("/etc/natinst/share/scs_imagemetadata.ini") or _travis_build:
     if _travis_build:
         libraries = None
     else:
-        libraries = ["wpiHal", "SparkMax"]
+        libraries = ["wpiHal", "SparkMax", "SparkMaxDriver"]
 
     wpilibc = join(setup_dir, base_package, "_impl", "wpilibc")
 
