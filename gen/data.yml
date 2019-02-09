@@ -10,6 +10,7 @@ CANDigitalInput:
             if limitSwitch is LimitSwitch.kForward
             else "limitSwitchRevPolarity"
         )
+        polarity = polarity is LimitSwitchPolarity.kNormallyClosed
         device._hal_data[polarity_param] = polarity
     Get:
       code: |
@@ -54,10 +55,7 @@ CANPIDController:
         self._hal_data = device._hal_data
     SetReference:
       code: |
-        self._hal_data["value"] = float(value)  # TODO
-        self._hal_data["ctrlType"] = ctrl
-        self._hal_data["pid_slot"] = pidSlot
-        self._hal_data["arb_ff"] = arbFeedforward
+        self._setpointCommand(value, ctrl, pidSlot, arbFeedforward)
     SetP:
       hook: pid_set
     SetI:
@@ -90,19 +88,85 @@ CANPIDController:
 CANSparkMaxLowLevel:
   methods:
     CANSparkMaxLowLevel:  # constructor
-      param_override:
-        type:
-          x_type: rev::CANSparkMaxLowLevel::MotorType
+      skip_pybind: true
+      code: |
+        raise TypeError("Cannot instantiate CANSparkMaxLowLevel")
     GetFirmwareVersion:
-      ignore: true  # overload + out param
+      overloads:
+        # TODO ()
+        "bool&":
+          ignore: true
+    # TODO GetFirmwareString
+    GetSerialNumber:
+      code: |
+        retval = []
+    GetDeviceId:
+      code: |
+        retval = self._deviceID
+    SetMotorType:
+      set: motorType
+    GetMotorType:
+      get: motorType
+    SetPeriodicFramePeriod:
+      code: |
+        self._hal_data["frame_period"][frame] = periodMs
+    SetControlFramePeriod:
+      set: control_period_ms
+    GetControlFramePeriod:
+      get: control_period_ms
+    # TODO GetParameterType
     SetParameter:
       overload: true
     GetParameter:
-      ignore: true  # overload + out param
+      overloads:
+        "rev::CANSparkMaxLowLevel::ConfigParameter, double&":
+          rename: getParameterDouble
+        "rev::CANSparkMaxLowLevel::ConfigParameter, uint32_t&":
+          rename: getParameterInt
+        "rev::CANSparkMaxLowLevel::ConfigParameter, int32_t&":
+          ignore: true
+        "rev::CANSparkMaxLowLevel::ConfigParameter, bool&":
+          rename: getParameterBoolean
+      ignore: true  # out param
+
+  sim_class_extra: |
+    def setParameter(
+        self,
+        parameterID: ConfigParameter,
+        value: typing.Union[float, int]
+    ) -> ParameterStatus:
+        """
+        .. note:: This function works on a real robot, but has not yet
+                  been implemented in simulation mode. See :ref:`api_support`
+                  for more details.
+        """
+        assert isinstance(parameterID, ConfigParameter)
+        assert isinstance(value, (float, int))
+        raise NotImplementedError("setParameter not implemented in simulation (file a bug on github if you need it)")
+
+    def _setpointCommand(
+        self,
+        value: float,
+        ctrl: ControlType = ControlType.kDutyCycle,
+        pidSlot: int = 0,
+        arbFeedforward: float = 0.0,
+    ) -> None:
+        if arbFeedforward > 32.0:
+            arbFeedforward = 32.0
+        elif arbFeedforward < -32.0:
+            arbFeedforward = -32.0
+        if self._inverted:
+            value = -value
+            arbFeedforward = -arbFeedforward
+        self._hal_data["value"] = float(value)  # TODO
+        self._hal_data["ctrlType"] = ctrl
+        self._hal_data["pid_slot"] = pidSlot
+        self._hal_data["arb_ff"] = float(arbFeedforward)
+
 
 CANSparkMax:
-  # __bases__: CANSparkMaxLowLevel
-  # cpp_inherits: rev::CANSparkMaxLowLevel
+  __bases__: CANSparkMaxLowLevel
+  cpp_inherits: rev::CANSparkMaxLowLevel
 
   methods:
     CANSparkMax:  # constructor
@@ -110,31 +174,47 @@ CANSparkMax:
         type:
           x_type: rev::CANSparkMaxLowLevel::MotorType
       code: |
-        # super().__init__(deviceID, type)
+        # everything that would be in the low-level constructor
+        # do not call super().__init__()
+        self._deviceID = deviceID
+        self._inverted = False
         self._faults = NotifyDict({})  # type: typing.Dict[FaultID, bool]
-        # camel case for stored parameters (see CANSparkMaxLowLevel::ConfigParameter)
         self._hal_data = NotifyDict({
-            "motorType": type,
+            "control_period_ms": 10,
             "can_timeout": 20,
+            "frame_period": NotifyDict({
+                PeriodicFrame.kStatus0: 10,
+                PeriodicFrame.kStatus1: 20,
+                PeriodicFrame.kStatus2: 50,
+            }),
             "value": 0.0,
-            "inverted": False,
             "position": 0.0,
             "velocity": 0.0,
-            "ctrlType": ControlType.kDutyCycle,
             "pid_slot": 0,
             "arb_ff": 0.0,
             "faults": self._faults,
-            "limitSwitchFwdPolarity": LimitSwitchPolarity.kNormallyOpen,
-            "limitSwitchRevPolarity": LimitSwitchPolarity.kNormallyOpen,
-            "hardLimitFwdEn": False,
-            "hardLimitRevEn": False,
-            "currentChop": 60.0,  # TODO
-            "currentChopCycles": 0,
-            "idleMode": IdleMode.kCoast,
-            "rampRate": 0.0,
             "bus_voltage": 12.0,
             "output_current": 0.1,
             "motor_temp": 25.0,  # ~room temperature
+            # config parameters in camel case (see CANSparkMaxLowLevel::ConfigParameter)
+            "motorType": MotorType.kBrushless,
+            "sensorType": SensorType.kHallSensor,
+            "ctrlType": ControlType.kDutyCycle,
+            "idleMode": IdleMode.kCoast,
+            "polePairs": 7,
+            "currentChop": 115.0,
+            "currentChopCycles": 0,
+            "limitSwitchFwdPolarity": False,
+            "limitSwitchRevPolarity": False,
+            "hardLimitFwdEn": True,
+            "hardLimitRevEn": True,
+            "rampRate": 0.0,
+            "smartCurrentStallLimit": 80,
+            "smartCurrentFreeLimit": 20,
+            "smartCurrentConfig": 10000,
+            "encoderCountsPerRev": 4096,
+            "encoderAverageDepth": 64,
+            "encoderSampleDelta": 200,
         })
         for i in range(4):
             self._hal_data.update({
@@ -143,25 +223,27 @@ CANSparkMax:
                 "d_%d" % i: 0.0,
                 "f_%d" % i: 0.0,
                 "iZone_%d" % i: 0.0,
+                "dFilter_%d" % i: 0.0,
                 "outputMin_%d" % i: 0.0,
                 "outputMax_%d" % i: 0.0,
             })
+        self.setMotorType(type)
         hal_data["CAN"]["sparkmax-%d" % deviceID] = self._hal_data
         hal.report(hal.UsageReporting.kResourceType_RevSparkMaxCAN, deviceID)
+
         self.clearFaults()
 
     Set:
       code: |
-        self._hal_data["value"] = float(speed)
-        self._hal_data["ctrlType"] = ControlType.kDutyCycle
-        self._hal_data["pid_slot"] = 0
-        self._hal_data["arb_ff"] = 0.0
+        self._setpointCommand(speed)
     Get:
       get: value  # close enough
     SetInverted:
-      set: inverted
+      code: |
+        self._inverted = isInverted
     GetInverted:
-      get: inverted
+      code: |
+        retval = self._inverted
     Disable:
       code: |
         self.set(0)
@@ -229,9 +311,17 @@ CANSparkMax:
     GetIdleMode:
       get: idleMode
     SetRampRate:
-      set: rampRate
+      code: |
+        if rate != 0.0:
+            rate = 1 / rate
+        else:
+            rate = 0.0
+        self._hal_data["rampRate"] = rate
     GetRampRate:
-      get: rampRate
+      code: |
+        retval = self._hal_data["rampRate"]
+        if retval != 0.0:
+          retval = 1 / retval
     Follow:
       overloads:
         "rev::CANSparkMax&, bool":
@@ -265,7 +355,7 @@ CANSparkMax:
       get: motor_temp
     ClearFaults:
       code: |
-        faults = self._hal_data["faults"]
+        faults = self._faults
         faults.clear()
         faults.update({
             FaultID.kHardLimitFwd: False,
