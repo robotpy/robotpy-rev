@@ -55,7 +55,7 @@ CANPIDController:
         self._hal_data = device._hal_data
     SetReference:
       code: |
-        self._setpointCommand(value, ctrl, pidSlot, arbFeedforward)
+        self._device._setpointCommand(value, ctrl, pidSlot, arbFeedforward)
     SetP:
       hook: pid_set
     SetI:

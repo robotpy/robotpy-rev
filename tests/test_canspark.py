@@ -37,3 +37,11 @@ def test_frame_period(rev, hal_data):
     assert (
         hal_data["CAN"]["sparkmax-2"]["frame_period"][rev.PeriodicFrame.kStatus2] == 20
     )
+
+
+def test_pid_set(rev, hal_data):
+    sm = rev.CANSparkMax(0, rev.MotorType.kBrushless)
+    pid = sm.getPIDController()
+    pid.setOutputRange(-1, 1)
+    pid.setP(0.005)
+    pid.setReference(5, rev.ControlType.kPosition)
