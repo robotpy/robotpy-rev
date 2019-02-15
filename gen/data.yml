@@ -180,6 +180,7 @@ CANSparkMax:
         self._inverted = False
         self._faults = NotifyDict({})  # type: typing.Dict[FaultID, bool]
         self._hal_data = NotifyDict({
+            "type": "sparkmax",  # make the robotpy-ctre sim ui happy
             "control_period_ms": 10,
             "can_timeout": 20,
             "frame_period": NotifyDict({
