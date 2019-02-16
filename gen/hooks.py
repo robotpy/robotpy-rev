@@ -312,6 +312,8 @@ def pid_get(fn, data):
     param_name = fn["name"][3:]
     if param_name == "FF":
         param_name = "F"
+    elif param_name == "SmartMotionMinOutputVelocity":
+        param_name = "SmartMotionMinVelOutput"
     param_name = param_name[0].lower() + param_name[1:]
     data["code"] = (
         "assert 0 <= slotID <= 3\n"
@@ -323,6 +325,8 @@ def pid_set(fn, data):
     param_name = fn["name"][3:]
     if param_name == "FF":
         param_name = "F"
+    elif param_name == "SmartMotionMinOutputVelocity":
+        param_name = "SmartMotionMinVelOutput"
     param_name = param_name[0].lower() + param_name[1:]
     data["code"] = (
         "assert 0 <= slotID <= 3\n"
