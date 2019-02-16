@@ -12,7 +12,7 @@ import subprocess
 import sys
 import setuptools
 
-rev_lib_version = "1.1.5"
+rev_lib_version = "1.1.8"
 
 setup_dir = dirname(__file__)
 git_dir = join(setup_dir, ".git")
