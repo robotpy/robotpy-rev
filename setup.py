@@ -372,6 +372,6 @@ setup(
     zip_safe=False,
     entry_points={
         "robotpylib": ["info = rev._impl.info:Info"],
-        # "robotpysim": ["rev = rev._impl.sim_ui:RevUI"],
+        "robotpysim": ["rev = rev._impl.sim_ui:RevUI"],
     },
 )

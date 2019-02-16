@@ -203,6 +203,8 @@ CANSparkMaxLowLevel:
       code: |
         # config parameters in camel case (see CANSparkMaxLowLevel::ConfigParameter)
         self._hal_data.update({
+            "sim_display": False,
+
             "motorType": MotorType.kBrushless,
             "sensorType": SensorType.kHallSensor,
             "ctrlType": ControlType.kDutyCycle,
