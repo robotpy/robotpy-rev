@@ -259,7 +259,7 @@ CANSparkMaxLowLevel:
     def setParameter(
         self,
         parameterID: ConfigParameter,
-        value: typing.Union[float, int]
+        value: typing.Union[float, bool, int]
     ) -> ParameterStatus:
         """
         .. note:: This function works on a real robot, but has not yet
