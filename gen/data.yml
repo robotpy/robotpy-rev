@@ -50,7 +50,7 @@ CANEncoder:
       invert: true
     SetPosition:
       code: |
-        retval = self._device.setEncPosition(position)
+        retval = self._device.setEncPosition(float(position))
     SetPositionConversionFactor:
       set: positionConversionFactor
     SetVelocityConversionFactor:
@@ -144,7 +144,7 @@ CANPIDController:
       hook: pid_get
     SetIAccum:
       code: |
-        retval = self._device.setIAccum(iAccum)
+        retval = self._device.setIAccum(float(iAccum))
     GetIAccum:
       get: i_accum
       invert: true
