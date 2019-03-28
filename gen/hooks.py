@@ -188,6 +188,8 @@ def public_method_hook(fn, data):
             chk = _gen_check(p["name"], p["x_type"])
             if chk:
                 x_param_checks.append("assert %s" % chk)
+                if p["x_pyann_type"] == "float":
+                    x_param_checks.append("{0} = float({0})".format(p["name"]))
             x_in_params.append(p)
 
         if p["constant"]:
@@ -330,7 +332,7 @@ def pid_set(fn, data):
     param_name = param_name[0].lower() + param_name[1:]
     data["code"] = (
         "assert 0 <= slotID <= 3\n"
-        'self._hal_data["{}_%d" % slotID] = float({})'.format(
+        'self._hal_data["{}_%d" % slotID] = {}'.format(
             param_name, fn["parameters"][0]["name"]
         )
     )
