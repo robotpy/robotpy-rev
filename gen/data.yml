@@ -90,8 +90,8 @@ CANPIDController:
       code: |
         if self._inverted:
             min, max = -max, -min
-        self._hal_data["outputMin_%d" % slotID] = float(min)
-        self._hal_data["outputMax_%d" % slotID] = float(max)
+        self._hal_data["outputMin_%d" % slotID] = min
+        self._hal_data["outputMax_%d" % slotID] = max
     GetP:
       hook: pid_get
     GetI:
@@ -284,10 +284,10 @@ CANSparkMaxLowLevel:
         if self._inverted:
             value = -value
             arbFeedforward = -arbFeedforward
-        self._hal_data["value"] = float(value)  # TODO
+        self._hal_data["value"] = value  # TODO
         self._hal_data["ctrlType"] = ctrl
         self._hal_data["pid_slot"] = pidSlot
-        self._hal_data["arb_ff"] = float(arbFeedforward)
+        self._hal_data["arb_ff"] = arbFeedforward
 
 
 CANSparkMax:
@@ -381,7 +381,7 @@ CANSparkMax:
         self._hal_data["smartCurrentConfig"] = limitRPM
     SetSecondaryCurrentLimit:
       code: |
-        self._hal_data["currentChop"] = float(limit)
+        self._hal_data["currentChop"] = limit
         self._hal_data["currentChopCycles"] = limitCycles
       doc: |
         Sets the secondary current limit in Amps.
