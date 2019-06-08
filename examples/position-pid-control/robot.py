@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # ----------------------------------------------------------------------------
 # Copyright (c) 2017-2018 FIRST. All Rights Reserved.
 # Open Source Software - may be modified and shared by FRC teams. The code
@@ -24,7 +23,11 @@ class Robot(wpilib.TimedRobot):
         self.encoder = self.motor.getEncoder()
 
         # PID Coefficents and Controller Output Range
-        self.coeff = {"p": 0.1, "i": 1e-4, "d": 0, "iz": 0, "ff": 0}
+        self.kP = 0.1
+        self.kI = 1e-4
+        self.kD = 0
+        self.kIz = 0
+        self.kFF = 0
         self.kMinOutput = -1
         self.kMaxOutput = 1
 
@@ -32,22 +35,22 @@ class Robot(wpilib.TimedRobot):
         # configuration parameters in the SPARK MAX to their factory default
         # state. If no argument is passed, these parameters will not persist
         # between power cycles
-        self.motor.restoreFactoryDefaults()
+        # self.motor.restoreFactoryDefaults()
 
-        # Set PID Coefficents
-        self.pidController.setP(self.coeff["p"])
-        self.pidController.setI(self.coeff["i"])
-        self.pidController.setD(self.coeff["d"])
-        self.pidController.setIZone(self.coeff["iz"])
-        self.pidController.setFF(self.coeff["ff"])
+        # Set PID Constants
+        self.pidController.setP(self.kP)
+        self.pidController.setI(self.kI)
+        self.pidController.setD(self.kD)
+        self.pidController.setIZone(self.kIz)
+        self.pidController.setFF(self.kFF)
         self.pidController.setOutputRange(self.kMinOutput, self.kMaxOutput)
 
         # Push PID Coefficients to SmartDashboard
-        wpilib.SmartDashboard.putNumber("P Gain", self.coeff["p"])
-        wpilib.SmartDashboard.putNumber("I Gain", self.coeff["i"])
-        wpilib.SmartDashboard.putNumber("D Gain", self.coeff["d"])
-        wpilib.SmartDashboard.putNumber("I Zone", self.coeff["iz"])
-        wpilib.SmartDashboard.putNumber("Feed Forward", self.coeff["ff"])
+        wpilib.SmartDashboard.putNumber("P Gain", self.kP)
+        wpilib.SmartDashboard.putNumber("I Gain", self.kI)
+        wpilib.SmartDashboard.putNumber("D Gain", self.kD)
+        wpilib.SmartDashboard.putNumber("I Zone", self.kIz)
+        wpilib.SmartDashboard.putNumber("Feed Forward", self.kFF)
         wpilib.SmartDashboard.putNumber("Min Output", self.kMinOutput)
         wpilib.SmartDashboard.putNumber("Max Output", self.kMaxOutput)
         wpilib.SmartDashboard.putNumber("Set Rotations", 0)
@@ -64,24 +67,25 @@ class Robot(wpilib.TimedRobot):
         rotations = wpilib.SmartDashboard.getNumber("Set Rotations", 0)
 
         # Update PIDController datapoints with the latest from SmartDashboard
-        if p is not self.coeff["p"]:
+        if p != self.kP:
             self.pidController.setP(p)
-            self.coeff["p"] = p
-        if i is not self.coeff["i"]:
-            self.pidController.setI(pi)
-            self.coeff["i"] = i
-        if d is not self.coeff["d"]:
+            self.kP = p
+        if i != self.kI:
+            self.pidController.setI(i)
+            self.kI = i
+        if d != self.kD:
             self.pidController.setD(d)
-            self.coeff["d"] = d
-        if iz is not self.coeff["iz"]:
+            self.kD = d
+        if iz != self.kIz:
             self.pidController.setIZone(iz)
-            self.coeff["iz"] = iz
-        if ff is not self.coeff["ff"]:
+            self.kIz = iz
+        if ff != self.kFF:
             self.pidController.setFF(ff)
-            self.coeff["ff"] = ff
-        if (min_out is not self.kMinOutput) or (max_out is not self.kMaxOutput):
+            self.kFF = ff
+        if (min_out != self.kMinOutput) or (max_out != self.kMaxOutput):
             self.pidController.setOutputRange(min_out, max_out)
-            self.kMinOutput = min_out, self.kMaxOutput = max_out
+            self.kMinOutput = min_out
+            self.kMaxOutput = max_out
 
         # PIDController objects are commanded to a set point using the
         # setReference() method.
