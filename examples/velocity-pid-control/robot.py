@@ -31,7 +31,7 @@ class Robot(wpilib.TimedRobot):
         self.kIz = 0
         self.kFF = 0
         self.kMinOutput = -1
-        self.kMaxOutput = 1      
+        self.kMaxOutput = 1
 
         # Motor max RPM
         self.maxRPM = 5700
