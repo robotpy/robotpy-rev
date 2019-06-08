@@ -26,13 +26,7 @@ class Robot(wpilib.TimedRobot):
         self.joystick = wpilib.Joystick(0)
 
         # PID Coefficents and Controller Output Range
-        self.coeff = {
-            'p': 0.1,
-            'i': 1e-4,
-            'd': 0,
-            'iz': 0,
-            'ff': 0
-        }
+        self.coeff = {"p": 0.1, "i": 1e-4, "d": 0, "iz": 0, "ff": 0}
         self.kMinOutput = -1
         self.kMaxOutput = 1
 
@@ -46,19 +40,19 @@ class Robot(wpilib.TimedRobot):
         self.motor.restoreFactoryDefaults()
 
         # Set PID Coefficents
-        self.pidController.setP(self.coeff['p'])
-        self.pidController.setI(self.coeff['i'])
-        self.pidController.setD(self.coeff['d'])
-        self.pidController.setIZone(self.coeff['iz'])
-        self.pidController.setFF(self.coeff['ff'])
+        self.pidController.setP(self.coeff["p"])
+        self.pidController.setI(self.coeff["i"])
+        self.pidController.setD(self.coeff["d"])
+        self.pidController.setIZone(self.coeff["iz"])
+        self.pidController.setFF(self.coeff["ff"])
         self.pidController.setOutputRange(self.kMinOutput, self.kMaxOutput)
 
         # Push PID Coefficients to SmartDashboard
-        wpilib.SmartDashboard.putNumber("P Gain", self.coeff['p'])
-        wpilib.SmartDashboard.putNumber("I Gain", self.coeff['i'])
-        wpilib.SmartDashboard.putNumber("D Gain", self.coeff['d'])
-        wpilib.SmartDashboard.putNumber("I Zone", self.coeff['iz'])
-        wpilib.SmartDashboard.putNumber("Feed Forward", self.coeff['ff'])
+        wpilib.SmartDashboard.putNumber("P Gain", self.coeff["p"])
+        wpilib.SmartDashboard.putNumber("I Gain", self.coeff["i"])
+        wpilib.SmartDashboard.putNumber("D Gain", self.coeff["d"])
+        wpilib.SmartDashboard.putNumber("I Zone", self.coeff["iz"])
+        wpilib.SmartDashboard.putNumber("Feed Forward", self.coeff["ff"])
         wpilib.SmartDashboard.putNumber("Min Output", self.kMinOutput)
         wpilib.SmartDashboard.putNumber("Max Output", self.kMaxOutput)
 
@@ -73,23 +67,22 @@ class Robot(wpilib.TimedRobot):
         max_out = wpilib.SmartDashboard.getNumber("Max Output", 0)
 
         # Update PIDController datapoints with the latest from SmartDashboard
-        if(p is not self.coeff['p']):
+        if p is not self.coeff["p"]:
             self.pidController.setP(p)
-            self.coeff['p'] = p
-        if(i is not self.coeff['i']):
+            self.coeff["p"] = p
+        if i is not self.coeff["i"]:
             self.pidController.setI(pi)
-            self.coeff['i'] = i
-        if(d is not self.coeff['d']):
+            self.coeff["i"] = i
+        if d is not self.coeff["d"]:
             self.pidController.setD(d)
-            self.coeff['d'] = d
-        if(iz is not self.coeff['iz']):
+            self.coeff["d"] = d
+        if iz is not self.coeff["iz"]:
             self.pidController.setIZone(iz)
-            self.coeff['iz'] = iz
-        if(ff is not self.coeff['ff']):
+            self.coeff["iz"] = iz
+        if ff is not self.coeff["ff"]:
             self.pidController.setFF(ff)
-            self.coeff['ff'] = ff
-        if((min_out is not self.kMinOutput) or
-           (max_out is not self.kMaxOutput)):
+            self.coeff["ff"] = ff
+        if (min_out is not self.kMinOutput) or (max_out is not self.kMaxOutput):
             self.pidController.setOutputRange(min_out, max_out)
             self.kMinOutput = min_out, self.kMaxOutput = max_out
 
@@ -114,8 +107,7 @@ class Robot(wpilib.TimedRobot):
 
         # Push Setpoint and the motor's current position to SmartDashboard.
         wpilib.SmartDashboard.putNumber("Setpoint", rotations)
-        wpilib.SmartDashboard.putNumber("Process Variable",
-                                        self.encoder.getPosition())
+        wpilib.SmartDashboard.putNumber("Process Variable", self.encoder.getPosition())
 
 
 if __name__ == "__main__":

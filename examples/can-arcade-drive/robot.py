@@ -14,11 +14,11 @@ from wpilib.drive import DifferentialDrive
 class Robot(wpilib.TimedRobot):
     # SPARK MAX controllers are intialized over CAN by constructing a
     # CANSparkMax object
-    #  
+    #
     # The CAN ID, which can be configured using the SPARK MAX Client, is passed
     # as the first parameter
     #
-    # The motor type is passed as the second parameter. 
+    # The motor type is passed as the second parameter.
     # Motor type can either be:
     #   rev.MotorType.kBrushless
     #   rev.MotorType.kBrushed
@@ -35,8 +35,7 @@ class Robot(wpilib.TimedRobot):
 
         # Passing in the lead motors into DifferentialDrive allows any
         # commmands sent to the lead motors to be sent to the follower motors.
-        self.driveTrain = DifferentialDrive(self.leftLeadMotor, 
-                                            self.rightLeadMotor)
+        self.driveTrain = DifferentialDrive(self.leftLeadMotor, self.rightLeadMotor)
         self.joystick = wpilib.Joystick(0)
 
         # The RestoreFactoryDefaults method can be used to reset the
@@ -60,8 +59,7 @@ class Robot(wpilib.TimedRobot):
 
     def teleopPeriodic(self):
         # Drive with arcade style
-        self.driveTrain.arcadeDrive(-self.joystick.getY(),
-                                    self.joystick.getX())
+        self.driveTrain.arcadeDrive(-self.joystick.getY(), self.joystick.getX())
 
 
 if __name__ == "__main__":

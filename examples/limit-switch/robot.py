@@ -26,19 +26,21 @@ class Robot(wpilib.TimedRobot):
         # rev.CANDigitalInput.LimitSwitchPolarity.kNormallyOpen
         # rev.CANDigitalInput.LimitSwitchPolarity.kNormallyClosed
         self.forwardLimit = self.motor.getForwardLimitSwitch(
-                                rev.LimitSwitchPolarity.kNormallyClosed)
+            rev.LimitSwitchPolarity.kNormallyClosed
+        )
         self.reverseLimit = self.motor.getReverseLimitSwitch(
-                                rev.LimitSwitchPolarity.kNormallyClosed)
+            rev.LimitSwitchPolarity.kNormallyClosed
+        )
 
         self.forwardLimit.enableLimitSwitch(False)
         self.reverseLimit.enableLimitSwitch(False)
 
-        wpilib.SmartDashboard.putBoolean("Forward Limit Enabled",
-                                         self.forwardLimit.
-                                         isLimitSwitchEnabled())
-        wpilib.SmartDashboard.putBoolean("Reverse Limit Enabled",
-                                         self.forwardLimit.
-                                         isLimitSwitchEnabled())
+        wpilib.SmartDashboard.putBoolean(
+            "Forward Limit Enabled", self.forwardLimit.isLimitSwitchEnabled()
+        )
+        wpilib.SmartDashboard.putBoolean(
+            "Reverse Limit Enabled", self.forwardLimit.isLimitSwitchEnabled()
+        )
 
     def teleopPeriodic(self):
         # Pair motor and the joystick's Y Axis
@@ -59,10 +61,12 @@ class Robot(wpilib.TimedRobot):
         # closed. In this case, get() will return true if the switch is
         # pressed. It will also return true if you do not have a switch
         # connected. get() will return false when the switch is released.
-        wpilib.SmartDashboard.putBoolean("Forward Limit Enabled",
-                                         self.forwardLimit.get())
-        wpilib.SmartDashboard.putBoolean("Reverse Limit Enabled",
-                                         self.reverseLimit.get())
+        wpilib.SmartDashboard.putBoolean(
+            "Forward Limit Enabled", self.forwardLimit.get()
+        )
+        wpilib.SmartDashboard.putBoolean(
+            "Reverse Limit Enabled", self.reverseLimit.get()
+        )
 
 
 if __name__ == "__main__":

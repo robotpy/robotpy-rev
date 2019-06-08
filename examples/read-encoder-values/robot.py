@@ -26,7 +26,7 @@ class Robot(wpilib.TimedRobot):
         self.motor = rev.CANSparkMax(0, rev.MotorType.kBrushless)
 
         self.encoder = self.motor.getEncoder()
-    
+
         self.joystick = wpilib.Joystick(0)
 
     def teleopPeriodic(self):
@@ -35,19 +35,17 @@ class Robot(wpilib.TimedRobot):
 
         # Encoder position is read from a CANEncoder object by calling the
         # getPosition() method.
-        # 
+        #
         # getPosition() returns the position of the encoder in units of
         # revolutions (unless overridden)
-        wpilib.SmartDashboard.putNumber("Encoder Position",
-                                        self.encoder.getPosition())
+        wpilib.SmartDashboard.putNumber("Encoder Position", self.encoder.getPosition())
 
         # Encoder velocity is read from a CANEncoder object by calling the
         # getVelocity() method.
         #
         # getVelocity() returns the position of the encoder in units of
         # revolutions (unless overridden)
-        wpilib.SmartDashboard.putNumber("Encoder Velocity",
-                                        self.encoder.getVelocity())
+        wpilib.SmartDashboard.putNumber("Encoder Velocity", self.encoder.getVelocity())
 
 
 if __name__ == "__main__":

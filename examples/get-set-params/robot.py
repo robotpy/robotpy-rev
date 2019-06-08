@@ -31,23 +31,22 @@ class Robot(wpilib.TimedRobot):
         #   CANError.kOk
         #   CANError.kError
         #   CANError.kTimeout
-        if(self.motor.setIdleMode(rev.IdleMode.kCoast) != rev.CANError.kOK):
+        if self.motor.setIdleMode(rev.IdleMode.kCoast) != rev.CANError.kOK:
             wpilib.SmartDashboard.putString("Idle Mode", "Error")
 
         # Similarly, parameters will have a get() method which allows you to
         # retrieve their values from the controller
-        if(self.motor.getIdleMode() == rev.IdleMode.kCoast):
+        if self.motor.getIdleMode() == rev.IdleMode.kCoast:
             wpilib.SmartDashboard.putString("Idle Mode", "Coast")
         else:
             wpilib.SmartDashboard.putString("Idle Mode", "Brake")
 
         # Set ramp rate to 0
-        if(self.motor.setOpenLoopRampRate(0) != rev.CANError.kOK):
+        if self.motor.setOpenLoopRampRate(0) != rev.CANError.kOK:
             wpilib.SmartDashboard.putString("Ramp Rate", "Error")
-        
+
         # Read back ramp value
-        wpilib.SmartDashboard.putString("Ramp Rate",
-                                        self.motor.getOpenLoopRampRate())
+        wpilib.SmartDashboard.putString("Ramp Rate", self.motor.getOpenLoopRampRate())
 
     def teleopPeriodic(self):
         # Pair motor and the joystick's Y Axis
@@ -55,10 +54,8 @@ class Robot(wpilib.TimedRobot):
 
         # Put Voltage, Temperature, and Motor Output onto SmartDashboard
         wpilib.SmartDashboard.putNumber("Voltage", self.motor.getBusVoltage())
-        wpilib.SmartDashboard.putNumber("Temperature",
-                                        self.motor.getMotorTemperature())
-        wpilib.SmartDashboard.putNumber("Output",
-                                        self.motor.getAppliedOutput())
+        wpilib.SmartDashboard.putNumber("Temperature", self.motor.getMotorTemperature())
+        wpilib.SmartDashboard.putNumber("Output", self.motor.getAppliedOutput())
 
 
 if __name__ == "__main__":
