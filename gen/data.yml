@@ -179,6 +179,10 @@ CANSparkMaxLowLevel:
     SetPeriodicFramePeriod:
       code: |
         self._hal_data["frame_period"][frame] = periodMs
+    SetControlFramePeriod:
+      set: ctrl_frame_period
+    GetControlFramePeriod:
+      get: ctrl_frame_period
     # TODO GetParameterType
     SetParameter:
       overload: true
@@ -203,8 +207,6 @@ CANSparkMaxLowLevel:
       code: |
         # config parameters in camel case (see CANSparkMaxLowLevel::ConfigParameter)
         self._hal_data.update({
-            "sim_display": False,
-
             "motorType": MotorType.kBrushless,
             "sensorType": SensorType.kHallSensor,
             "ctrlType": ControlType.kDutyCycle,
@@ -245,7 +247,6 @@ CANSparkMaxLowLevel:
                 "outputMin_%d" % i: -1.0,
                 "outputMax_%d" % i: 1.0,
 
-                # TODO get defaults for Smart Motion
                 "smartMotionMaxVelocity_%d" % i: 0.0,
                 "smartMotionMaxAccel_%d" % i: 0.0,
                 "smartMotionMinVelOutput_%d" % i: 0.0,
@@ -307,6 +308,8 @@ CANSparkMax:
         self._faults = NotifyDict({})  # type: typing.Dict[FaultID, bool]
         self._hal_data = NotifyDict({
             "type": "sparkmax",  # make the robotpy-ctre sim ui happy
+            "sim_display": False,
+
             "can_timeout": 20,
             "frame_period": NotifyDict({
                 PeriodicFrame.kStatus0: 10,
@@ -322,6 +325,7 @@ CANSparkMax:
             "bus_voltage": 12.0,
             "output_current": 0.1,
             "motor_temp": 25.0,  # ~room temperature
+            "ctrl_frame_period": 10,
             # config parameters in restoreFactoryDefaults
         })
         self.restoreFactoryDefaults()
