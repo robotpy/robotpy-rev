@@ -203,8 +203,6 @@ CANSparkMaxLowLevel:
       code: |
         # config parameters in camel case (see CANSparkMaxLowLevel::ConfigParameter)
         self._hal_data.update({
-            "sim_display": False,
-
             "motorType": MotorType.kBrushless,
             "sensorType": SensorType.kHallSensor,
             "ctrlType": ControlType.kDutyCycle,
@@ -307,6 +305,8 @@ CANSparkMax:
         self._faults = NotifyDict({})  # type: typing.Dict[FaultID, bool]
         self._hal_data = NotifyDict({
             "type": "sparkmax",  # make the robotpy-ctre sim ui happy
+            "sim_display": False,
+
             "can_timeout": 20,
             "frame_period": NotifyDict({
                 PeriodicFrame.kStatus0: 10,
