@@ -179,6 +179,10 @@ CANSparkMaxLowLevel:
     SetPeriodicFramePeriod:
       code: |
         self._hal_data["frame_period"][frame] = periodMs
+    SetControlFramePeriod:
+      set: ctrl_frame_period
+    GetControlFramePeriod:
+      get: ctrl_frame_period
     # TODO GetParameterType
     SetParameter:
       overload: true
@@ -322,6 +326,7 @@ CANSparkMax:
             "bus_voltage": 12.0,
             "output_current": 0.1,
             "motor_temp": 25.0,  # ~room temperature
+            "ctrl_frame_period": 10,
             # config parameters in restoreFactoryDefaults
         })
         self.restoreFactoryDefaults()
