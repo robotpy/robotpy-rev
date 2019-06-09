@@ -90,7 +90,7 @@ class Robot(wpilib.TimedRobot):
             self.kMinOutput = min_out
             self.kMaxOutput = max_out
 
-        self.setpoint = self.maxRPM * self.joystick.getY()
+        setpoint = self.maxRPM * self.joystick.getY()
 
         # PIDController objects are commanded to a set point using the
         # setReference() method.
@@ -107,11 +107,11 @@ class Robot(wpilib.TimedRobot):
         #
         # For more information on what these types are, refer to the Spark Max
         # documentation.
-        self.pidController.setReference(self.setpoint, rev.ControlType.kVelocity)
+        self.pidController.setReference(setpoint, rev.ControlType.kVelocity)
 
-        # Push Setpoint and the motor's current position to SmartDashboard.
-        wpilib.SmartDashboard.putNumber("Setpoint", self.setpoint)
-        wpilib.SmartDashboard.putNumber("Process Variable", self.encoder.getPosition())
+        # Push Setpoint and the motor's current velocity to SmartDashboard.
+        wpilib.SmartDashboard.putNumber("Setpoint", setpoint)
+        wpilib.SmartDashboard.putNumber("Process Variable", self.encoder.getVelocity())
 
 
 if __name__ == "__main__":
