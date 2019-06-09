@@ -35,7 +35,7 @@ class Robot(wpilib.TimedRobot):
         # configuration parameters in the SPARK MAX to their factory default
         # state. If no argument is passed, these parameters will not persist
         # between power cycles
-        # self.motor.restoreFactoryDefaults()
+        self.motor.restoreFactoryDefaults()
 
         # Set PID Constants
         self.pidController.setP(self.kP)
