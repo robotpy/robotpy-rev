@@ -247,7 +247,6 @@ CANSparkMaxLowLevel:
                 "outputMin_%d" % i: -1.0,
                 "outputMax_%d" % i: 1.0,
 
-                # TODO get defaults for Smart Motion
                 "smartMotionMaxVelocity_%d" % i: 0.0,
                 "smartMotionMaxAccel_%d" % i: 0.0,
                 "smartMotionMinVelOutput_%d" % i: 0.0,
