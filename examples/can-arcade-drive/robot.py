@@ -11,26 +11,24 @@ from wpilib.drive import DifferentialDrive
 
 
 class Robot(wpilib.TimedRobot):
-    # SPARK MAX controllers are intialized over CAN by constructing a
-    # CANSparkMax object
-    #
-    # The CAN ID, which can be configured using the SPARK MAX Client, is passed
-    # as the first parameter
-    #
-    # The motor type is passed as the second parameter.
-    # Motor type can either be:
-    #   rev.MotorType.kBrushless
-    #   rev.MotorType.kBrushed
-    #
-    # The example below initializes four brushless motors with CAN IDs
-    # 1, 2, 3 and 4. Change these parameters to match your setup
-
     def robotInit(self):
-        # Create motors
+        # SPARK MAX controllers are intialized over CAN by constructing a
+        # CANSparkMax object
+        #
+        # The CAN ID, which can be configured using the SPARK MAX Client, is passed
+        # as the first parameter
+        #
+        # The motor type is passed as the second parameter.
+        # Motor type can either be:
+        #   rev.MotorType.kBrushless
+        #   rev.MotorType.kBrushed
+        #
+        # The example below initializes four brushless motors with CAN IDs
+        # 1, 2, 3, 4. Change these parameters to match your setup
         self.leftLeadMotor = rev.CANSparkMax(1, rev.MotorType.kBrushless)
-        self.rightLeadMotor = rev.CANSparkMax(0, rev.MotorType.kBrushless)
+        self.rightLeadMotor = rev.CANSparkMax(3, rev.MotorType.kBrushless)
         self.leftFollowMotor = rev.CANSparkMax(2, rev.MotorType.kBrushless)
-        self.rightFollowMotor = rev.CANSparkMax(3, rev.MotorType.kBrushless)
+        self.rightFollowMotor = rev.CANSparkMax(4, rev.MotorType.kBrushless)
 
         # Passing in the lead motors into DifferentialDrive allows any
         # commmands sent to the lead motors to be sent to the follower motors.

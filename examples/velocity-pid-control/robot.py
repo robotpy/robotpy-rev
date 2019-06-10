@@ -13,7 +13,7 @@ from wpilib.drive import DifferentialDrive
 class Robot(wpilib.TimedRobot):
     def robotInit(self):
         # Create motors
-        self.motor = rev.CANSparkMax(0, rev.MotorType.kBrushless)
+        self.motor = rev.CANSparkMax(1, rev.MotorType.kBrushless)
 
         # You must call getPIDController() on an existing CANSparkMax or
         # SparkMax object to fully use PID functionality
