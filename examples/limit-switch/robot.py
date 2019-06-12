@@ -65,10 +65,10 @@ class Robot(wpilib.TimedRobot):
         # pressed. It will also return true if you do not have a switch
         # connected. get() will return false when the switch is released.
         wpilib.SmartDashboard.putBoolean(
-            "Forward Limit Enabled", self.forwardLimit.get()
+            "Forward Limit Switch", self.forwardLimit.get()
         )
         wpilib.SmartDashboard.putBoolean(
-            "Reverse Limit Enabled", self.reverseLimit.get()
+            "Reverse Limit Switch", self.reverseLimit.get()
         )
 
 

@@ -109,8 +109,8 @@ class Robot(wpilib.TimedRobot):
         self.pidController.setReference(rotations, rev.ControlType.kPosition)
 
         # Push Setpoint and the motor's current position to SmartDashboard.
-        wpilib.SmartDashboard.putNumber("Setpoint", rotations)
-        wpilib.SmartDashboard.putNumber("Process Variable", self.encoder.getPosition())
+        wpilib.SmartDashboard.putNumber("SetPoint", rotations)
+        wpilib.SmartDashboard.putNumber("ProcessVariable", self.encoder.getPosition())
 
 
 if __name__ == "__main__":

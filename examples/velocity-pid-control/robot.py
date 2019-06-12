@@ -40,7 +40,7 @@ class Robot(wpilib.TimedRobot):
         # configuration parameters in the SPARK MAX to their factory default
         # state. If no argument is passed, these parameters will not persist
         # between power cycles
-        self.motor.restoreFactoryDefaults()
+        # self.motor.restoreFactoryDefaults()
 
         # Set PID Constants
         self.pidController.setP(self.kP)
@@ -110,8 +110,8 @@ class Robot(wpilib.TimedRobot):
         self.pidController.setReference(setpoint, rev.ControlType.kVelocity)
 
         # Push Setpoint and the motor's current velocity to SmartDashboard.
-        wpilib.SmartDashboard.putNumber("Setpoint", setpoint)
-        wpilib.SmartDashboard.putNumber("Process Variable", self.encoder.getVelocity())
+        wpilib.SmartDashboard.putNumber("SetPoint", setpoint)
+        wpilib.SmartDashboard.putNumber("ProcessVariable", self.encoder.getVelocity())
 
 
 if __name__ == "__main__":
