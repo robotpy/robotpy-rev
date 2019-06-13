@@ -8,6 +8,7 @@
 import rev
 import wpilib
 
+
 class Robot(wpilib.TimedRobot):
     def robotInit(self):
         # Create motors
