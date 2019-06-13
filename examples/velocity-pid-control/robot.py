@@ -7,8 +7,6 @@
 
 import rev
 import wpilib
-from wpilib.drive import DifferentialDrive
-
 
 class Robot(wpilib.TimedRobot):
     def robotInit(self):

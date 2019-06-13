@@ -7,7 +7,6 @@
 
 import rev
 import wpilib
-from wpilib.drive import DifferentialDrive
 
 # Before Running:
 # Open Shuffleboard, select File->Load Layout and select the
