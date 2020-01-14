@@ -20,7 +20,7 @@ libs = ["SparkMax"]
 [tool.robotpy-build.wrappers."rev"]
 name = "rev"
 
-depends = ["wpilib", "wpiutil"]
+depends = ["wpilib_core", "wpiutil"]
 
 generate = [
     { CANAnalog = "rev/CANAnalog.h" },
