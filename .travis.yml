@@ -9,8 +9,8 @@ install:
   - pip install robotpy-build>=2020.0.11
   - pip install pytest coverage header2whatever sphinxify pytest-cov
 
-script:
-  - RUNCOVERAGE=1 tests/run_tests.sh
+# script:
+#   - RUNCOVERAGE=1 tests/run_tests.sh
 
 jobs:
   include:
