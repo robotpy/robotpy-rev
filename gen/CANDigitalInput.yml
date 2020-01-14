@@ -1,0 +1,13 @@
+---
+
+classes:
+  CANDigitalInput:
+    shared_ptr: true
+    enums:
+      LimitSwitch:
+      LimitSwitchPolarity:
+    methods:
+      CANDigitalInput:
+      Get:
+      EnableLimitSwitch:
+      IsLimitSwitchEnabled:

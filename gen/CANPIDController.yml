@@ -1,0 +1,41 @@
+---
+
+classes:
+  CANPIDController:
+    shared_ptr: true
+    enums:
+      AccelStrategy:
+      ArbFFUnits:
+    methods:
+      CANPIDController:
+      SetReference:
+      SetP:
+      SetI:
+      SetD:
+      SetDFilter:
+      SetFF:
+      SetIZone:
+      SetOutputRange:
+      GetP:
+      GetI:
+      GetD:
+      GetDFilter:
+      GetFF:
+      GetIZone:
+      GetOutputMin:
+      GetOutputMax:
+      SetSmartMotionMaxVelocity:
+      SetSmartMotionMaxAccel:
+      SetSmartMotionMinOutputVelocity:
+      SetSmartMotionAllowedClosedLoopError:
+      SetSmartMotionAccelStrategy:
+      GetSmartMotionMaxVelocity:
+      GetSmartMotionMaxAccel:
+      GetSmartMotionMinOutputVelocity:
+      GetSmartMotionAllowedClosedLoopError:
+      GetSmartMotionAccelStrategy:
+      SetIMaxAccum:
+      GetIMaxAccum:
+      SetIAccum:
+      GetIAccum:
+      SetFeedbackDevice:

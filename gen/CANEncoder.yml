@@ -1,0 +1,30 @@
+---
+
+classes:
+  CANEncoder:
+    shared_ptr: true
+    enums:
+      EncoderType:
+      AlternateEncoderType:
+    methods:
+      CANEncoder:
+        overloads:
+          rev::CANSparkMax&, rev::CANEncoder::EncoderType, int:
+          rev::CANSparkMax&, rev::CANEncoder::AlternateEncoderType, int:
+      GetPosition:
+      GetVelocity:
+      SetPosition:
+      SetPositionConversionFactor:
+      SetVelocityConversionFactor:
+      GetPositionConversionFactor:
+      GetVelocityConversionFactor:
+      SetAverageDepth:
+      SetMeasurementPeriod:
+      GetAverageDepth:
+      GetMeasurementPeriod:
+      GetCPR:
+      GetCountsPerRevolution:
+      SetInverted:
+      GetInverted:
+      GetLastError:
+      GetID:

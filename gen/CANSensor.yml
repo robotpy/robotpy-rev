@@ -1,0 +1,12 @@
+---
+
+classes:
+  CANSensor:
+    shared_ptr: true
+    attributes:
+      m_device:
+    methods:
+      CANSensor:
+      SetInverted:
+      GetInverted:
+      GetID:

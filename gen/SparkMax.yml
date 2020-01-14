@@ -1,0 +1,7 @@
+---
+
+classes:
+  SparkMax:
+    shared_ptr: true
+    methods:
+      SparkMax:
