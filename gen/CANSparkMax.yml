@@ -8,6 +8,8 @@ classes:
       InputMode:
       SoftLimitDirection:
       FaultID:
+    ignored_bases:
+    - CANSparkMaxLowLevel
     methods:
       CANSparkMax:
       Set:

@@ -24,3 +24,5 @@ rev/pkgcfg.py
 
 *.dylib
 *.dll
+
+rev/rpy-include
