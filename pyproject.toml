@@ -23,15 +23,15 @@ name = "rev"
 depends = ["wpilib_core", "wpiutil"]
 
 generate = [
-    # { CANSparkMaxLowLevel = "rev/CANSparkMaxLowLevel.h" },
-    { CANSparkMax = "rev/CANSparkMax.h" },
     { CANAnalog = "rev/CANAnalog.h" },
-    { CANDeviceScanner = "rev/CANDeviceScanner.h" },
+    #{ CANDeviceScanner = "rev/CANDeviceScanner.h" },
     { CANDigitalInput = "rev/CANDigitalInput.h" },
     { CANEncoder = "rev/CANEncoder.h" },
     { CANError = "rev/CANError.h" },
     { CANPIDController = "rev/CANPIDController.h" },
     { CANSensor = "rev/CANSensor.h" },
+    { CANSparkMax = "rev/CANSparkMax.h" },
+    #{ CANSparkMaxLowLevel = "rev/CANSparkMaxLowLevel.h" },
     { ControlType = "rev/ControlType.h" },
     { SparkMax = "rev/SparkMax.h" },
 ]

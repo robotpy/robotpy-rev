@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+- rev/CANSparkMax.h
+
 classes:
   CANAnalog:
     shared_ptr: true

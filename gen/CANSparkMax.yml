@@ -12,6 +12,9 @@ classes:
     - CANSparkMaxLowLevel
     methods:
       CANSparkMax:
+        param_override:
+          type:
+            x_type: rev::CANSparkMaxLowLevel::MotorType
       Set:
       SetVoltage:
       Get:

@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+- rev/CANSparkMax.h
+
 classes:
   CANPIDController:
     shared_ptr: true
@@ -9,6 +12,9 @@ classes:
     methods:
       CANPIDController:
       SetReference:
+        param_override:
+          arbFFUnits:
+            default: rev::CANPIDController::ArbFFUnits::kVoltage
       SetP:
       SetI:
       SetD:
