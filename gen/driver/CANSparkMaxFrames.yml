@@ -1,0 +1,142 @@
+---
+
+attributes:
+  CMD_API_SETPNT_SET:
+    ignore: true
+  CMD_API_DC_SET:
+    ignore: true
+  CMD_API_SPD_SET:
+    ignore: true
+  CMD_API_SMART_VEL_SET:
+    ignore: true
+  CMD_API_POS_SET:
+    ignore: true
+  CMD_API_VOLT_SET:
+    ignore: true
+  CMD_API_CURRENT_SET:
+    ignore: true
+  CMD_API_SMARTMOTION_SET:
+    ignore: true
+  CMD_API_STAT0:
+    ignore: true
+  CMD_API_STAT1:
+    ignore: true
+  CMD_API_STAT2:
+    ignore: true
+  CMD_API_STAT3:
+    ignore: true
+  CMD_API_STAT4:
+    ignore: true
+  CMD_API_CLEAR_FAULTS:
+    ignore: true
+  CMD_API_DRV_STAT:
+    ignore: true
+  CMD_API_BURN_FLASH:
+    ignore: true
+  CMD_API_SET_FOLLOWER:
+    ignore: true
+  CMD_API_FACTORY_DEFAULT:
+    ignore: true
+  CMD_API_FACTORY_RESET:
+    ignore: true
+  CMD_API_IDENTIFY:
+    ignore: true
+  CMD_API_NACK:
+    ignore: true
+  CMD_API_ACK:
+    ignore: true
+  CMD_API_BROADCAST:
+    ignore: true
+  CMD_API_HEARTBEAT:
+    ignore: true
+  CMD_API_SYNC:
+    ignore: true
+  CMD_API_ID_QUERY:
+    ignore: true
+  CMD_API_ID_ASSIGN:
+    ignore: true
+  CMD_API_FIRMWARE:
+    ignore: true
+  CMD_API_ENUM:
+    ignore: true
+  CMD_API_LOCK:
+    ignore: true
+  CMD_API_LOCKB:
+    ignore: true
+  CMD_API_NONRIO_HB:
+    ignore: true
+  CMD_API_SWDL_BOOTLOADER:
+    ignore: true
+  CMD_API_SWDL_DATA:
+    ignore: true
+  CMD_API_SWDL_CHKSUM:
+    ignore: true
+  CMD_API_SWDL_RETRANSMIT:
+    ignore: true
+  CMD_API_MECH_POS:
+    ignore: true
+  CMD_API_I_ACCUM:
+    ignore: true
+  CMD_API_ANALOG_POS:
+    ignore: true
+  CMD_API_ALT_ENC_POS:
+    ignore: true
+  CMD_API_PARAM_ACCESS:
+    ignore: true
+  EXT_ID_API_STAT0:
+    ignore: true
+  EXT_ID_API_STAT1:
+    ignore: true
+  EXT_ID_API_STAT2:
+    ignore: true
+  EXT_ID_API_STAT3:
+    ignore: true
+  EXT_ID_API_STAT4:
+    ignore: true
+enums:
+  frc_deviceType_t:
+  frc_manufacturer_t:
+functions:
+  GetFRCDeviceTypeText:
+  GetFRCManufacturerText:
+  GetTelemetryDataName:
+  GetTelemetryDataUnits:
+  GetTelemetryDataUpperBound:
+  GetTelemetryDataLowerBound:
+classes:
+  frc_dataframe_setpoint_out_t:
+    ignore: true
+  frc_dataframe_statusConfig_out_t:
+    ignore: true
+  frc_dataframe_setParam_out_t:
+    ignore: true
+  frc_dataframe_getParam_in_t:
+    ignore: true
+  frc_dataframe_burnFlash_out_t:
+    ignore: true
+  frc_dataframe_follower_out_t:
+    ignore: true
+  frc_dataframe_firmware_in_t:
+    ignore: true
+  frc_dataframe_status0_in_t:
+    ignore: true
+  frc_dataframe_status1_in_t:
+    ignore: true
+  frc_dataframe_status2_in_t:
+    ignore: true
+  frc_dataframe_status3_in_t:
+    ignore: true
+  frc_dataframe_status4_in_t:
+    ignore: true
+  frc_dataframe_userStatus_in_t:
+    ignore: true
+  frc_dataframe_drvStatus_in_t:
+    ignore: true
+  frc_dataframe_t:
+    ignore: true
+  frc_frameIDFields_t:
+    ignore: true
+  frc_frameID_t:
+    ignore: true
+  frc_frame_t:
+    ignore: true

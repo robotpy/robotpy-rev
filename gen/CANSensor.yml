@@ -10,6 +10,7 @@ classes:
       m_device:
     methods:
       CANSensor:
+        ignore: true
       SetInverted:
       GetInverted:
       GetID:

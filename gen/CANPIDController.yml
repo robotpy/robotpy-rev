@@ -11,6 +11,7 @@ classes:
       ArbFFUnits:
     methods:
       CANPIDController:
+        ignore: true
       SetReference:
         param_override:
           arbFFUnits:

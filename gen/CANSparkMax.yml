@@ -8,8 +8,6 @@ classes:
       InputMode:
       SoftLimitDirection:
       FaultID:
-    ignored_bases:
-    - CANSparkMaxLowLevel
     methods:
       CANSparkMax:
         param_override:
@@ -24,11 +22,23 @@ classes:
       StopMotor:
       PIDWrite:
       GetEncoder:
+        keepalive:
+        - [0, 1]
       GetAlternateEncoder:
+        keepalive:
+        - [0, 1]
       GetAnalog:
+        keepalive:
+        - [0, 1]
       GetPIDController:
+        keepalive:
+        - [0, 1]
       GetForwardLimitSwitch:
+        keepalive:
+        - [0, 1]
       GetReverseLimitSwitch:
+        keepalive:
+        - [0, 1]
       SetSmartCurrentLimit:
         overloads:
           unsigned int:

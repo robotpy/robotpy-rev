@@ -5,12 +5,13 @@ extra_includes:
 
 classes:
   CANDigitalInput:
-    shared_ptr: true
+    shared_ptr: false
     enums:
       LimitSwitch:
       LimitSwitchPolarity:
     methods:
       CANDigitalInput:
+        ignore: true
       Get:
       EnableLimitSwitch:
       IsLimitSwitchEnabled:

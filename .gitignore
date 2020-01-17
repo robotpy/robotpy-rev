@@ -10,17 +10,22 @@ __pycache__
 build
 dist
 
-rev/version.py
-rev/_impl/autogen
+/rev/version.py
+/rev/_init_rev.py
+/rev/include
+/rev/lib
+/rev/rpy-include
+/rev/pkgcfg.py
 
+/rev/_sparkmaxdriver/_init_rev_spark_driver.py
+/rev/_sparkmaxdriver/include
+/rev/_sparkmaxdriver/lib
+/rev/_sparkmaxdriver/rpy-include
+/rev/_sparkmaxdriver/pkgcfg.py
 
 docs/_build
 docs/_sidebar.rst.inc
 
-rev/include
-rev/lib
-rev/_init_rev.py
-rev/pkgcfg.py
 
 *.dylib
 *.dll
