@@ -44,7 +44,7 @@ sources = [
     "rev/rev.cpp"
 ]
 
-depends = ["wpilib_core", "wpiutil", "rev_spark_driver"]
+depends = ["wpilibc", "wpilib_core", "wpiutil", "rev_spark_driver"]
 
 generate = [
     { CANSparkMaxLowLevel = "rev/CANSparkMaxLowLevel.h" },
