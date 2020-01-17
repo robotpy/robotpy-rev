@@ -1,0 +1,27 @@
+---
+
+extra_includes:
+- rev/CANSparkMax.h
+
+classes:
+  CANAnalog:
+    shared_ptr: true
+    enums:
+      AnalogMode:
+    methods:
+      CANAnalog:
+        ignore: true
+      GetVoltage:
+      GetPosition:
+      GetVelocity:
+      SetPositionConversionFactor:
+      GetPositionConversionFactor:
+      SetVelocityConversionFactor:
+      GetVelocityConversionFactor:
+      SetAverageDepth:
+      SetMeasurementPeriod:
+      GetAverageDepth:
+      GetMeasurementPeriod:
+      SetInverted:
+      GetInverted:
+      GetID:

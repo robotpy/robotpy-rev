@@ -1,0 +1,87 @@
+---
+
+classes:
+  CANSparkMaxLowLevel:
+    shared_ptr: true
+    attributes:
+      kAPIMajorVersion:
+      kAPIMinorVersion:
+      kAPIBuildVersion:
+      kAPIVersion:
+      m_sparkMax:
+      m_motorType:
+    enums:
+      MotorType:
+      ParameterStatus:
+      PeriodicFrame:
+      TelemetryID:
+    methods:
+      CANSparkMaxLowLevel:
+      GetFirmwareVersion:
+        overloads:
+          "":
+          bool&:
+      GetFirmwareString:
+      GetSerialNumber:
+      GetDeviceId:
+      GetInitialMotorType:
+      SetMotorType:
+      GetMotorType:
+      SetPeriodicFramePeriod:
+      SetControlFramePeriodMs:
+      RestoreFactoryDefaults:
+      EnableExternalUSBControl:
+      SetEnable:
+      SetEncPosition:
+      SetIAccum:
+      GetPeriodicStatus0:
+      GetPeriodicStatus1:
+      GetPeriodicStatus2:
+      SetFollow:
+        ignore: true
+      FollowerInvert:
+        ignore: true
+      SetpointCommand:
+      GetSafeFloat:
+  CANSparkMaxLowLevel::PeriodicStatus0:
+    shared_ptr: true
+    attributes:
+      appliedOutput:
+      faults:
+      stickyFaults:
+      motorType:
+      isFollower:
+      lock:
+      roboRIO:
+      isInverted:
+      timestamp:
+  CANSparkMaxLowLevel::PeriodicStatus1:
+    shared_ptr: true
+    attributes:
+      sensorVelocity:
+      motorTemperature:
+      busVoltage:
+      outputCurrent:
+      timestamp:
+  CANSparkMaxLowLevel::PeriodicStatus2:
+    shared_ptr: true
+    attributes:
+      sensorPosition:
+      iAccum:
+      timestamp:
+  CANSparkMaxLowLevel::TelemetryMessage:
+    shared_ptr: true
+    attributes:
+      id:
+      value:
+      timestamp:
+      name:
+      units:
+      lowerBnd:
+      upperBnd:
+  CANSparkMaxLowLevel::FollowConfig:
+    ignore: true
+  CANSparkMaxLowLevel::FollowConfig::<anon-union-1>:
+    ignore: true
+  CANSparkMaxLowLevel::FollowConfig::<anon-union-1>::<anon-struct-1>:
+    ignore: true

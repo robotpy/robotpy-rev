@@ -1,0 +1,18 @@
+---
+
+classes:
+  CANScanIdentifier:
+    shared_ptr: true
+    attributes:
+      deviceTypeId:
+      manufacturerId:
+      canId:
+      uniqueId:
+  CANBusScanner:
+    shared_ptr: true
+    methods:
+      CANBusScanner:
+      Start:
+      Stop:
+      CANBusScan:
+      RegisterDevice:

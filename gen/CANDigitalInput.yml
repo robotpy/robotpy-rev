@@ -1,0 +1,17 @@
+---
+
+extra_includes:
+- rev/CANSparkMax.h
+
+classes:
+  CANDigitalInput:
+    shared_ptr: false
+    enums:
+      LimitSwitch:
+      LimitSwitchPolarity:
+    methods:
+      CANDigitalInput:
+        ignore: true
+      Get:
+      EnableLimitSwitch:
+      IsLimitSwitchEnabled:

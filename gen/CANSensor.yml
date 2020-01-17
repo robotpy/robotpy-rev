@@ -1,0 +1,16 @@
+---
+
+extra_includes:
+- rev/CANSparkMax.h
+
+classes:
+  CANSensor:
+    shared_ptr: true
+    attributes:
+      m_device:
+    methods:
+      CANSensor:
+        ignore: true
+      SetInverted:
+      GetInverted:
+      GetID:

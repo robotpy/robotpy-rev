@@ -1,0 +1,81 @@
+---
+
+classes:
+  CANSparkMax:
+    shared_ptr: true
+    enums:
+      IdleMode:
+      InputMode:
+      SoftLimitDirection:
+      FaultID:
+    methods:
+      CANSparkMax:
+        param_override:
+          type:
+            x_type: rev::CANSparkMaxLowLevel::MotorType
+      Set:
+      SetVoltage:
+      Get:
+      SetInverted:
+      GetInverted:
+      Disable:
+      StopMotor:
+      PIDWrite:
+      GetEncoder:
+        keepalive:
+        - [0, 1]
+      GetAlternateEncoder:
+        keepalive:
+        - [0, 1]
+      GetAnalog:
+        keepalive:
+        - [0, 1]
+      GetPIDController:
+        keepalive:
+        - [0, 1]
+      GetForwardLimitSwitch:
+        keepalive:
+        - [0, 1]
+      GetReverseLimitSwitch:
+        keepalive:
+        - [0, 1]
+      SetSmartCurrentLimit:
+        overloads:
+          unsigned int:
+          unsigned int, unsigned int, unsigned int:
+      SetSecondaryCurrentLimit:
+      SetIdleMode:
+      GetIdleMode:
+      EnableVoltageCompensation:
+      DisableVoltageCompensation:
+      GetVoltageCompensationNominalVoltage:
+      SetOpenLoopRampRate:
+      SetClosedLoopRampRate:
+      GetOpenLoopRampRate:
+      GetClosedLoopRampRate:
+      Follow:
+        overloads:
+          rev::CANSparkMax&, bool:
+          CANSparkMax::ExternalFollower, int, bool:
+      IsFollower:
+      GetFaults:
+      GetStickyFaults:
+      GetFault:
+      GetStickyFault:
+      GetBusVoltage:
+      GetAppliedOutput:
+      GetOutputCurrent:
+      GetMotorTemperature:
+      ClearFaults:
+      BurnFlash:
+      SetCANTimeout:
+      EnableSoftLimit:
+      IsSoftLimitEnabled:
+      SetSoftLimit:
+      GetSoftLimit:
+      GetLastError:
+  CANSparkMax::ExternalFollower:
+    shared_ptr: true
+    attributes:
+      arbId:
+      configId:

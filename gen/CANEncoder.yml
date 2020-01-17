@@ -1,0 +1,36 @@
+---
+
+extra_includes:
+- rev/CANSparkMax.h
+
+classes:
+  CANEncoder:
+    shared_ptr: true
+    enums:
+      EncoderType:
+      AlternateEncoderType:
+    methods:
+      CANEncoder:
+        overloads:
+          rev::CANSparkMax&, rev::CANEncoder::EncoderType, int:
+            ignore: true
+          rev::CANSparkMax&, rev::CANEncoder::AlternateEncoderType, int:
+            ignore: true
+      GetPosition:
+      GetVelocity:
+      SetPosition:
+      SetPositionConversionFactor:
+      SetVelocityConversionFactor:
+      GetPositionConversionFactor:
+      GetVelocityConversionFactor:
+      SetAverageDepth:
+      SetMeasurementPeriod:
+      GetAverageDepth:
+      GetMeasurementPeriod:
+      GetCPR:
+      GetCountsPerRevolution:
+      SetInverted:
+      GetInverted:
+      GetLastError:
+        ignore: true
+      GetID:
