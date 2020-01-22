@@ -33,4 +33,13 @@ __all__ = [
 
 # backwards compat
 MotorType = CANSparkMaxLowLevel.MotorType
-__all__.append("MotorType")
+IdleMode = CANSparkMax.IdleMode
+LimitSwitch = CANDigitalInput.LimitSwitch
+LimitSwitchPolarity = CANDigitalInput.LimitSwitchPolarity
+
+__all__ += [
+    "MotorType",
+    "IdleMode",
+    "LimitSwitch",
+    "LimitSwitchPolarity",
+]
