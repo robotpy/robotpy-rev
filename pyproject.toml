@@ -1,8 +1,8 @@
 [build-system]
 requires = [
-    "robotpy-build>=2020.0.15,<2021.0.0",
-    "robotpy-wpiutil>=2020.1.2.1,<2021.0.0",
-    "wpilib>=2020.1.2"
+    "robotpy-build>=2020.1.1,<2021.0.0",
+    "robotpy-wpiutil>=2020.2.2.0,<2021.0.0",
+    "wpilib>=2020.2.2.0"
 ]
 
 [tool.robotpy-build]
@@ -36,6 +36,9 @@ repo_url = "http://www.revrobotics.com/content/sw/max/sdk/maven"
 version = "1.5.1"
 
 libs = ["SparkMax"]
+
+sources_classifier = "source"
+use_sources = true
 
 
 [tool.robotpy-build.wrappers."rev"]
@@ -71,6 +74,6 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-rev"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil>=2020.1.2.1,<2021.0.0",
-    "wpilib>=2020.1.2"
+    "robotpy-wpiutil>=2020.2.2.0,<2021.0.0",
+    "wpilib>=2020.2.2.0"
 ]
