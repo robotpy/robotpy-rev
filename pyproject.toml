@@ -37,10 +37,6 @@ version = "1.5.1"
 
 libs = ["SparkMax"]
 
-sources_classifier = "source"
-use_sources = true
-
-
 [tool.robotpy-build.wrappers."rev"]
 name = "rev"
 sources = [
