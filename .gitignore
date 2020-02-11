@@ -23,9 +23,6 @@ dist
 /rev/_sparkmaxdriver/rpy-include
 /rev/_sparkmaxdriver/pkgcfg.py
 
-docs/_build
-docs/_sidebar.rst.inc
-
 
 *.dylib
 *.dll

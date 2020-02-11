@@ -6,9 +6,6 @@ import os
 
 from os.path import abspath, join, dirname
 
-# Insert module path here
-sys.path.insert(0, abspath(dirname(__file__)))
-sys.path.insert(0, abspath(join(dirname(__file__), "..")))
 
 import rev
 
@@ -29,9 +26,10 @@ if rtd_version not in ["stable", "latest"]:
 # ones.
 extensions = [
     "sphinx.ext.autodoc",
-    "sphinx.ext.viewcode",
+    "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
-    "sphinx_autodoc_typehints",
+    "sphinx.ext.viewcode",
+    "robotpy_sphinx.all",
 ]
 
 # The suffix of source filenames.
@@ -42,11 +40,14 @@ master_doc = "index"
 
 # General information about the project.
 project = "RobotPy REV"
-copyright = "2017, RobotPy development team"
+copyright = "2020, RobotPy development team"
 
 intersphinx_mapping = {
-    "robotpy": ("http://robotpy.readthedocs.io/en/%s/" % rtd_version, None),
-    "wpilib": ("http://robotpy-wpilib.readthedocs.io/en/%s/" % rtd_version, None),
+    "robotpy": ("https://robotpy.readthedocs.io/en/%s/" % rtd_version, None),
+    "wpilib": (
+        "https://robotpy.readthedocs.io/projects/wpilib/en/%s/" % rtd_version,
+        None,
+    ),
 }
 
 # The version info for the project you're documenting, acts as replacement for
@@ -118,13 +119,22 @@ texinfo_documents = [
 epub_title = "."
 epub_author = "Author"
 epub_publisher = "Author"
-epub_copyright = "2017, Author"
+epub_copyright = "2020, Author"
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ["search.html"]
 
 # -- Custom Document processing ----------------------------------------------
 
-import gensidebar
+from robotpy_sphinx.regen import gen_package
+from robotpy_sphinx.sidebar import generate_sidebar
 
-gensidebar.generate_sidebar(globals(), "rev")
+generate_sidebar(
+    globals(),
+    "rev",
+    "https://raw.githubusercontent.com/robotpy/docs-sidebar/master/sidebar.toml",
+)
+
+root = abspath(dirname(__file__))
+
+gen_package(root, "rev")
