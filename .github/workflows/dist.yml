@@ -21,14 +21,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-18.04]
+        os: [windows-latest, ubuntu-18.04]
         python_version: [3.6, 3.7, 3.8]
         architecture: [x64]
-        exclude:
-        - os: macos-latest
-          architecture: x86
-        - os: ubuntu-18.04
-          architecture: x86
 
     steps:
     - uses: actions/checkout@v1
@@ -110,10 +105,10 @@ jobs:
         name: dist-py3.6-windows-latest-x64
         path: dist/
     
-    - uses: actions/download-artifact@v1
-      with:
-        name: dist-py3.6-macos-latest-x64
-        path: dist/
+    # - uses: actions/download-artifact@v1
+    #   with:
+    #     name: dist-py3.6-macos-latest-x64
+    #     path: dist/
 
     # - uses: actions/download-artifact@v1
     #   with:
@@ -125,10 +120,10 @@ jobs:
         name: dist-py3.7-windows-latest-x64
         path: dist/
     
-    - uses: actions/download-artifact@v1
-      with:
-        name: dist-py3.7-macos-latest-x64
-        path: dist/
+    # - uses: actions/download-artifact@v1
+    #   with:
+    #     name: dist-py3.7-macos-latest-x64
+    #     path: dist/
     
     # - uses: actions/download-artifact@v1
     #   with:
@@ -140,10 +135,10 @@ jobs:
         name: dist-py3.8-windows-latest-x64
         path: dist/
       
-    - uses: actions/download-artifact@v1
-      with:
-        name: dist-py3.8-macos-latest-x64
-        path: dist/
+    # - uses: actions/download-artifact@v1
+    #   with:
+    #     name: dist-py3.8-macos-latest-x64
+    #     path: dist/
 
     - uses: actions/setup-python@v1
       with:
