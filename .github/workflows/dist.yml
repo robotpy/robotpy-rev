@@ -23,7 +23,7 @@ jobs:
       matrix:
         os: [windows-latest, macos-latest, ubuntu-18.04]
         python_version: [3.6, 3.7, 3.8]
-        architecture: [x86, x64]
+        architecture: [x64]
         exclude:
         - os: macos-latest
           architecture: x86
@@ -100,10 +100,10 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - uses: actions/download-artifact@v1
-      with:
-        name: dist-py3.6-windows-latest-x86
-        path: dist/
+    # - uses: actions/download-artifact@v1
+    #   with:
+    #     name: dist-py3.6-windows-latest-x86
+    #     path: dist/
 
     - uses: actions/download-artifact@v1
       with:
@@ -115,10 +115,10 @@ jobs:
         name: dist-py3.6-macos-latest-x64
         path: dist/
 
-    - uses: actions/download-artifact@v1
-      with:
-        name: dist-py3.7-windows-latest-x86
-        path: dist/
+    # - uses: actions/download-artifact@v1
+    #   with:
+    #     name: dist-py3.7-windows-latest-x86
+    #     path: dist/
 
     - uses: actions/download-artifact@v1
       with:
@@ -130,10 +130,10 @@ jobs:
         name: dist-py3.7-macos-latest-x64
         path: dist/
     
-    - uses: actions/download-artifact@v1
-      with:
-        name: dist-py3.8-windows-latest-x86
-        path: dist/
+    # - uses: actions/download-artifact@v1
+    #   with:
+    #     name: dist-py3.8-windows-latest-x86
+    #     path: dist/
 
     - uses: actions/download-artifact@v1
       with:
