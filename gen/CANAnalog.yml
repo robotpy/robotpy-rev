@@ -10,7 +10,8 @@ classes:
       AnalogMode:
     methods:
       CANAnalog:
-        ignore: true
+        keepalive:
+          - [1, 2]
       GetVoltage:
       GetPosition:
       GetVelocity:

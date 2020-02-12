@@ -13,9 +13,11 @@ classes:
       CANEncoder:
         overloads:
           rev::CANSparkMax&, rev::CANEncoder::EncoderType, int:
-            ignore: true
+            keepalive:
+              - [1, 2]
           rev::CANSparkMax&, rev::CANEncoder::AlternateEncoderType, int:
-            ignore: true
+            keepalive:
+              - [1, 2]
       GetPosition:
       GetVelocity:
       SetPosition:
