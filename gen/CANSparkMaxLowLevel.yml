@@ -8,8 +8,11 @@ classes:
       kAPIMinorVersion:
       kAPIBuildVersion:
       kAPIVersion:
+      # don't let people shoot themselves in the foot
       m_sparkMax:
+        ignore: true
       m_motorType:
+        ignore: true
     enums:
       MotorType:
       ParameterStatus:
@@ -21,6 +24,7 @@ classes:
         overloads:
           "":
           bool&:
+            ignore: true
       GetFirmwareString:
       GetSerialNumber:
       GetDeviceId:
