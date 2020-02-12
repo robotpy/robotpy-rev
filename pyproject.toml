@@ -50,7 +50,7 @@ generate = [
     { CANSparkMax = "rev/CANSparkMax.h" },
 
     { CANAnalog = "rev/CANAnalog.h" },
-    { CANDeviceScanner = "rev/CANDeviceScanner.h" },
+    # { CANDeviceScanner = "rev/CANDeviceScanner.h" },
     { CANDigitalInput = "rev/CANDigitalInput.h" },
     { CANEncoder = "rev/CANEncoder.h" },
     { CANError = "rev/CANError.h" },
