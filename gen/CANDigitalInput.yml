@@ -11,7 +11,8 @@ classes:
       LimitSwitchPolarity:
     methods:
       CANDigitalInput:
-        ignore: true
+        keepalive:
+          - [1, 2]
       Get:
       EnableLimitSwitch:
       IsLimitSwitchEnabled:
