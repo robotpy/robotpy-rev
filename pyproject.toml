@@ -12,7 +12,7 @@ base_package = "rev"
 artifact_id = "SparkMax-driver"
 group_id = "com.revrobotics.frc"
 repo_url = "http://www.revrobotics.com/content/sw/max/sdk/maven"
-version = "1.5.1"
+version = "1.5.2"
 
 libs = ["SparkMaxDriver"]
 
@@ -33,7 +33,7 @@ generation_data = "gen/driver"
 artifact_id = "SparkMax-cpp"
 group_id = "com.revrobotics.frc"
 repo_url = "http://www.revrobotics.com/content/sw/max/sdk/maven"
-version = "1.5.1"
+version = "1.5.2"
 
 libs = ["SparkMax"]
 
