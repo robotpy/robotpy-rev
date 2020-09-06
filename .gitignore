@@ -1,4 +1,4 @@
-*.pyc
+*.py[ciod]
 *.so
 __pycache__
 
