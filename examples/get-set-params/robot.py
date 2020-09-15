@@ -45,7 +45,9 @@ class Robot(wpilib.TimedRobot):
             wpilib.SmartDashboard.putString("Ramp Rate", "Error")
 
         # Read back ramp value
-        wpilib.SmartDashboard.putString("Ramp Rate", str(self.motor.getOpenLoopRampRate()))
+        wpilib.SmartDashboard.putString(
+            "Ramp Rate", str(self.motor.getOpenLoopRampRate())
+        )
 
     def teleopPeriodic(self):
         # Pair motor and the joystick's Y Axis
