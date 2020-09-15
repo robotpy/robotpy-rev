@@ -8,6 +8,8 @@ classes:
     shared_ptr: true
     attributes:
       m_device:
+        # don't let teams shoot themselves in the foot
+        ignore: true
     methods:
       CANSensor:
         ignore: true

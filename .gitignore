@@ -1,4 +1,4 @@
-*.pyc
+*.py[ciod]
 *.so
 __pycache__
 
@@ -22,9 +22,6 @@ dist
 /rev/_sparkmaxdriver/lib
 /rev/_sparkmaxdriver/rpy-include
 /rev/_sparkmaxdriver/pkgcfg.py
-
-docs/_build
-docs/_sidebar.rst.inc
 
 
 *.dylib

@@ -48,6 +48,11 @@ help:
 
 clean:
 	rm -rf $(BUILDDIR)/*
+	rm -rf __pycache__
+	for i in rev; do \
+		rm -f $$i.rst; \
+		rm -rf $$i; \
+	done
 
 html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
