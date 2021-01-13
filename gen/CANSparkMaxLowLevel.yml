@@ -83,9 +83,9 @@ classes:
       units:
       lowerBnd:
       upperBnd:
+  CANSparkMaxLowLevel::FollowConfigBits:
+    ignore: true
   CANSparkMaxLowLevel::FollowConfig:
     ignore: true
-  CANSparkMaxLowLevel::FollowConfig::<anon-union-1>:
-    ignore: true
-  CANSparkMaxLowLevel::FollowConfig::<anon-union-1>::<anon-struct-1>:
+  CANSparkMaxLowLevel::FollowConfig::FollowConfigUnion:
     ignore: true
