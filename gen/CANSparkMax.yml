@@ -79,3 +79,9 @@ classes:
     attributes:
       arbId:
       configId:
+
+inline_code: |
+  cls_CANSparkMax
+    .def("__repr__", [](const CANSparkMax &self) {
+      return py::str("<CANSparkMax {}>").format(self.GetDeviceId());
+    });
