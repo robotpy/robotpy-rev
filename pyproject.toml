@@ -2,7 +2,8 @@
 requires = [
     "robotpy-build>=2020.3.1,<2021.0.0",
     "robotpy-wpiutil>=2021.1.2.0,<2022.0.0",
-    "wpilib>=2021.1.2.0"
+    "robotpy-wpimath>=2021.1.2.0,<2022.0.0",
+    "wpilib>=2021.1.2.0,<2022.0.0",
 ]
 
 [tool.robotpy-build]
@@ -18,7 +19,7 @@ libs = ["SparkMaxDriver"]
 
 [tool.robotpy-build.wrappers."rev._sparkmaxdriver"]
 name = "rev_spark_driver"
-depends = ["wpiHal", "wpiutil"]
+depends = ["wpiHal", "wpimath_cpp", "wpiutil"]
 
 sources = [
     "rev/_sparkmaxdriver/sparkmaxdriver.cpp"
@@ -43,7 +44,7 @@ sources = [
     "rev/rev.cpp"
 ]
 
-depends = ["wpilibc", "wpilib_core", "wpiutil", "rev_spark_driver"]
+depends = ["wpilibc", "wpilib_core", "wpimath_cpp", "wpiutil", "rev_spark_driver"]
 
 generate = [
     { CANSparkMaxLowLevel = "rev/CANSparkMaxLowLevel.h" },
@@ -71,5 +72,6 @@ url = "https://github.com/robotpy/robotpy-rev"
 license = "BSD-3-Clause"
 install_requires = [
     "robotpy-wpiutil>=2021.1.2.0,<2022.0.0",
-    "wpilib>=2021.1.2.0"
+    "robotpy-wpimath>=2021.1.2.0,<2022.0.0",
+    "wpilib>=2021.1.2.0,<2022.0.0",
 ]
