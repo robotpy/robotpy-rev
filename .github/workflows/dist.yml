@@ -30,7 +30,7 @@ jobs:
         architecture: [x64]
         exclude:
         - os: macos-latest
-          # architecture: x86
+          architecture: x86
         - os: ubuntu-18.04
           architecture: x86
 
@@ -86,7 +86,6 @@ jobs:
         python: /build/venv/bin/cross-python
 
     - uses: actions/upload-artifact@v2
-      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       with:
         name: dist-${{ matrix.os.name }}
         path: dist
@@ -154,10 +153,10 @@ jobs:
         name: dist-windows-latest
         path: dist/
 
-    # - uses: actions/download-artifact@v2
-    #   with:
-    #     name: dist-macos-latest
-    #     path: dist/
+    - uses: actions/download-artifact@v2
+      with:
+        name: dist-macos-latest
+        path: dist/
 
     - uses: actions/download-artifact@v2
       with:
