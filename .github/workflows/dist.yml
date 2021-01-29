@@ -30,7 +30,7 @@ jobs:
         architecture: [x64]
         exclude:
         - os: macos-latest
-          # architecture: x86
+          architecture: x86
         - os: ubuntu-18.04
           architecture: x86
 
@@ -154,10 +154,10 @@ jobs:
         name: dist-windows-latest
         path: dist/
 
-    # - uses: actions/download-artifact@v2
-    #   with:
-    #     name: dist-macos-latest
-    #     path: dist/
+    - uses: actions/download-artifact@v2
+      with:
+        name: dist-macos-latest
+        path: dist/
 
     - uses: actions/download-artifact@v2
       with:
