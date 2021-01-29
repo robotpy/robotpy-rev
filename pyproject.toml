@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "robotpy-build>=2020.3.1,<2021.0.0",
+    "robotpy-build>=2020.4.4,<2021.0.0",
     "robotpy-wpiutil>=2021.1.2.0,<2022.0.0",
     "robotpy-wpimath>=2021.1.2.0,<2022.0.0",
     "wpilib>=2021.1.2.0,<2022.0.0",
@@ -9,33 +9,18 @@ requires = [
 [tool.robotpy-build]
 base_package = "rev"
 
-[tool.robotpy-build.wrappers."rev._sparkmaxdriver".maven_lib_download]
+[tool.robotpy-build.static_libs."rev_spark_driver".maven_lib_download]
 artifact_id = "SparkMax-driver"
 group_id = "com.revrobotics.frc"
 repo_url = "http://www.revrobotics.com/content/sw/max/sdk/maven"
 version = "1.5.4"
-
 libs = ["SparkMaxDriver"]
 
-[tool.robotpy-build.wrappers."rev._sparkmaxdriver"]
-name = "rev_spark_driver"
-depends = ["wpiHal", "wpimath_cpp", "wpiutil"]
-
-sources = [
-    "rev/_sparkmaxdriver/sparkmaxdriver.cpp"
-]
-
-generate = [
-    { CANSparkMaxFrames = "rev/CANSparkMaxFrames.h" },
-]
-generation_data = "gen/driver"
-
-[tool.robotpy-build.wrappers."rev".maven_lib_download]
+[tool.robotpy-build.static_libs."rev_spark".maven_lib_download]
 artifact_id = "SparkMax-cpp"
 group_id = "com.revrobotics.frc"
 repo_url = "http://www.revrobotics.com/content/sw/max/sdk/maven"
 version = "1.5.4"
-
 libs = ["SparkMax"]
 
 [tool.robotpy-build.wrappers."rev"]
@@ -44,7 +29,14 @@ sources = [
     "rev/rev.cpp"
 ]
 
-depends = ["wpilibc", "wpilib_core", "wpimath_cpp", "wpiutil", "rev_spark_driver"]
+depends = [
+    "wpilibc",
+    "wpilib_core",
+    "wpimath_cpp",
+    "wpiutil",
+    "rev_spark_driver",
+    "rev_spark",
+]
 
 generate = [
     { CANSparkMaxLowLevel = "rev/CANSparkMaxLowLevel.h" },
