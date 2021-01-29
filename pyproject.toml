@@ -33,6 +33,7 @@ depends = [
     "wpilibc",
     "wpilib_core",
     "wpimath_cpp",
+    "wpiHal",
     "wpiutil",
     "rev_spark_driver",
     "rev_spark",
