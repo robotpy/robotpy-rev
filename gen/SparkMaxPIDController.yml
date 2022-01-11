@@ -4,18 +4,20 @@ extra_includes:
 - rev/CANSparkMax.h
 
 classes:
-  CANPIDController:
-    shared_ptr: true
+  SparkMaxPIDController:
+    ignored_bases:
+    - CANPIDController
+    typealias:
+    - rev::SparkMaxPIDController::ArbFFUnits
     enums:
       AccelStrategy:
       ArbFFUnits:
     methods:
-      CANPIDController:
-        ignore: true
       SetReference:
-        param_override:
-          arbFFUnits:
-            default: rev::CANPIDController::ArbFFUnits::kVoltage
+        overloads:
+          double, CANSparkMaxLowLevel::ControlType, int, double, rev::SparkMaxPIDController::ArbFFUnits:
+          double, ControlType, int, double, CANPIDController::ArbFFUnits:
+            ignore: true
       SetP:
       SetI:
       SetD:
@@ -36,6 +38,10 @@ classes:
       SetSmartMotionMinOutputVelocity:
       SetSmartMotionAllowedClosedLoopError:
       SetSmartMotionAccelStrategy:
+        overloads:
+          rev::SparkMaxPIDController::AccelStrategy, int:
+          CANPIDController::AccelStrategy, int:
+            ignore: true
       GetSmartMotionMaxVelocity:
       GetSmartMotionMaxAccel:
       GetSmartMotionMinOutputVelocity:

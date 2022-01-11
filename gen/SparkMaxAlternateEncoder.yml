@@ -1,0 +1,21 @@
+---
+
+classes:
+  SparkMaxAlternateEncoder:
+    enums:
+      Type:
+    methods:
+      GetPosition:
+      GetVelocity:
+      SetPosition:
+      SetPositionConversionFactor:
+      SetVelocityConversionFactor:
+      GetPositionConversionFactor:
+      GetVelocityConversionFactor:
+      SetAverageDepth:
+      SetMeasurementPeriod:
+      GetAverageDepth:
+      GetMeasurementPeriod:
+      GetCountsPerRevolution:
+      SetInverted:
+      GetInverted:

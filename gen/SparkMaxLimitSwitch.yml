@@ -1,0 +1,12 @@
+---
+
+classes:
+  SparkMaxLimitSwitch:
+    ignored_bases:
+    - CANDigitalInput
+    enums:
+      Type:
+    methods:
+      Get:
+      EnableLimitSwitch:
+      IsLimitSwitchEnabled:

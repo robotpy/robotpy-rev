@@ -1,0 +1,7 @@
+---
+
+classes:
+  MotorFeedbackSensor:
+    methods:
+      SetInverted:
+      GetInverted:

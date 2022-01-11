@@ -13,7 +13,10 @@ classes:
         ignore: true
       m_motorType:
         ignore: true
+      m_sparkMaxHandle:
+        ignore: true
     enums:
+      ControlType:
       MotorType:
       ParameterStatus:
       PeriodicFrame:
@@ -46,6 +49,7 @@ classes:
       FollowerInvert:
         ignore: true
       SetpointCommand:
+        ignore: true
       GetSafeFloat:
   CANSparkMaxLowLevel::PeriodicStatus0:
     shared_ptr: true

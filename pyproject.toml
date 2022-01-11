@@ -9,19 +9,19 @@ requires = [
 [tool.robotpy-build]
 base_package = "rev"
 
-[tool.robotpy-build.static_libs."rev_spark_driver".maven_lib_download]
-artifact_id = "SparkMax-driver"
+[tool.robotpy-build.static_libs."revlib_driver".maven_lib_download]
+artifact_id = "REVLib-driver"
 group_id = "com.revrobotics.frc"
-repo_url = "http://www.revrobotics.com/content/sw/max/sdk/maven"
-version = "1.5.4"
-libs = ["SparkMaxDriver"]
+repo_url = "https://maven.revrobotics.com/"
+version = "2022.1.1"
+libs = ["REVLibDriver"]
 
-[tool.robotpy-build.static_libs."rev_spark".maven_lib_download]
-artifact_id = "SparkMax-cpp"
+[tool.robotpy-build.static_libs."revlib".maven_lib_download]
+artifact_id = "REVLib-cpp"
 group_id = "com.revrobotics.frc"
-repo_url = "http://www.revrobotics.com/content/sw/max/sdk/maven"
-version = "1.5.4"
-libs = ["SparkMax"]
+repo_url = "https://maven.revrobotics.com/"
+version = "2022.1.1"
+libs = ["REVLib"]
 
 [tool.robotpy-build.wrappers."rev"]
 name = "rev"
@@ -35,30 +35,39 @@ depends = [
     "wpimath_cpp",
     "wpiHal",
     "wpiutil",
-    "rev_spark_driver",
-    "rev_spark",
-]
-
-generate = [
-    { CANSparkMaxLowLevel = "rev/CANSparkMaxLowLevel.h" },
-    { CANSparkMax = "rev/CANSparkMax.h" },
-
-    { CANAnalog = "rev/CANAnalog.h" },
-    # { CANDeviceScanner = "rev/CANDeviceScanner.h" },
-    { CANDigitalInput = "rev/CANDigitalInput.h" },
-    { CANEncoder = "rev/CANEncoder.h" },
-    { CANError = "rev/CANError.h" },
-    { CANPIDController = "rev/CANPIDController.h" },
-    { CANSensor = "rev/CANSensor.h" },
-    { ControlType = "rev/ControlType.h" },
-    { SparkMax = "rev/SparkMax.h" },
+    "revlib_driver",
+    "revlib",
 ]
 
 generation_data = "gen"
 
+[tool.robotpy-build.wrappers."rev".autogen_headers]
+# rev
+AnalogInput = "rev/AnalogInput.h"
+# CANAnalog = "rev/CANAnalog.h"
+# CANDeviceScanner = "rev/CANDeviceScanner.h"
+# CANDigitalInput = "rev/CANDigitalInput.h"
+# CANEncoder = "rev/CANEncoder.h"
+# CANPIDController = "rev/CANPIDController.h"
+CANSensor = "rev/CANSensor.h"
+CANSparkMax = "rev/CANSparkMax.h"
+CANSparkMaxLowLevel = "rev/CANSparkMaxLowLevel.h"
+CIEColor = "rev/CIEColor.h"
+ColorMatch = "rev/ColorMatch.h"
+ColorSensorV3 = "rev/ColorSensorV3.h"
+# ControlType = "rev/ControlType.h"
+MotorFeedbackSensor = "rev/MotorFeedbackSensor.h"
+REVLibError = "rev/REVLibError.h"
+RelativeEncoder = "rev/RelativeEncoder.h"
+SparkMaxAlternateEncoder = "rev/SparkMaxAlternateEncoder.h"
+SparkMaxAnalogSensor = "rev/SparkMaxAnalogSensor.h"
+SparkMaxLimitSwitch = "rev/SparkMaxLimitSwitch.h"
+SparkMaxPIDController = "rev/SparkMaxPIDController.h"
+SparkMaxRelativeEncoder = "rev/SparkMaxRelativeEncoder.h"
+
 [tool.robotpy-build.metadata]
 name = "robotpy-rev"
-description = "Rev Robotics Spark Max SDK for RobotPy"
+description = "REVLib for RobotPy"
 author = "RobotPy Development Team"
 author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-rev"

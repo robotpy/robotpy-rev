@@ -1,0 +1,13 @@
+---
+
+classes:
+  ColorMatch:
+    methods:
+      ColorMatch:
+      AddColorMatch:
+      SetConfidenceThreshold:
+      MatchColor:
+        overloads:
+          frc::Color&:
+          frc::Color&, double&:
+      MatchClosestColor:

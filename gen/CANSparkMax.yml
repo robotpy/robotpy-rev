@@ -2,17 +2,16 @@
 
 classes:
   CANSparkMax:
-    shared_ptr: true
+    typealias:
+    - rev::CANSparkMaxLowLevel::MotorType
     enums:
       IdleMode:
       InputMode:
+        ignore: true
       SoftLimitDirection:
       FaultID:
     methods:
       CANSparkMax:
-        param_override:
-          type:
-            x_type: rev::CANSparkMaxLowLevel::MotorType
       Set:
       SetVoltage:
       Get:
@@ -20,25 +19,45 @@ classes:
       GetInverted:
       Disable:
       StopMotor:
-      PIDWrite:
       GetEncoder:
-        keepalive:
-        - [0, 1]
+        overloads:
+          SparkMaxRelativeEncoder::Type, int:
+            keepalive:
+            - [0, 1]
+          CANEncoder::EncoderType, int:
+            ignore: true
       GetAlternateEncoder:
-        keepalive:
-        - [0, 1]
+        overloads:
+          int:
+            keepalive:
+            - [0, 1]
+          SparkMaxAlternateEncoder::Type, int:
+            keepalive:
+            - [0, 1]
+          CANEncoder::AlternateEncoderType, int:
+            ignore: true
       GetAnalog:
-        keepalive:
-        - [0, 1]
+        overloads:
+          SparkMaxAnalogSensor::Mode:
+            keepalive:
+            - [0, 1]
+          CANAnalog::AnalogMode:
+            ignore: true
       GetPIDController:
-        keepalive:
-        - [0, 1]
       GetForwardLimitSwitch:
-        keepalive:
-        - [0, 1]
+        overloads:
+          SparkMaxLimitSwitch::Type:
+            keepalive:
+            - [0, 1]
+          CANDigitalInput::LimitSwitchPolarity:
+            ignore: true
       GetReverseLimitSwitch:
-        keepalive:
-        - [0, 1]
+        overloads:
+          SparkMaxLimitSwitch::Type:
+            keepalive:
+            - [0, 1]
+          CANDigitalInput::LimitSwitchPolarity:
+            ignore: true
       SetSmartCurrentLimit:
         overloads:
           unsigned int:
@@ -75,7 +94,6 @@ classes:
       GetSoftLimit:
       GetLastError:
   CANSparkMax::ExternalFollower:
-    shared_ptr: true
     attributes:
       arbId:
       configId:

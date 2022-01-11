@@ -12,19 +12,9 @@ dist
 
 /rev/version.py
 /rev/_init_rev.py
-/rev/include
-/rev/lib
 /rev/rpy-include
 /rev/pkgcfg.py
-
-/rev/_sparkmaxdriver/_init_rev_spark_driver.py
-/rev/_sparkmaxdriver/include
-/rev/_sparkmaxdriver/lib
-/rev/_sparkmaxdriver/rpy-include
-/rev/_sparkmaxdriver/pkgcfg.py
-
+/rev/py.typed
 
 *.dylib
 *.dll
-
-rev/rpy-include
