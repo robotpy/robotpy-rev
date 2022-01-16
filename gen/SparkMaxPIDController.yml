@@ -24,6 +24,22 @@ classes:
       SetDFilter:
       SetFF:
       SetIZone:
+        doc: |
+          Set the IZone range of the PIDF controller on the SPARK MAX. This value
+          specifies the range the :math:`|error|` must be within for the integral constant
+          to take effect.
+
+          This uses the Set Parameter API and should be used infrequently.
+          The parameter does not presist unless :meth:`.burnFlash` is called.
+          The recommended method to configure this parameter is to use the
+          SPARK MAX GUI to tune and save parameters.
+
+          :param IZone:  The IZone value, must be positive. Set to 0 to disable
+          :param slotID: Is the gain schedule slot, the value is a number
+               between 0 and 3. Each slot has its own set of gain values and
+               can be changed in each control frame using :meth:`setReference`.
+
+          :returns: REVLibError.kOk if successful
       SetOutputRange:
       GetP:
       GetI:
