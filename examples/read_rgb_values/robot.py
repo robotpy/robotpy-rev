@@ -66,5 +66,6 @@ class MyRobot(wpilib.TimedRobot):
         wpilib.SmartDashboard.putNumber("Raw Blue", rawDetectedColor.blue)
         wpilib.SmartDashboard.putNumber("Raw IR", rawDetectedColor.ir)
 
+
 if __name__ == "__main__":
     wpilib.run(MyRobot)

@@ -11,8 +11,8 @@ from rev import ColorSensorV3, ColorMatch
 
 class MyRobot(wpilib.TimedRobot):
     """
-        This is a simple example to show the values that can be read from the REV
-        Color Sensor V3
+    This is a simple example to show the values that can be read from the REV
+    Color Sensor V3
     """
 
     def robotInit(self):
@@ -25,17 +25,17 @@ class MyRobot(wpilib.TimedRobot):
         # with given confidence range.
         self.colorMatcher = ColorMatch()
 
-        # Note: Any example colors should be calibrated as the user needs, these 
+        # Note: Any example colors should be calibrated as the user needs, these
         # are here as a basic example.
         self.blueTarget = wpilib.Color(0.143, 0.427, 0.429)
         self.greenTarget = wpilib.Color(0.197, 0.561, 0.240)
         self.redTarget = wpilib.Color(0.561, 0.232, 0.114)
         self.yellowTarget = wpilib.Color(0.361, 0.524, 0.113)
 
-        colorMatcher.addColorMatch(blueTarget);
-        colorMatcher.addColorMatch(greenTarget);
-        colorMatcher.addColorMatch(redTarget);
-        colorMatcher.addColorMatch(yellowTarget);
+        colorMatcher.addColorMatch(blueTarget)
+        colorMatcher.addColorMatch(greenTarget)
+        colorMatcher.addColorMatch(redTarget)
+        colorMatcher.addColorMatch(yellowTarget)
 
     def robotPeriodic(self):
 
@@ -65,9 +65,8 @@ class MyRobot(wpilib.TimedRobot):
             colorString = "Green"
         elif match == self.yellowTarget:
             colorString = "Yellow"
-        else: # match is black
+        else:  # match is black
             colorString = "Unknown"
-
 
         # Open Smart Dashboard or Shuffleboard to see the color detected by the
         # sensor.
