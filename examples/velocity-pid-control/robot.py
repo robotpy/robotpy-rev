@@ -12,7 +12,7 @@ import wpilib
 class Robot(wpilib.TimedRobot):
     def robotInit(self):
         # Create motors
-        self.motor = rev.CANSparkMax(1, rev.MotorType.kBrushless)
+        self.motor = rev.CANSparkMax(1, rev.CANSparkMax.MotorType.kBrushless)
 
         # You must call getPIDController() on an existing CANSparkMax or
         # SparkMax object to fully use PID functionality
@@ -99,14 +99,14 @@ class Robot(wpilib.TimedRobot):
         #
         # The second parameter is the control type can be set to one of four
         # parameters:
-        # rev.ControlType.kDutyCycle
-        # rev.ControlType.kPosition
-        # rev.ControlType.kVelocity
-        # rev.ControlType.kVoltage
+        # rev.CANSparkMax.ControlType.kDutyCycle
+        # rev.CANSparkMax.ControlType.kPosition
+        # rev.CANSparkMax.ControlType.kVelocity
+        # rev.CANSparkMax.ControlType.kVoltage
         #
         # For more information on what these types are, refer to the Spark Max
         # documentation.
-        self.pidController.setReference(setpoint, rev.ControlType.kVelocity)
+        self.pidController.setReference(setpoint, rev.CANSparkMax.ControlType.kVelocity)
 
         # Push Setpoint and the motor's current velocity to SmartDashboard.
         wpilib.SmartDashboard.putNumber("SetPoint", setpoint)
