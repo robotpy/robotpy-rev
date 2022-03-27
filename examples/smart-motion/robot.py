@@ -45,7 +45,7 @@ import wpilib
 class Robot(wpilib.TimedRobot):
     def robotInit(self):
         # initialize motor
-        self.motor = rev.CANSparkMax(1, rev.MotorType.kBrushless)
+        self.motor = rev.CANSparkMax(1, rev.CANSparkMax.MotorType.kBrushless)
 
         # The RestoreFactoryDefaults method can be used to reset the configuration parameters
         # in the SPARK MAX to their factory default state. If no argument is passed, these
@@ -170,14 +170,18 @@ class Robot(wpilib.TimedRobot):
         mode = wpilib.SmartDashboard.getBoolean("Mode", False)
         if mode:
             setpoint = wpilib.SmartDashboard.getNumber("Set Velocity", 0)
-            self.pid_controller.setReference(setpoint, rev.ControlType.kVelocity)
+            self.pid_controller.setReference(
+                setpoint, rev.CANSparkMax.ControlType.kVelocity
+            )
             pv = self.encoder.getVelocity()
         else:
             setpoint = wpilib.SmartDashboard.getNumber("Set Position", 0)
             # As with other PID modes, Smart Motion is set by calling the
             # setReference method on an existing pid object and setting
             # the control type to kSmartMotion
-            self.pid_controller.setReference(setpoint, rev.ControlType.kSmartMotion)
+            self.pid_controller.setReference(
+                setpoint, rev.CANSparkMax.ControlType.kSmartMotion
+            )
             pv = self.encoder.getPosition()
 
         wpilib.SmartDashboard.putNumber("SetPoint", setpoint)

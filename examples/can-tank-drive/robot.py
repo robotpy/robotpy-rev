@@ -20,13 +20,13 @@ class Robot(wpilib.TimedRobot):
         #
         # The motor type is passed as the second parameter.
         # Motor type can either be:
-        #   rev.MotorType.kBrushless
-        #   rev.MotorType.kBrushed
+        #   rev.CANSparkMax.MotorType.kBrushless
+        #   rev.CANSparkMax.MotorType.kBrushed
         #
         # The example below initializes two brushless motors with CAN IDs
         # 1 and 2. Change these parameters to match your setup
-        self.leftMotor = rev.CANSparkMax(1, rev.MotorType.kBrushless)
-        self.rightMotor = rev.CANSparkMax(2, rev.MotorType.kBrushless)
+        self.leftMotor = rev.CANSparkMax(1, rev.CANSparkMax.MotorType.kBrushless)
+        self.rightMotor = rev.CANSparkMax(2, rev.CANSparkMax.MotorType.kBrushless)
 
         # The RestoreFactoryDefaults method can be used to reset the
         # configuration parameters in the SPARK MAX to their factory default

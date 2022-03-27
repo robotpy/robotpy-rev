@@ -32,10 +32,10 @@ class MyRobot(wpilib.TimedRobot):
         self.redTarget = wpilib.Color(0.561, 0.232, 0.114)
         self.yellowTarget = wpilib.Color(0.361, 0.524, 0.113)
 
-        colorMatcher.addColorMatch(blueTarget)
-        colorMatcher.addColorMatch(greenTarget)
-        colorMatcher.addColorMatch(redTarget)
-        colorMatcher.addColorMatch(yellowTarget)
+        self.colorMatcher.addColorMatch(self.blueTarget)
+        self.colorMatcher.addColorMatch(self.greenTarget)
+        self.colorMatcher.addColorMatch(self.redTarget)
+        self.colorMatcher.addColorMatch(self.yellowTarget)
 
     def robotPeriodic(self):
 
@@ -52,8 +52,7 @@ class MyRobot(wpilib.TimedRobot):
         # Run the color match algorithm on our detected color. The confidence
         # specifies how close the detectedColor has to be to one of your colors
         # for it to match.
-        confidence = 0.0
-        match = self.colorMatcher.matchClosestColor(detectedColor, confidence)
+        match, confidence = self.colorMatcher.matchClosestColor(detectedColor)
 
         colorString = ""
 

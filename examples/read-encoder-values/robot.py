@@ -22,7 +22,7 @@ class Robot(wpilib.TimedRobot):
     # units of your choice.
     def robotInit(self):
         # Instantiate SPARK MAX object
-        self.motor = rev.CANSparkMax(1, rev.MotorType.kBrushless)
+        self.motor = rev.CANSparkMax(1, rev.CANSparkMax.MotorType.kBrushless)
 
         self.motor.restoreFactoryDefaults()
         self.encoder = self.motor.getEncoder()
