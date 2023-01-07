@@ -5,3 +5,7 @@ classes:
     methods:
       SetInverted:
       GetInverted:
+    trampoline_inline_code: |
+      int GetSparkMaxFeedbackDeviceID() const override {
+        throw py::type_error("not implemented");
+      }
