@@ -6,17 +6,17 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-rev"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil<2024.0.0,>=2023.0.0b7",
-    "robotpy-wpimath<2024.0.0,>=2023.0.0b7",
-    "wpilib<2024.0.0,>=2023.0.0b7",
+    "robotpy-wpiutil<2024.0.0,>=2023.1.1.0",
+    "robotpy-wpimath<2024.0.0,>=2023.1.1.0",
+    "wpilib<2024.0.0,>=2023.1.1.0",
 ]
 
 [build-system]
 requires = [
-    "robotpy-build<2024.0.0,>=2023.0.0b16",
-    "robotpy-wpiutil<2024.0.0,>=2023.0.0b7",
-    "robotpy-wpimath<2024.0.0,>=2023.0.0b7",
-    "wpilib<2024.0.0,>=2023.0.0b7",
+    "robotpy-build<2024.0.0,>=2023.0.0",
+    "robotpy-wpiutil<2024.0.0,>=2023.1.1.0",
+    "robotpy-wpimath<2024.0.0,>=2023.1.1.0",
+    "wpilib<2024.0.0,>=2023.1.1.0",
 ]
 
 [tool.robotpy-build]
@@ -26,14 +26,14 @@ base_package = "rev"
 artifact_id = "REVLib-driver"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com/"
-version = "2023.0.1"
+version = "2023.1.1"
 libs = ["REVLibDriver"]
 
 [tool.robotpy-build.static_libs."revlib".maven_lib_download]
 artifact_id = "REVLib-cpp"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com/"
-version = "2023.0.1"
+version = "2023.1.1"
 libs = ["REVLib"]
 
 [tool.robotpy-build.wrappers."rev"]
@@ -56,6 +56,7 @@ generation_data = "gen"
 
 [tool.robotpy-build.wrappers."rev".autogen_headers]
 # rev
+AbsoluteEncoder = "rev/AbsoluteEncoder.h"
 AnalogInput = "rev/AnalogInput.h"
 # CANAnalog = "rev/CANAnalog.h"
 # CANDeviceScanner = "rev/CANDeviceScanner.h"
@@ -72,6 +73,7 @@ ColorSensorV3 = "rev/ColorSensorV3.h"
 MotorFeedbackSensor = "rev/MotorFeedbackSensor.h"
 REVLibError = "rev/REVLibError.h"
 RelativeEncoder = "rev/RelativeEncoder.h"
+SparkMaxAbsoluteEncoder = "rev/SparkMaxAbsoluteEncoder.h"
 SparkMaxAlternateEncoder = "rev/SparkMaxAlternateEncoder.h"
 SparkMaxAnalogSensor = "rev/SparkMaxAnalogSensor.h"
 SparkMaxLimitSwitch = "rev/SparkMaxLimitSwitch.h"
