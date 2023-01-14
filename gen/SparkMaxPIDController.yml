@@ -68,3 +68,9 @@ classes:
       SetIAccum:
       GetIAccum:
       SetFeedbackDevice:
+      SetPositionPIDWrappingEnabled:
+      SetPositionPIDWrappingMaxInput:
+      SetPositionPIDWrappingMinInput:
+      GetPositionPIDWrappingEnabled:
+      GetPositionPIDWrappingMaxInput:
+      GetPositionPIDWrappingMinInput:
