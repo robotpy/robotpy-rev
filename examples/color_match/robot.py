@@ -38,7 +38,6 @@ class MyRobot(wpilib.TimedRobot):
         self.colorMatcher.addColorMatch(self.yellowTarget)
 
     def robotPeriodic(self):
-
         # The method GetColor() returns a normalized color value from the sensor and can be
         # useful if outputting the color to an RGB LED or similar. To
         # read the raw color, use GetRawColor().

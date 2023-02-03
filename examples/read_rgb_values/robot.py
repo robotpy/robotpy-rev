@@ -19,7 +19,6 @@ class MyRobot(wpilib.TimedRobot):
         self.colorSensor = ColorSensorV3(wpilib.I2C.Port.kOnboard)
 
     def robotPeriodic(self):
-
         # The method getColor() returns a normalized color value from the sensor and can be
         # useful if outputting the color to an RGB LED or similar. To
         # read the raw color, use getRawColor().
