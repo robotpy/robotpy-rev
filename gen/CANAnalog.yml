@@ -1,9 +1,9 @@
 ---
 
 classes:
-  SparkMaxAnalogSensor:
+  CANAnalog:
     enums:
-      Mode:
+      AnalogMode:
     methods:
       GetVoltage:
       GetPosition:

@@ -1,20 +1,22 @@
 ---
 
 classes:
-  SparkMaxAnalogSensor:
+  CANEncoder:
     enums:
-      Mode:
+      EncoderType:
+      AlternateEncoderType:
     methods:
-      GetVoltage:
       GetPosition:
       GetVelocity:
+      SetPosition:
       SetPositionConversionFactor:
-      GetPositionConversionFactor:
       SetVelocityConversionFactor:
+      GetPositionConversionFactor:
       GetVelocityConversionFactor:
       SetAverageDepth:
       SetMeasurementPeriod:
       GetAverageDepth:
       GetMeasurementPeriod:
+      GetCountsPerRevolution:
       SetInverted:
       GetInverted:

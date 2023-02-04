@@ -2,8 +2,6 @@
 
 classes:
   RelativeEncoder:
-    ignored_bases:
-    - CANEncoder
     methods:
       GetPosition:
       GetVelocity:
