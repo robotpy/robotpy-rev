@@ -5,6 +5,13 @@ def test_rev():
     pass
 
 
+def test_canspark_setfeedbackdevice():
+    s = rev.CANSparkMax(1, rev.CANSparkMaxLowLevel.MotorType.kBrushless)
+    e = s.getEncoder()
+    p = s.getPIDController()
+    p.setFeedbackDevice(e)
+
+
 # def test_init(rev):
 #     rev.CANSparkMax(0, rev.MotorType.kBrushless)
 
