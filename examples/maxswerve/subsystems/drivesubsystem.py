@@ -127,7 +127,7 @@ class DriveSubsystem(SubsystemBase):
         if rateLimit:
             # Convert XY to polar for rate limiting
             inputTranslationDir = math.atan2(ySpeed, xSpeed)
-            inputTranslationMag = math.sqrt(math.pow(xSpeed, 2) + math.pow(ySpeed, 2))
+            inputTranslationMag = math.hypot(xSpeed, ySpeed)
 
             # Calculate the direction slew rate based on an estimate of the lateral acceleration
             if self.currentTranslationMag != 0.0:
@@ -202,7 +202,7 @@ class DriveSubsystem(SubsystemBase):
             if fieldRelative
             else ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered)
         )
-        SwerveDrive4Kinematics.desaturateWheelSpeeds(
+        swerveModuleStates = SwerveDrive4Kinematics.desaturateWheelSpeeds(
             swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond
         )
         self.frontLeft.setDesiredState(swerveModuleStates[0])
@@ -224,7 +224,7 @@ class DriveSubsystem(SubsystemBase):
 
         :param desiredStates: The desired SwerveModule states.
         """
-        SwerveDrive4Kinematics.desaturateWheelSpeeds(
+        desiredStates = SwerveDrive4Kinematics.desaturateWheelSpeeds(
             desiredStates, DriveConstants.kMaxSpeedMetersPerSecond
         )
         self.frontLeft.setDesiredState(desiredStates[0])

@@ -26,7 +26,7 @@ class DriveConstants:
     # Driving Parameters - Note that these are not the maximum capable speeds of
     # the robot, rather the allowed maximum speeds
     kMaxSpeedMetersPerSecond = 4.8
-    kMaxAngularSpeed = 2 * math.pi  # radians per second
+    kMaxAngularSpeed = math.tau  # radians per second
 
     kDirectionSlewRate = 1.2  # radians per second
     kMagnitudeSlewRate = 1.8  # percent per second (1 = 100%)
@@ -93,8 +93,8 @@ class ModuleConstants:
         (kWheelDiameterMeters * math.pi) / kDrivingMotorReduction
     ) / 60.0  # meters per second
 
-    kTurningEncoderPositionFactor = 2 * math.pi  # radian
-    kTurningEncoderVelocityFactor = (2 * math.pi) / 60.0  # radians per second
+    kTurningEncoderPositionFactor = math.tau  # radian
+    kTurningEncoderVelocityFactor = math.tau / 60.0  # radians per second
 
     kTurningEncoderPositionPIDMinInput = 0  # radian
     kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor  # radian

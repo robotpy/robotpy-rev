@@ -43,8 +43,8 @@ def stepTowardsCircular(current: float, target: float, stepsize: float) -> float
     elif difference > math.pi:  # does the system need to wrap over eventually?
         # handle the special case where you can reach the target in one step while also wrapping
         if (
-            current + 2 * math.pi - target < stepsize
-            or target + 2 * math.pi - current < stepsize
+            current + math.tau - target < stepsize
+            or target + math.tau - current < stepsize
         ):
             return target
         else:
@@ -63,7 +63,7 @@ def angleDifference(angleA: float, angleB: float) -> float:
     :returns: The (unsigned) minimum difference between the two angles (in radians).
     """
     difference = abs(angleA - angleB)
-    return (2 * math.pi) - difference if difference > math.pi else difference
+    return math.tau - difference if difference > math.pi else difference
 
 
 def wrapAngle(angle: float) -> float:
@@ -74,7 +74,7 @@ def wrapAngle(angle: float) -> float:
     :returns: An angle (in radians) from 0 and 2*PI (exclusive).
     """
 
-    twoPi = math.pi * 2
+    twoPi = math.tau
 
     # Handle this case separately to avoid floating point errors with the floor after the division in the case below
     if angle == twoPi:
