@@ -1,0 +1,19 @@
+---
+
+classes:
+  Rev2mDistanceSensor:
+    enums:
+      Port:
+      DistanceUnit:
+      RangeProfile:
+    methods:
+      Rev2mDistanceSensor:
+      IsEnabled:
+      SetAutomaticMode:
+      IsRangeValid:
+      GetRange:
+      GetTimestamp:
+      SetEnabled:
+      SetRangeProfile:
+      SetMeasurementPeriod:
+      GetMeasuermentPeriod:
