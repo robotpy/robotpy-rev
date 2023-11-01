@@ -5,17 +5,13 @@ extra_includes:
 
 classes:
   SparkMaxPIDController:
-    ignored_bases:
-    - CANPIDController
-    typealias:
-    - rev::SparkMaxPIDController::ArbFFUnits
     enums:
       AccelStrategy:
       ArbFFUnits:
     methods:
       SetReference:
         overloads:
-          double, CANSparkMaxLowLevel::ControlType, int, double, rev::SparkMaxPIDController::ArbFFUnits:
+          double, CANSparkMaxLowLevel::ControlType, int, double, SparkMaxPIDController::ArbFFUnits:
           double, ControlType, int, double, CANPIDController::ArbFFUnits:
             ignore: true
       SetP:
@@ -55,7 +51,7 @@ classes:
       SetSmartMotionAllowedClosedLoopError:
       SetSmartMotionAccelStrategy:
         overloads:
-          rev::SparkMaxPIDController::AccelStrategy, int:
+          SparkMaxPIDController::AccelStrategy, int:
           CANPIDController::AccelStrategy, int:
             ignore: true
       GetSmartMotionMaxVelocity:
