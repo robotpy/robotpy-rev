@@ -8,6 +8,6 @@ classes:
       SetConfidenceThreshold:
       MatchColor:
         overloads:
-          frc::Color&:
-          frc::Color&, double&:
+          const frc::Color&:
+          const frc::Color&, double&:
       MatchClosestColor:

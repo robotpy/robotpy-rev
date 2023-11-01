@@ -10,6 +10,10 @@ classes:
         ignore: true
       SoftLimitDirection:
       FaultID:
+    attributes:
+      kFollowerDisabled:
+      kFollowerSparkMax:
+      kFollowerPhoenix:
     methods:
       CANSparkMax:
       Set:
@@ -79,8 +83,8 @@ classes:
       GetClosedLoopRampRate:
       Follow:
         overloads:
-          rev::CANSparkMax&, bool:
-          CANSparkMax::ExternalFollower, int, bool:
+          const CANSparkMax&, bool:
+          ExternalFollower, int, bool:
       IsFollower:
       GetFaults:
       GetStickyFaults:
