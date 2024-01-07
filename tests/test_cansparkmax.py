@@ -1,12 +1,8 @@
 import rev
 
 
-def test_rev():
-    pass
-
-
-def test_canspark_setfeedbackdevice():
-    s = rev.CANSparkMax(1, rev.CANSparkMaxLowLevel.MotorType.kBrushless)
+def test_setfeedbackdevice():
+    s = rev.CANSparkMax(1, rev.CANSparkLowLevel.MotorType.kBrushless)
     e = s.getEncoder()
     p = s.getPIDController()
     p.setFeedbackDevice(e)
@@ -16,11 +12,9 @@ def test_canspark_setfeedbackdevice():
 #     rev.CANSparkMax(0, rev.MotorType.kBrushless)
 
 
-# def test_get_proxies(rev):
-#     sm = rev.CANSparkMax(0, rev.MotorType.kBrushless)
-#     sm.getEncoder()
-#     sm.getPIDController()
-#     sm.getForwardLimitSwitch(rev.LimitSwitchPolarity.kNormallyOpen)
+def test_get_fwd_limit():
+    sm = rev.CANSparkMax(2, rev.CANSparkLowLevel.MotorType.kBrushless)
+    sm.getForwardLimitSwitch(rev.SparkLimitSwitch.Type.kNormallyOpen)
 
 
 # def test_current_limit(rev, hal_data):
