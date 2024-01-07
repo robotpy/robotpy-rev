@@ -1,0 +1,6 @@
+---
+
+classes:
+  SparkAbsoluteEncoder:
+    enums:
+      Type:

@@ -11,7 +11,9 @@ classes:
     methods:
       SetReference:
         overloads:
+          double, CANSparkLowLevel::ControlType, int, double, SparkMaxPIDController::ArbFFUnits:
           double, CANSparkMaxLowLevel::ControlType, int, double, SparkMaxPIDController::ArbFFUnits:
+            ignore: true
           double, ControlType, int, double, CANPIDController::ArbFFUnits:
             ignore: true
       SetP:

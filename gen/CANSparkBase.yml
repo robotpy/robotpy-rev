@@ -1,0 +1,115 @@
+---
+
+classes:
+  CANSparkBase:
+    enums:
+      IdleMode:
+      InputMode:
+        ignore: true
+      SoftLimitDirection:
+      FaultID:
+      SparkModel:
+    attributes:
+      kFollowerDisabled:
+      kFollowerSparkMax:
+      kFollowerSpark:
+      kFollowerPhoenix:
+    methods:
+      CANSparkMax:
+      Set:
+      SetVoltage:
+      Get:
+      SetInverted:
+      GetInverted:
+      Disable:
+      StopMotor:
+      GetEncoder:
+        overloads:
+          SparkRelativeEncoder::Type, int:
+            keepalive:
+            - [0, 1]
+          SparkMaxRelativeEncoder::Type, int:
+            keepalive:
+            - [0, 1]
+          CANEncoder::EncoderType, int:
+            ignore: true
+      GetAnalog:
+        overloads:
+          SparkAnalogSensor::Mode:
+            keepalive:
+            - [0, 1]
+          SparkMaxAnalogSensor::Mode:
+            keepalive:
+            - [0, 1]
+          CANAnalog::AnalogMode:
+            ignore: true
+      GetAbsoluteEncoder:
+        keepalive:
+        - [0, 1]
+        overloads:
+          SparkAbsoluteEncoder::Type:
+          SparkMaxAbsoluteEncoder::Type:
+      GetPIDController:
+        keepalive:
+        - [0, 1]
+      GetForwardLimitSwitch:
+        overloads:
+          SparkLimitSwitch::Type:
+            keepalive:
+            - [0, 1]
+          SparkMaxLimitSwitch::Type:
+            keepalive:
+            - [0, 1]
+          CANDigitalInput::LimitSwitchPolarity:
+            ignore: true
+      GetReverseLimitSwitch:
+        overloads:
+          SparkLimitSwitch::Type:
+            keepalive:
+            - [0, 1]
+          SparkMaxLimitSwitch::Type:
+            keepalive:
+            - [0, 1]
+          CANDigitalInput::LimitSwitchPolarity:
+            ignore: true
+      SetSmartCurrentLimit:
+        overloads:
+          unsigned int:
+          unsigned int, unsigned int, unsigned int:
+      SetSecondaryCurrentLimit:
+      SetIdleMode:
+      GetIdleMode:
+      EnableVoltageCompensation:
+      DisableVoltageCompensation:
+      GetVoltageCompensationNominalVoltage:
+      SetOpenLoopRampRate:
+      SetClosedLoopRampRate:
+      GetOpenLoopRampRate:
+      GetClosedLoopRampRate:
+      Follow:
+        overloads:
+          const CANSparkBase&, bool:
+          ExternalFollower, int, bool:
+      IsFollower:
+      GetFaults:
+      GetStickyFaults:
+      GetFault:
+      GetStickyFault:
+      GetBusVoltage:
+      GetAppliedOutput:
+      GetOutputCurrent:
+      GetMotorTemperature:
+      ClearFaults:
+      BurnFlash:
+      SetCANTimeout:
+      EnableSoftLimit:
+      IsSoftLimitEnabled:
+      SetSoftLimit:
+      GetSoftLimit:
+      GetLastError:
+      attemptToSetDataportConfigOrThrow:
+        ignore: true
+  CANSparkBase::ExternalFollower:
+    attributes:
+      arbId:
+      configId:
