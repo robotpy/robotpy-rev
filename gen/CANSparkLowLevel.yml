@@ -1,7 +1,7 @@
 ---
 
 classes:
-  CANSparkMaxLowLevel:
+  CANSparkLowLevel:
     shared_ptr: true
     attributes:
       kAPIMajorVersion:
@@ -22,7 +22,7 @@ classes:
       PeriodicFrame:
       TelemetryID:
     methods:
-      CANSparkMaxLowLevel:
+      CANSparkLowLevel:
       GetFirmwareVersion:
         overloads:
           "":
@@ -35,6 +35,10 @@ classes:
       SetMotorType:
       GetMotorType:
       SetPeriodicFramePeriod:
+        overloads:
+          PeriodicFrame, int:
+          CANSparkMaxLowLevel::PeriodicFrame, int:
+            ignore: true
       SetControlFramePeriodMs:
       RestoreFactoryDefaults:
       EnableExternalUSBControl:
@@ -51,7 +55,7 @@ classes:
       SetpointCommand:
         ignore: true
       GetSafeFloat:
-  CANSparkMaxLowLevel::PeriodicStatus0:
+  CANSparkLowLevel::PeriodicStatus0:
     shared_ptr: true
     attributes:
       appliedOutput:
@@ -63,7 +67,7 @@ classes:
       roboRIO:
       isInverted:
       timestamp:
-  CANSparkMaxLowLevel::PeriodicStatus1:
+  CANSparkLowLevel::PeriodicStatus1:
     shared_ptr: true
     attributes:
       sensorVelocity:
@@ -71,13 +75,13 @@ classes:
       busVoltage:
       outputCurrent:
       timestamp:
-  CANSparkMaxLowLevel::PeriodicStatus2:
+  CANSparkLowLevel::PeriodicStatus2:
     shared_ptr: true
     attributes:
       sensorPosition:
       iAccum:
       timestamp:
-  CANSparkMaxLowLevel::TelemetryMessage:
+  CANSparkLowLevel::TelemetryMessage:
     shared_ptr: true
     attributes:
       id:
@@ -87,9 +91,9 @@ classes:
       units:
       lowerBnd:
       upperBnd:
-  CANSparkMaxLowLevel::FollowConfigBits:
+  CANSparkLowLevel::FollowConfigBits:
     ignore: true
-  CANSparkMaxLowLevel::FollowConfig:
+  CANSparkLowLevel::FollowConfig:
     ignore: true
-  CANSparkMaxLowLevel::FollowConfig::FollowConfigUnion:
+  CANSparkLowLevel::FollowConfig::FollowConfigUnion:
     ignore: true

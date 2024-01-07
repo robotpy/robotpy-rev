@@ -1,0 +1,22 @@
+---
+
+classes:
+  CANSparkFlex:
+    typealias:
+    - rev::CANSparkLowLevel::MotorType
+    methods:
+      CANSparkFlex:
+      GetExternalEncoder:
+        overloads:
+          int:
+            keepalive:
+            - [0, 1]
+          SparkFlexExternalEncoder::Type, int:
+            keepalive:
+            - [0, 1]
+
+inline_code: |
+  cls_CANSparkFlex
+    .def("__repr__", [](const CANSparkFlex &self) {
+      return py::str("<CANSparkFlex {}>").format(self.GetDeviceId());
+    });

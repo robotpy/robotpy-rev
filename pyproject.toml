@@ -6,17 +6,17 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-rev"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil<2025.0.0,>=2024.0.0b3.post1",
-    "robotpy-wpimath<2025.0.0,>=2024.0.0b3.post1",
-    "wpilib<2025.0.0,>=2024.0.0b3.post1",
+    "robotpy-wpiutil<2025.0.0,>=2024.1.1",
+    "robotpy-wpimath<2025.0.0,>=2024.1.1",
+    "wpilib<2025.0.0,>=2024.1.1",
 ]
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0b2",
-    "robotpy-wpiutil<2025.0.0,>=2024.0.0b3.post1",
-    "robotpy-wpimath<2025.0.0,>=2024.0.0b3.post1",
-    "wpilib<2025.0.0,>=2024.0.0b3.post1",
+    "robotpy-build<2025.0.0,~=2024.0.0",
+    "robotpy-wpiutil<2025.0.0,>=2024.1.1",
+    "robotpy-wpimath<2025.0.0,>=2024.1.1",
+    "wpilib<2025.0.0,>=2024.1.1",
 ]
 
 [tool.robotpy-build]
@@ -26,14 +26,14 @@ base_package = "rev"
 artifact_id = "REVLib-driver"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2024.0.0"
+version = "2024.2.0"
 libs = ["REVLibDriver"]
 
 [tool.robotpy-build.static_libs."revlib".maven_lib_download]
 artifact_id = "REVLib-cpp"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2024.0.0"
+version = "2024.2.0"
 libs = ["REVLib"]
 
 [tool.robotpy-build.wrappers."rev"]
@@ -64,8 +64,11 @@ CANAnalog = "rev/CANAnalog.h"
 CANEncoder = "rev/CANEncoder.h"
 # CANPIDController = "rev/CANPIDController.h"
 CANSensor = "rev/CANSensor.h"
+CANSparkBase = "rev/CANSparkBase.h"
+CANSparkFlex = "rev/CANSparkFlex.h"
+CANSparkLowLevel = "rev/CANSparkLowLevel.h"
 CANSparkMax = "rev/CANSparkMax.h"
-CANSparkMaxLowLevel = "rev/CANSparkMaxLowLevel.h"
+# CANSparkMaxLowLevel = "rev/CANSparkMaxLowLevel.h"
 CIEColor = "rev/CIEColor.h"
 ColorMatch = "rev/ColorMatch.h"
 ColorSensorV3 = "rev/ColorSensorV3.h"
@@ -73,10 +76,15 @@ ColorSensorV3 = "rev/ColorSensorV3.h"
 MotorFeedbackSensor = "rev/MotorFeedbackSensor.h"
 REVLibError = "rev/REVLibError.h"
 RelativeEncoder = "rev/RelativeEncoder.h"
+SparkAbsoluteEncoder = "rev/SparkAbsoluteEncoder.h"
+SparkAnalogSensor = "rev/SparkAnalogSensor.h"
+SparkFlexExternalEncoder = "rev/SparkFlexExternalEncoder.h"
+SparkLimitSwitch = "rev/SparkLimitSwitch.h"
 SparkMaxAbsoluteEncoder = "rev/SparkMaxAbsoluteEncoder.h"
 SparkMaxAlternateEncoder = "rev/SparkMaxAlternateEncoder.h"
 SparkMaxAnalogSensor = "rev/SparkMaxAnalogSensor.h"
 SparkMaxLimitSwitch = "rev/SparkMaxLimitSwitch.h"
 SparkMaxPIDController = "rev/SparkMaxPIDController.h"
 SparkMaxRelativeEncoder = "rev/SparkMaxRelativeEncoder.h"
-
+SparkPIDController = "rev/SparkPIDController.h"
+SparkRelativeEncoder = "rev/SparkRelativeEncoder.h"

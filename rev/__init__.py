@@ -1,4 +1,4 @@
-from .version import version as __version__
+from .version import __version__
 
 from . import _init_rev
 
@@ -6,41 +6,61 @@ from . import _init_rev
 from ._rev import (
     AbsoluteEncoder,
     AnalogInput,
+    CANAnalog,
+    CANEncoder,
     CANSensor,
+    CANSparkBase,
+    CANSparkFlex,
+    CANSparkLowLevel,
     CANSparkMax,
-    CANSparkMaxLowLevel,
     CIEColor,
     ColorMatch,
     ColorSensorV3,
     MotorFeedbackSensor,
     REVLibError,
     RelativeEncoder,
+    SparkAbsoluteEncoder,
+    SparkAnalogSensor,
+    SparkFlexExternalEncoder,
+    SparkLimitSwitch,
     SparkMaxAbsoluteEncoder,
     SparkMaxAlternateEncoder,
     SparkMaxAnalogSensor,
     SparkMaxLimitSwitch,
     SparkMaxPIDController,
     SparkMaxRelativeEncoder,
+    SparkPIDController,
+    SparkRelativeEncoder,
 )
 
 __all__ = [
     "AbsoluteEncoder",
     "AnalogInput",
+    "CANAnalog",
+    "CANEncoder",
     "CANSensor",
+    "CANSparkBase",
+    "CANSparkFlex",
+    "CANSparkLowLevel",
     "CANSparkMax",
-    "CANSparkMaxLowLevel",
     "CIEColor",
     "ColorMatch",
     "ColorSensorV3",
     "MotorFeedbackSensor",
     "REVLibError",
     "RelativeEncoder",
+    "SparkAbsoluteEncoder",
+    "SparkAnalogSensor",
+    "SparkFlexExternalEncoder",
+    "SparkLimitSwitch",
     "SparkMaxAbsoluteEncoder",
     "SparkMaxAlternateEncoder",
     "SparkMaxAnalogSensor",
     "SparkMaxLimitSwitch",
     "SparkMaxPIDController",
     "SparkMaxRelativeEncoder",
+    "SparkPIDController",
+    "SparkRelativeEncoder",
 ]
 
 del _init_rev
