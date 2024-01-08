@@ -30,18 +30,18 @@ class Robot(wpilib.TimedRobot):
         #   CANError.kOk
         #   CANError.kError
         #   CANError.kTimeout
-        if self.motor.setIdleMode(rev.IdleMode.kCoast) is not rev.CANError.kOk:
+        if self.motor.setIdleMode(rev.CANSparkMax.IdleMode.kCoast) != rev.REVLibError.kOk:
             wpilib.SmartDashboard.putString("Idle Mode", "Error")
 
         # Similarly, parameters will have a get() method which allows you to
         # retrieve their values from the controller
-        if self.motor.getIdleMode() is rev.IdleMode.kCoast:
+        if self.motor.getIdleMode() == rev.CANSparkMax.IdleMode.kCoast:
             wpilib.SmartDashboard.putString("Idle Mode", "Coast")
         else:
             wpilib.SmartDashboard.putString("Idle Mode", "Brake")
 
         # Set ramp rate to 0
-        if self.motor.setOpenLoopRampRate(0) is not rev.CANError.kOk:
+        if self.motor.setOpenLoopRampRate(0) != rev.REVLibError.kOk:
             wpilib.SmartDashboard.putString("Ramp Rate", "Error")
 
         # Read back ramp value

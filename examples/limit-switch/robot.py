@@ -29,10 +29,10 @@ class Robot(wpilib.TimedRobot):
         # rev.CANDigitalInput.LimitSwitchPolarity.kNormallyOpen
         # rev.CANDigitalInput.LimitSwitchPolarity.kNormallyClosed
         self.forwardLimit = self.motor.getForwardLimitSwitch(
-            rev.LimitSwitchPolarity.kNormallyClosed
+            rev.SparkLimitSwitch.Type.kNormallyClosed
         )
         self.reverseLimit = self.motor.getReverseLimitSwitch(
-            rev.LimitSwitchPolarity.kNormallyClosed
+            rev.SparkLimitSwitch.Type.kNormallyClosed
         )
 
         self.forwardLimit.enableLimitSwitch(False)
