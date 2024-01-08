@@ -26,8 +26,8 @@ def test_current_limit():
 
     sm.setSecondaryCurrentLimit(52.5, 5)
 
-#     assert hal_data["CAN"]["sparkmax-1"]["currentChop"] == 52.5
-#     assert hal_data["CAN"]["sparkmax-1"]["currentChopCycles"] == 5
+    # assert hal_data["CAN"]["sparkmax-1"]["currentChop"] == 52.5
+    # assert hal_data["CAN"]["sparkmax-1"]["currentChopCycles"] == 5
 
 
 # def test_faults(rev, hal_data):
