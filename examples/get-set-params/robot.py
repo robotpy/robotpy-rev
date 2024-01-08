@@ -30,7 +30,10 @@ class Robot(wpilib.TimedRobot):
         #   CANError.kOk
         #   CANError.kError
         #   CANError.kTimeout
-        if self.motor.setIdleMode(rev.CANSparkMax.IdleMode.kCoast) != rev.REVLibError.kOk:
+        if (
+            self.motor.setIdleMode(rev.CANSparkMax.IdleMode.kCoast)
+            != rev.REVLibError.kOk
+        ):
             wpilib.SmartDashboard.putString("Idle Mode", "Error")
 
         # Similarly, parameters will have a get() method which allows you to
