@@ -44,10 +44,11 @@ copyright = "2020, RobotPy development team"
 
 intersphinx_mapping = {
     "robotpy": ("https://robotpy.readthedocs.io/en/%s/" % rtd_version, None),
-    "wpilib": (
-        "https://robotpy.readthedocs.io/projects/wpilib/en/%s/" % rtd_version,
+    "mostrobotpy": (
+        "https://robotpy.readthedocs.io/projects/robotpy/en/%s/" % rtd_version,
         None,
     ),
+    "frc": ("https://docs.wpilib.org/en/stable", None),
 }
 
 # The version info for the project you're documenting, acts as replacement for
