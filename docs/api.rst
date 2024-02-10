@@ -1,8 +1,8 @@
 REV Libraries
 ==============
 
-These are not installed on the Robot by default. For installation instructions,
-see :ref:`robotpy-rev install docs <install_rev>`.
+These are not installed on the Robot by default, you need to add this project
+to your :doc:`pyproject.toml <frc:docs/software/python/pyproject_toml>`.
 
 This documentation documents the various classes and methods that are
 available to Python code, but don't discuss in detail how to actually
