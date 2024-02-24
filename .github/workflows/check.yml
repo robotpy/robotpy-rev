@@ -1,4 +1,7 @@
 
+on:
+  push:
+
 jobs:
   wat:
     runs-on: windows-2022
