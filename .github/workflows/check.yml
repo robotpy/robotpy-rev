@@ -13,3 +13,8 @@ jobs:
     - name: More
       run: |
         Get-VSSetupInstance -All
+    - name: Okk
+      shell: bash
+      run: |
+        vswhere -property installationPath -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -find 'VC\Tools\MSVC'
+
