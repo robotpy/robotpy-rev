@@ -1,0 +1,8 @@
+
+jobs:
+  wat:
+    runs-on: windows-2022
+    steps:
+    - name: Hm
+      run: |
+        "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe"
