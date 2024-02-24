@@ -10,3 +10,6 @@ jobs:
       shell: bash
       run: |
         vswhere -products 'Microsoft.VisualStudio.Product.BuildTools' -all -format json
+    - name: More
+      run: |
+        Get-VSSetupInstance -All
