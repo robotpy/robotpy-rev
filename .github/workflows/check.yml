@@ -9,4 +9,4 @@ jobs:
     - name: Hm
       shell: bash
       run: |
-        vswhere -products * -all -format json
+        vswhere -products 'Microsoft.VisualStudio.Product.BuildTools' -format json
