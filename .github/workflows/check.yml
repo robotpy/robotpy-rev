@@ -9,12 +9,8 @@ jobs:
     - name: Hm
       shell: bash
       run: |
-        vswhere -products 'Microsoft.VisualStudio.Product.BuildTools' -all -format json
+        vswhere -latest -prerelease -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installatonPath -products * -format json
     - name: More
       run: |
         Get-VSSetupInstance -All
-    - name: Okk
-      shell: bash
-      run: |
-        vswhere -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -format json
 
