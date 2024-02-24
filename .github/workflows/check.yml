@@ -9,4 +9,4 @@ jobs:
     - name: Hm
       shell: bash
       run: |
-        vswhere -products *
+        vswhere -products * -all -format json
