@@ -14,7 +14,8 @@ jobs:
     uses: robotpy/build-actions/.github/workflows/package-ci.yml@v2024-st
     with:
       artifactory_repo_type: vendor
-      matrix_os: ["windows-2022"]
+      matrix_os: >-
+        ["windows-2022"]
       enable_raspbian: false
       enable_roborio: false
     secrets:
