@@ -14,6 +14,8 @@ jobs:
     uses: robotpy/build-actions/.github/workflows/package-ci.yml@v2024
     with:
       artifactory_repo_type: vendor
+      enable_raspbian: false
+      enable_roborio: false
     secrets:
       META_REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
       RTD_TOKEN: ${{ secrets.RTD_TOKEN }}

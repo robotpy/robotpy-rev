@@ -22,19 +22,37 @@ requires = [
 [tool.robotpy-build]
 base_package = "rev"
 
-[tool.robotpy-build.static_libs."revlib_driver".maven_lib_download]
+[tool.robotpy-build.wrappers."rev._revlib_driver"]
+name = "revlib_driver"
+depends = [
+    "wpiutil",
+    "wpiHal",
+    "wpilibc",
+]
+
+[tool.robotpy-build.wrappers."rev._revlib_driver".maven_lib_download]
 artifact_id = "REVLib-driver"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
 version = "2024.2.2"
 libs = ["REVLibDriver"]
 
-[tool.robotpy-build.static_libs."revlib".maven_lib_download]
+[tool.robotpy-build.wrappers."rev._revlib"]
+name = "revlib"
+depends = [
+    "wpiutil",
+    "wpiHal",
+    "wpilibc",
+    "revlib_driver"
+]
+
+[tool.robotpy-build.wrappers."rev._revlib".maven_lib_download]
 artifact_id = "REVLib-cpp"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
 version = "2024.2.2"
 libs = ["REVLib"]
+
 
 [tool.robotpy-build.wrappers."rev"]
 name = "rev"
