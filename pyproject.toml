@@ -6,17 +6,17 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-rev"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil<2025.0.0,>=2024.2.1",
-    "robotpy-wpimath<2025.0.0,>=2024.2.1",
-    "wpilib<2025.0.0,>=2024.1.1",
+    "robotpy-wpiutil<2025.0.0,>=2024.3.2",
+    "robotpy-wpimath<2025.0.0,>=2024.3.2",
+    "wpilib<2025.0.0,>=2024.3.2",
 ]
 
 [build-system]
 requires = [
     "robotpy-build<2025.0.0,~=2024.0.0",
-    "robotpy-wpiutil<2025.0.0,~=2024.2.1",
-    "robotpy-wpimath<2025.0.0,~=2024.2.1",
-    "wpilib<2025.0.0,~=2024.2.1",
+    "robotpy-wpiutil<2025.0.0,~=2024.3.2",
+    "robotpy-wpimath<2025.0.0,~=2024.3.2",
+    "wpilib<2025.0.0,~=2024.3.2",
 ]
 
 [tool.robotpy-build]
@@ -26,14 +26,14 @@ base_package = "rev"
 artifact_id = "REVLib-driver"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2024.2.2"
+version = "2024.2.3"
 libs = ["REVLibDriver"]
 
 [tool.robotpy-build.static_libs."revlib".maven_lib_download]
 artifact_id = "REVLib-cpp"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2024.2.2"
+version = "2024.2.3"
 libs = ["REVLib"]
 
 [tool.robotpy-build.wrappers."rev"]
