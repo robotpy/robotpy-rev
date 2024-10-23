@@ -1,9 +1,0 @@
----
-
-classes:
-  AnalogInput:
-    methods:
-      GetVoltage:
-      GetPosition:
-      SetPositionConversionFactor:
-      GetPositionConversionFactor:

@@ -1,0 +1,6 @@
+[
+  "tests/pyfrc_test.py::test_autonomous",
+  "tests/pyfrc_test.py::test_disabled",
+  "tests/pyfrc_test.py::test_operator_control",
+  "tests/pyfrc_test.py::test_practice"
+]

@@ -1,6 +1,0 @@
----
-
-classes:
-  SparkLimitSwitch:
-    enums:
-      Type:

@@ -1,6 +1,0 @@
----
-
-classes:
-  SparkAnalogSensor:
-    enums:
-      Mode:
