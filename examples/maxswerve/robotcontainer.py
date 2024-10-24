@@ -7,8 +7,16 @@ import wpilib
 from commands2 import cmd
 from wpimath.controller import PIDController, ProfiledPIDControllerRadians
 from wpimath.geometry import Pose2d, Rotation2d, Translation2d
-from wpimath.trajectory import TrajectoryConfig, TrajectoryGenerator, TrapezoidProfileRadians
-from wpimath.controller import HolonomicDriveController, PIDController, ProfiledPIDControllerRadians
+from wpimath.trajectory import (
+    TrajectoryConfig, 
+    TrajectoryGenerator, 
+    TrapezoidProfileRadians
+)
+from wpimath.controller import (
+    HolonomicDriveController, 
+    PIDController,
+    ProfiledPIDControllerRadians
+)
 
 from constants import AutoConstants, DriveConstants, OIConstants
 from subsystems.drivesubsystem import DriveSubsystem
@@ -91,18 +99,20 @@ class RobotContainer:
 
         # Constraint for the motion profiled robot angle controller
         kThetaControllerConstraints = TrapezoidProfileRadians.Constraints(
-            AutoConstants.kMaxAngularSpeedRadiansPerSecond, AutoConstants.kMaxAngularSpeedRadiansPerSecondSquared
+            AutoConstants.kMaxAngularSpeedRadiansPerSecond, 
+            AutoConstants.kMaxAngularSpeedRadiansPerSecondSquared
         )
 
         kPXController = PIDController(1.0, 0.0, 0.0)
         kPYController = PIDController(1.0, 0.0, 0.0)
-        kPThetaController = ProfiledPIDControllerRadians(1.0, 0.0, 0.0, kThetaControllerConstraints)
+        kPThetaController = ProfiledPIDControllerRadians(
+            1.0, 0.0, 0.0, kThetaControllerConstraints
+        )
         kPThetaController.enableContinuousInput(-math.pi, math.pi)
         
         kPIDController = HolonomicDriveController(
-            kPXController, 
-            kPYController, 
-            kPThetaController)
+            kPXController, kPYController, kPThetaController
+        )
 
         swerveControllerCommand = commands2.SwerveControllerCommand(
             exampleTrajectory,
@@ -111,7 +121,7 @@ class RobotContainer:
             # Position controllers
             kPIDController,
             self.robotDrive.setModuleStates,
-            (self.robotDrive,)
+            (self.robotDrive,),
         )
 
         # Reset odometry to the starting pose of the trajectory.
