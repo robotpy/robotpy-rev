@@ -143,3 +143,4 @@ class AutoConstants:
     kPThetaController = ProfiledPIDControllerRadians(1.0, 0.0, 0.0, kThetaControllerConstraints)
 
     kPIDController = HolonomicDriveController(kPXController, kPYController, kPThetaController)
+    kPIDController.enableContinuousInput(-math.pi, math.pi)
