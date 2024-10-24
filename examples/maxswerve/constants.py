@@ -14,6 +14,8 @@ from wpimath import units
 from wpimath.geometry import Translation2d
 from wpimath.kinematics import SwerveDrive4Kinematics
 from wpimath.trajectory import TrapezoidProfileRadians
+from wpimath.controller import HolonomicDriveController, PIDController, ProfiledPIDControllerRadians
+from wpimath.trajectory import TrapezoidProfileRadians
 
 from rev import CANSparkMax
 
@@ -131,11 +133,13 @@ class AutoConstants:
     kMaxAngularSpeedRadiansPerSecond = math.pi
     kMaxAngularSpeedRadiansPerSecondSquared = math.pi
 
-    kPXController = 1
-    kPYController = 1
-    kPThetaController = 1
-
     # Constraint for the motion profiled robot angle controller
     kThetaControllerConstraints = TrapezoidProfileRadians.Constraints(
         kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared
     )
+
+    kPXController = PIDController(1.0, 0.0, 0.0)
+    kPYController = PIDController(1.0, 0.0, 0.0)
+    kPThetaController = ProfiledPIDControllerRadians(1.0, 0.0, 0.0, kThetaControllerConstraints)
+
+    kPIDController = HolonomicDriveController(kPXController, kPYController, kPThetaController)

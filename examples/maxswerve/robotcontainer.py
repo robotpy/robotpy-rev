@@ -8,6 +8,7 @@ from commands2 import cmd
 from wpimath.controller import PIDController, ProfiledPIDControllerRadians
 from wpimath.geometry import Pose2d, Rotation2d, Translation2d
 from wpimath.trajectory import TrajectoryConfig, TrajectoryGenerator
+from wpimath.controller import HolonomicDriveController
 
 from constants import AutoConstants, DriveConstants, OIConstants
 from subsystems.drivesubsystem import DriveSubsystem
@@ -88,24 +89,14 @@ class RobotContainer:
             config,
         )
 
-        thetaController = ProfiledPIDControllerRadians(
-            AutoConstants.kPThetaController,
-            0,
-            0,
-            AutoConstants.kThetaControllerConstraints,
-        )
-        thetaController.enableContinuousInput(-math.pi, math.pi)
-
         swerveControllerCommand = commands2.SwerveControllerCommand(
             exampleTrajectory,
             self.robotDrive.getPose,  # Functional interface to feed supplier
             DriveConstants.kDriveKinematics,
             # Position controllers
-            PIDController(AutoConstants.kPXController, 0, 0),
-            PIDController(AutoConstants.kPYController, 0, 0),
-            thetaController,
+            AutoConstants.kPIDController,
             self.robotDrive.setModuleStates,
-            (self.robotDrive,),
+            (self.robotDrive,)
         )
 
         # Reset odometry to the starting pose of the trajectory.
