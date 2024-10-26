@@ -8,12 +8,12 @@ from commands2 import cmd
 from wpimath.controller import PIDController, ProfiledPIDControllerRadians
 from wpimath.geometry import Pose2d, Rotation2d, Translation2d
 from wpimath.trajectory import (
-    TrajectoryConfig, 
-    TrajectoryGenerator, 
+    TrajectoryConfig,
+    TrajectoryGenerator,
     TrapezoidProfileRadians,
 )
 from wpimath.controller import (
-    HolonomicDriveController, 
+    HolonomicDriveController,
     PIDController,
     ProfiledPIDControllerRadians,
 )
@@ -99,7 +99,7 @@ class RobotContainer:
 
         # Constraint for the motion profiled robot angle controller
         kThetaControllerConstraints = TrapezoidProfileRadians.Constraints(
-            AutoConstants.kMaxAngularSpeedRadiansPerSecond, 
+            AutoConstants.kMaxAngularSpeedRadiansPerSecond,
             AutoConstants.kMaxAngularSpeedRadiansPerSecondSquared,
         )
 
@@ -109,11 +109,11 @@ class RobotContainer:
             1.0, 0.0, 0.0, kThetaControllerConstraints
         )
         kPThetaController.enableContinuousInput(-math.pi, math.pi)
-        
+
         kPIDController = HolonomicDriveController(
             kPXController, kPYController, kPThetaController
         )
-        
+
         swerveControllerCommand = commands2.SwerveControllerCommand(
             exampleTrajectory,
             self.robotDrive.getPose,  # Functional interface to feed supplier
