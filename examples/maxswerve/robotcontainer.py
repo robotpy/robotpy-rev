@@ -7,7 +7,16 @@ import wpilib
 from commands2 import cmd
 from wpimath.controller import PIDController, ProfiledPIDControllerRadians
 from wpimath.geometry import Pose2d, Rotation2d, Translation2d
-from wpimath.trajectory import TrajectoryConfig, TrajectoryGenerator
+from wpimath.trajectory import (
+    TrajectoryConfig,
+    TrajectoryGenerator,
+    TrapezoidProfileRadians,
+)
+from wpimath.controller import (
+    HolonomicDriveController,
+    PIDController,
+    ProfiledPIDControllerRadians,
+)
 
 from constants import AutoConstants, DriveConstants, OIConstants
 from subsystems.drivesubsystem import DriveSubsystem
@@ -88,22 +97,29 @@ class RobotContainer:
             config,
         )
 
-        thetaController = ProfiledPIDControllerRadians(
-            AutoConstants.kPThetaController,
-            0,
-            0,
-            AutoConstants.kThetaControllerConstraints,
+        # Constraint for the motion profiled robot angle controller
+        kThetaControllerConstraints = TrapezoidProfileRadians.Constraints(
+            AutoConstants.kMaxAngularSpeedRadiansPerSecond,
+            AutoConstants.kMaxAngularSpeedRadiansPerSecondSquared,
         )
-        thetaController.enableContinuousInput(-math.pi, math.pi)
+
+        kPXController = PIDController(1.0, 0.0, 0.0)
+        kPYController = PIDController(1.0, 0.0, 0.0)
+        kPThetaController = ProfiledPIDControllerRadians(
+            1.0, 0.0, 0.0, kThetaControllerConstraints
+        )
+        kPThetaController.enableContinuousInput(-math.pi, math.pi)
+
+        kPIDController = HolonomicDriveController(
+            kPXController, kPYController, kPThetaController
+        )
 
         swerveControllerCommand = commands2.SwerveControllerCommand(
             exampleTrajectory,
             self.robotDrive.getPose,  # Functional interface to feed supplier
             DriveConstants.kDriveKinematics,
             # Position controllers
-            PIDController(AutoConstants.kPXController, 0, 0),
-            PIDController(AutoConstants.kPYController, 0, 0),
-            thetaController,
+            kPIDController,
             self.robotDrive.setModuleStates,
             (self.robotDrive,),
         )
