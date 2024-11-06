@@ -1,0 +1,8 @@
+---
+
+classes:
+  AnalogSensorConfigAccessor:
+    methods:
+      GetInverted:
+      GetPositionConversionFactor:
+      GetVelocityConversionFactor:

@@ -1,0 +1,34 @@
+---
+
+classes:
+  ClosedLoopConfig:
+    attributes:
+      maxMotion:
+      smartMotion:
+    enums:
+      FeedbackSensor:
+    methods:
+      ClosedLoopConfig:
+      Apply:
+        overloads:
+          ClosedLoopConfig&:
+          SmartMotionConfig&:
+          MAXMotionConfig&:
+      Pidf:
+      Pid:
+      P:
+      I:
+      D:
+      VelocityFF:
+      DFilter:
+      IZone:
+      MinOutput:
+      MaxOutput:
+      OutputRange:
+      IMaxAccum:
+      PositionWrappingEnabled:
+      PositionWrappingMinInput:
+      PositionWrappingMaxInput:
+      PositionWrappingInputRange:
+      SetFeedbackSensor:
+      Flatten:

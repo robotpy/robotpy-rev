@@ -1,0 +1,13 @@
+---
+
+classes:
+  SparkFlexConfig:
+    attributes:
+      externalEncoder:
+    methods:
+      SparkFlexConfig:
+      Apply:
+        overloads:
+          SparkFlexConfig&:
+          ExternalEncoderConfig&:
+      Flatten:

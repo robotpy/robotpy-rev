@@ -1,0 +1,21 @@
+---
+
+classes:
+  ClosedLoopConfigAccessor:
+    attributes:
+      maxMotion:
+      smartMotion:
+    methods:
+      GetP:
+      GetI:
+      GetD:
+      GetFF:
+      GetDFilter:
+      GetIZone:
+      GetMinOutput:
+      GetMaxOutput:
+      GetMaxIAccumulation:
+      GetPositionWrappingEnabled:
+      GetPositionWrappingMinInput:
+      GetPositionWrappingMaxInput:
+      GetFeedbackSensor:

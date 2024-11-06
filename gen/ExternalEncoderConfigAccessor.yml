@@ -1,0 +1,11 @@
+---
+
+classes:
+  ExternalEncoderConfigAccessor:
+    methods:
+      GetCountsPerRevolution:
+      GetInverted:
+      GetPositionConversionFactor:
+      GetVelocityConversionFactor:
+      GetAverageDepth:
+      GetMeasurementPeriod:

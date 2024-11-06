@@ -1,0 +1,12 @@
+---
+
+classes:
+  SparkLimitSwitchSim:
+    methods:
+      SparkLimitSwitchSim:
+        overloads:
+          SparkMax*, bool:
+          SparkFlex*, bool:
+      SetPressed:
+      GetPressed:
+      GetEnabled:

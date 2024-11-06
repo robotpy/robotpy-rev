@@ -1,0 +1,15 @@
+---
+
+classes:
+  SparkMaxConfig:
+    attributes:
+      alternateEncoder:
+    enums:
+      DataPortConfig:
+    methods:
+      SparkMaxConfig:
+      Apply:
+        overloads:
+          SparkMaxConfig&:
+          AlternateEncoderConfig&:
+      Flatten:

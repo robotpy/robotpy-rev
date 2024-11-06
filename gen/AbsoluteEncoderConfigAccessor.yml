@@ -1,0 +1,11 @@
+---
+
+classes:
+  AbsoluteEncoderConfigAccessor:
+    methods:
+      GetInverted:
+      GetPositionConversionFactor:
+      GetVelocityConversionFactor:
+      GetAverageDepth:
+      GetStartPulseUs:
+      GetEndPulseUs:

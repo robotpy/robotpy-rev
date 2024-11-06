@@ -1,0 +1,15 @@
+---
+
+classes:
+  EncoderConfig:
+    methods:
+      EncoderConfig:
+      Apply:
+      CountsPerRevolution:
+      Inverted:
+      PositionConversionFactor:
+      VelocityConversionFactor:
+      QuadratureAverageDepth:
+      QuadratureMeasurementPeriod:
+      UvwAverageDepth:
+      UvwMeasurementPeriod:

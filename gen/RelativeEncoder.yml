@@ -1,23 +1,11 @@
 ---
 
+extra_includes_first:
+- rev/REVLibError.h
+
 classes:
   RelativeEncoder:
     methods:
       GetPosition:
       GetVelocity:
       SetPosition:
-      SetPositionConversionFactor:
-      SetVelocityConversionFactor:
-      GetPositionConversionFactor:
-      GetVelocityConversionFactor:
-      SetAverageDepth:
-      SetMeasurementPeriod:
-      GetAverageDepth:
-      GetMeasurementPeriod:
-      GetCountsPerRevolution:
-      SetInverted:
-      GetInverted:
-    trampoline_inline_code: |
-      int GetSparkMaxFeedbackDeviceID() const override {
-        throw py::type_error("not implemented");
-      }

@@ -2,5 +2,8 @@
 
 classes:
   SparkAbsoluteEncoder:
-    enums:
-      Type:
+    base_qualnames:
+      AbsoluteEncoder: rev::AbsoluteEncoder
+    methods:
+      GetPosition:
+      GetVelocity:

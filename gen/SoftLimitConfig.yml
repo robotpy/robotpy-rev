@@ -1,0 +1,11 @@
+---
+
+classes:
+  SoftLimitConfig:
+    methods:
+      SoftLimitConfig:
+      Apply:
+      ForwardSoftLimit:
+      ForwardSoftLimitEnabled:
+      ReverseSoftLimit:
+      ReverseSoftLimitEnabled:
