@@ -1,0 +1,11 @@
+---
+
+classes:
+  SmartMotionConfig:
+    methods:
+      SmartMotionConfig:
+      Apply:
+      MaxVelocity:
+      MaxAcceleration:
+      MinOutputVelocity:
+      AllowedClosedLoopError:

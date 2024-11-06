@@ -2,5 +2,9 @@
 
 classes:
   SparkRelativeEncoder:
-    enums:
-      Type:
+    base_qualnames:
+      RelativeEncoder: rev::RelativeEncoder
+    methods:
+      GetPosition:
+      GetVelocity:
+      SetPosition:

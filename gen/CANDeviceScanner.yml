@@ -1,0 +1,25 @@
+---
+
+functions:
+  GetFRCDeviceTypeText:
+  GetFRCManufacturerText:
+classes:
+  CANScanIdentifier:
+    attributes:
+      deviceTypeId:
+      manufacturerId:
+      canId:
+      uniqueId:
+      name:
+    methods:
+      CANScanIdentifier:
+      Name:
+  CANBusScanner:
+    methods:
+      CANBusScanner:
+      Start:
+      Stop:
+      Running:
+      LastError:
+      CANBusScan:
+      RegisterDevice:

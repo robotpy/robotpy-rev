@@ -1,0 +1,7 @@
+---
+
+classes:
+  SparkFlexConfigAccessor:
+    is_polymorphic: false
+    attributes:
+      externalEncoder:

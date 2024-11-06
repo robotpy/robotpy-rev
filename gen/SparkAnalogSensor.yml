@@ -2,5 +2,9 @@
 
 classes:
   SparkAnalogSensor:
-    enums:
-      Mode:
+    base_qualnames:
+      AnalogInput: rev::AnalogInput
+    methods:
+      GetVoltage:
+      GetPosition:
+      GetVelocity:

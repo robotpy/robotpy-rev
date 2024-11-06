@@ -5,5 +5,3 @@ classes:
     methods:
       GetVoltage:
       GetPosition:
-      SetPositionConversionFactor:
-      GetPositionConversionFactor:

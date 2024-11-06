@@ -1,0 +1,13 @@
+---
+
+classes:
+  MAXMotionConfig:
+    enums:
+      MAXMotionPositionMode:
+    methods:
+      MAXMotionConfig:
+      Apply:
+      MaxVelocity:
+      MaxAcceleration:
+      AllowedClosedLoopError:
+      PositionMode:

@@ -1,0 +1,139 @@
+---
+
+extra_includes_first:
+- rev/REVLibError.h
+
+classes:
+  SparkLowLevel:
+    typealias:
+    - rev::REVLibError
+    attributes:
+      kAPIMajorVersion:
+      kAPIMinorVersion:
+      kAPIBuildVersion:
+      kAPIVersion:
+      m_motorType:
+        ignore: true
+      m_expectedSparkModel:
+        ignore: true
+      m_sparkMaxHandle:
+        ignore: true
+    enums:
+      MotorType:
+      ControlType:
+      ParameterStatus:
+      PeriodicFrame:
+      SparkModel:
+    methods:
+      GetFirmwareVersion:
+        overloads:
+          "":
+          bool&:
+      GetFirmwareString:
+      GetSerialNumber:
+      GetDeviceId:
+      GetMotorType:
+      SetPeriodicFrameTimeout:
+      SetCANMaxRetries:
+      SetControlFramePeriodMs:
+      CreateSimFaultManager:
+      GetPeriodicStatus0:
+        ignore: true
+      GetPeriodicStatus1:
+        ignore: true
+      GetPeriodicStatus2:
+        ignore: true
+      GetPeriodicStatus3:
+        ignore: true
+      GetPeriodicStatus4:
+        ignore: true
+      GetPeriodicStatus5:
+        ignore: true
+      GetPeriodicStatus6:
+        ignore: true
+      GetPeriodicStatus7:
+        ignore: true
+      SetpointCommand:
+        ignore: true
+      GetSafeFloat:
+        ignore: true
+  SparkLowLevel::PeriodicStatus0:
+    attributes:
+      appliedOutput:
+      voltage:
+      current:
+      motorTemperature:
+      hardForwardLimitReached:
+      hardReverseLimitReached:
+      softForwardLimitReached:
+      softReverseLimitReached:
+      inverted:
+      primaryHeartbeatLock:
+      timestamp:
+  SparkLowLevel::PeriodicStatus1:
+    attributes:
+      otherFault:
+      motorTypeFault:
+      sensorFault:
+      canFault:
+      temperatureFault:
+      drvFault:
+      escEepromFault:
+      firmwareFault:
+      brownoutWarning:
+      overcurrentWarning:
+      escEepromWarning:
+      extEepromWarning:
+      sensorWarning:
+      stallWarning:
+      hasResetWarning:
+      otherWarning:
+      otherStickyFault:
+      motorTypeStickyFault:
+      sensorStickyFault:
+      canStickyFault:
+      temperatureStickyFault:
+      drvStickyFault:
+      escEepromStickyFault:
+      firmwareStickyFault:
+      brownoutStickyWarning:
+      overcurrentStickyWarning:
+      escEepromStickyWarning:
+      extEepromStickyWarning:
+      sensorStickyWarning:
+      stallStickyWarning:
+      hasResetStickyWarning:
+      otherStickyWarning:
+      isFollower:
+      timestamp:
+  SparkLowLevel::PeriodicStatus2:
+    attributes:
+      primaryEncoderVelocity:
+      primaryEncoderPosition:
+      timestamp:
+  SparkLowLevel::PeriodicStatus3:
+    attributes:
+      analogVoltage:
+      analogVelocity:
+      analogPosition:
+      timestamp:
+  SparkLowLevel::PeriodicStatus4:
+    attributes:
+      externalOrAltEncoderVelocity:
+      externalOrAltEncoderPosition:
+      timestamp:
+  SparkLowLevel::PeriodicStatus5:
+    attributes:
+      dutyCycleEncoderVelocity:
+      dutyCycleEncoderPosition:
+      timestamp:
+  SparkLowLevel::PeriodicStatus6:
+    attributes:
+      unadjustedDutyCycle:
+      dutyCyclePeriod:
+      dutyCycleNoSignal:
+      timestamp:
+  SparkLowLevel::PeriodicStatus7:
+    attributes:
+      iAccumulation:
+      timestamp:

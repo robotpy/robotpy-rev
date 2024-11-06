@@ -1,0 +1,14 @@
+---
+
+classes:
+  LimitSwitchConfig:
+    enums:
+      Type:
+    methods:
+      LimitSwitchConfig:
+      Apply:
+      SetSparkMaxDataPortConfig:
+      ForwardLimitSwitchEnabled:
+      ForwardLimitSwitchType:
+      ReverseLimitSwitchEnabled:
+      ReverseLimitSwitchType:

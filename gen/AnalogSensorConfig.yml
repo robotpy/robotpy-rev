@@ -1,0 +1,10 @@
+---
+
+classes:
+  AnalogSensorConfig:
+    methods:
+      AnalogSensorConfig:
+      Apply:
+      Inverted:
+      PositionConversionFactor:
+      VelocityConversionFactor:

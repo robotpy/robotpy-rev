@@ -1,0 +1,17 @@
+---
+
+classes:
+  AlternateEncoderConfig:
+    enums:
+      Type:
+    methods:
+      FromId:
+      AlternateEncoderConfig:
+      Apply:
+      SetSparkMaxDataPortConfig:
+      CountsPerRevolution:
+      Inverted:
+      PositionConversionFactor:
+      VelocityConversionFactor:
+      AverageDepth:
+      MeasurementPeriod:

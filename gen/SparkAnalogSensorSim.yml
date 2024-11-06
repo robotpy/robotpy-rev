@@ -1,20 +1,22 @@
 ---
 
 classes:
-  CANAnalog:
-    enums:
-      AnalogMode:
+  SparkAnalogSensorSim:
     methods:
+      SparkAnalogSensorSim:
+        overloads:
+          SparkMax*:
+          SparkFlex*:
+      SetVoltage:
       GetVoltage:
+      SetPosition:
       GetPosition:
+      SetVelocity:
       GetVelocity:
+      SetInverted:
+      GetInverted:
       SetPositionConversionFactor:
       GetPositionConversionFactor:
       SetVelocityConversionFactor:
       GetVelocityConversionFactor:
-      SetAverageDepth:
-      SetMeasurementPeriod:
-      GetAverageDepth:
-      GetMeasurementPeriod:
-      SetInverted:
-      GetInverted:
+      iterate:

@@ -2,5 +2,5 @@
 
 classes:
   SparkLimitSwitch:
-    enums:
-      Type:
+    methods:
+      Get:
