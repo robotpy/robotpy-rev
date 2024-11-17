@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+- sparkbaseconfig_apply.h
+
 classes:
   SparkMaxConfig:
     attributes:
@@ -13,3 +16,5 @@ classes:
           SparkMaxConfig&:
           AlternateEncoderConfig&:
       Flatten:
+inline_code: |
+  bind_sparkbaseconfig_apply<SparkMaxConfig, decltype(cls_SparkMaxConfig)>(cls_SparkMaxConfig);
