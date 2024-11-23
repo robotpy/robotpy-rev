@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+- sparkbaseconfig_apply.h
+
 classes:
   SparkFlexConfig:
     attributes:
@@ -11,3 +14,6 @@ classes:
           SparkFlexConfig&:
           ExternalEncoderConfig&:
       Flatten:
+inline_code: |
+  bind_sparkbaseconfig_apply<SparkFlexConfig, decltype(cls_SparkFlexConfig)>(cls_SparkFlexConfig);
+
