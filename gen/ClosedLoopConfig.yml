@@ -2,6 +2,8 @@
 
 classes:
   ClosedLoopConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
     attributes:
       maxMotion:
       smartMotion:

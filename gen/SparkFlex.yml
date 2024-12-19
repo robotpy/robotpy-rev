@@ -1,5 +1,8 @@
 ---
 
+extra_includes_first:
+- rev/REVLibError.h
+
 extra_includes:
 - rev/SparkLowLevel.h
 
