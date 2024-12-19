@@ -2,6 +2,8 @@
 
 classes:
   SoftLimitConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
     methods:
       SoftLimitConfig:
       Apply:

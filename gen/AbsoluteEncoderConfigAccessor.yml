@@ -9,3 +9,4 @@ classes:
       GetAverageDepth:
       GetStartPulseUs:
       GetEndPulseUs:
+      GetZeroOffset:

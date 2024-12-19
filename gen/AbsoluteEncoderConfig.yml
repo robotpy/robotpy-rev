@@ -2,6 +2,8 @@
 
 classes:
   AbsoluteEncoderConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
     methods:
       AbsoluteEncoderConfig:
       Apply:
@@ -13,3 +15,4 @@ classes:
       AverageDepth:
       StartPulseUs:
       EndPulseUs:
+      ZeroCentered:

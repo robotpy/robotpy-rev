@@ -2,6 +2,8 @@
 
 classes:
   SparkBaseConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
     attributes:
       absoluteEncoder:
       analogSensor:

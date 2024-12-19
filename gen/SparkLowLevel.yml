@@ -5,8 +5,6 @@ extra_includes_first:
 
 classes:
   SparkLowLevel:
-    typealias:
-    - rev::REVLibError
     attributes:
       kAPIMajorVersion:
       kAPIMinorVersion:

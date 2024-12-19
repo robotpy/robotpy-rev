@@ -2,6 +2,8 @@
 
 classes:
   ExternalEncoderConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
     enums:
       Type:
     methods:

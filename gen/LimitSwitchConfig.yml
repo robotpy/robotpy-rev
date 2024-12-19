@@ -2,6 +2,8 @@
 
 classes:
   LimitSwitchConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
     enums:
       Type:
     methods:

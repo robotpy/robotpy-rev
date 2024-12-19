@@ -2,6 +2,8 @@
 
 classes:
   SmartMotionConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
     methods:
       SmartMotionConfig:
       Apply:
