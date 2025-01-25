@@ -61,23 +61,23 @@ class Robot(wpilib.TimedRobot):
         # mid-operation.
         self.leftLeadMotor.configure(
             self.globalConfig,
-            rev._rev.SparkBase.ResetMode.kResetSafeParameters,
-            rev._rev.SparkBase.PersistMode.kPersistParameters,
+            rev.SparkBase.ResetMode.kResetSafeParameters,
+            rev.SparkBase.PersistMode.kPersistParameters,
         )
         self.leftFollowMotor.configure(
             self.leftFollowerConfig,
-            rev._rev.SparkBase.ResetMode.kResetSafeParameters,
-            rev._rev.SparkBase.PersistMode.kPersistParameters,
+            rev.SparkBase.ResetMode.kResetSafeParameters,
+            rev.SparkBase.PersistMode.kPersistParameters,
         )
         self.rightLeadMotor.configure(
             self.rightLeaderConfig,
-            rev._rev.SparkBase.ResetMode.kResetSafeParameters,
-            rev._rev.SparkBase.PersistMode.kPersistParameters,
+            rev.SparkBase.ResetMode.kResetSafeParameters,
+            rev.SparkBase.PersistMode.kPersistParameters,
         )
         self.rightFollowMotor.configure(
             self.rightFollowerConfig,
-            rev._rev.SparkBase.ResetMode.kResetSafeParameters,
-            rev._rev.SparkBase.PersistMode.kPersistParameters,
+            rev.SparkBase.ResetMode.kResetSafeParameters,
+            rev.SparkBase.PersistMode.kPersistParameters,
         )
 
     def teleopPeriodic(self):
