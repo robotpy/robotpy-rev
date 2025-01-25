@@ -16,33 +16,47 @@ import wpilib
 class Robot(wpilib.TimedRobot):
     def robotInit(self):
         # Create motor
-        self.motor = rev.CANSparkMax(1, rev.CANSparkMax.MotorType.kBrushless)
+        self.motor = rev.SparkMax(1, rev.SparkMax.MotorType.kBrushless)
 
         self.joystick = wpilib.Joystick(0)
 
-        # A CANDigitalInput object is constructed using the
-        # GetForwardLimitSwitch() or
-        # GetReverseLimitSwitch() method on an existing CANSparkMax object,
+        # A SparkLimitSwitch object is constructed using the
+        # getForwardLimitSwitch() or
+        # getReverseLimitSwitch() method on an existing CANSparkMax object,
         # depending on which direction you would like to limit
         #
         # Limit switches can be configured to one of two polarities:
-        # rev.CANDigitalInput.LimitSwitchPolarity.kNormallyOpen
-        # rev.CANDigitalInput.LimitSwitchPolarity.kNormallyClosed
-        self.forwardLimit = self.motor.getForwardLimitSwitch(
-            rev.SparkLimitSwitch.Type.kNormallyClosed
+        # rev.LimitSwitchConfig.Type.kNormallyOpen
+        # rev.LimitSwitchConfig.Type.kNormallyClosed
+        self.forwardLimit = self.motor.getForwardLimitSwitch()
+        self.reverseLimit = self.motor.getReverseLimitSwitch()
+
+        self.limitConfig = rev.SparkMaxConfig()
+        self.limitConfig.limitSwitch.forwardLimitSwitchType(
+            rev.LimitSwitchConfig.Type.kNormallyClosed
+        ).forwardLimitSwitchEnabled(False).reverseLimitSwitchType(
+            rev.LimitSwitchConfig.Type.kNormallyClosed
+        ).reverseLimitSwitchEnabled(
+            False
         )
-        self.reverseLimit = self.motor.getReverseLimitSwitch(
-            rev.SparkLimitSwitch.Type.kNormallyClosed
+        self.motor.configure(
+            self.limitConfig,
+            rev.SparkBase.ResetMode.kResetSafeParameters,
+            rev.SparkBase.PersistMode.kNoPersistParameters,
         )
 
-        self.forwardLimit.enableLimitSwitch(False)
-        self.reverseLimit.enableLimitSwitch(False)
+        self.prevForwardLimitEnabled = (
+            self.motor.configAccessor.limitSwitch.getForwardLimitSwitchEnabled()
+        )
+        self.prevReverseLimitEnabled = (
+            self.motor.configAccessor.limitSwitch.getReverseLimitSwitchEnabled()
+        )
 
         wpilib.SmartDashboard.putBoolean(
-            "Forward Limit Enabled", self.forwardLimit.isLimitSwitchEnabled()
+            "Forward Limit Enabled", self.prevForwardLimitEnabled
         )
         wpilib.SmartDashboard.putBoolean(
-            "Reverse Limit Enabled", self.forwardLimit.isLimitSwitchEnabled()
+            "Reverse Limit Enabled", self.prevReverseLimitEnabled
         )
 
     def teleopPeriodic(self):
@@ -50,14 +64,36 @@ class Robot(wpilib.TimedRobot):
         self.motor.set(self.joystick.getY())
 
         # enable/disable limit switches based on value read from SmartDashboard
-        self.forwardLimit.enableLimitSwitch(
-            wpilib.SmartDashboard.getBoolean("Forward Limit Enabled", False)
-        )
-        self.reverseLimit.enableLimitSwitch(
-            wpilib.SmartDashboard.getBoolean("Reverse Limit Enabled", False)
-        )
+        if self.prevForwardLimitEnabled != wpilib.SmartDashboard.getBoolean(
+            "Forward Limit Enabled", False
+        ):
+            self.prevForwardLimitEnabled = wpilib.SmartDashboard.getBoolean(
+                "Forward Limit Enabled", False
+            )
+            self.limitConfig.limitSwitch.forwardLimitSwitchEnabled(
+                self.prevForwardLimitEnabled
+            )
+            self.motor.configure(
+                self.limitConfig,
+                rev.SparkBase.ResetMode.kResetSafeParameters,
+                rev.SparkBase.PersistMode.kNoPersistParameters,
+            )
+        if self.prevReverseLimitEnabled != wpilib.SmartDashboard.getBoolean(
+            "Reverse Limit Enabled", False
+        ):
+            self.prevReverseLimitEnabled = wpilib.SmartDashboard.getBoolean(
+                "Reverse Limit Enabled", False
+            )
+            self.limitConfig.limitSwitch.reverseLimitSwitchEnabled(
+                self.prevReverseLimitEnabled
+            )
+            self.motor.configure(
+                self.limitConfig,
+                rev.SparkBase.ResetMode.kResetSafeParameters,
+                rev.SparkBase.PersistMode.kNoPersistParameters,
+            )
 
-        # The get() method can be used on a CANDigitalInput object to read the
+        # The get() method can be used on a SparkLimitSwitch object to read the
         # state of the switch.
         #
         # In this example, the polarity of the switches are set to normally

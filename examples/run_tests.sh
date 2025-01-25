@@ -7,12 +7,12 @@ BASE_TESTS="
   can-arcade-drive
   can-tank-drive
   getting-started
+  limit-switch
 "
 
 IGNORED_TESTS="
   color_match
   get-set-params
-  limit-switch
   maxswerve
   position-pid-control
   read_rgb_values
