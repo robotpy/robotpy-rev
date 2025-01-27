@@ -1,9 +1,9 @@
-# ----------------------------------------------------------------------------
-# Copyright (c) 2017-2018 FIRST. All Rights Reserved.
-# Open Source Software - may be modified and shared by FRC teams. The code
-# must be accompanied by the FIRST BSD license file in the root directory of
-# the project.
-# ----------------------------------------------------------------------------
+#!/usr/bin/env python3
+#
+# Copyright (c) FIRST and other WPILib contributors.
+# Open Source Software; you can modify and/or share it under the terms of
+# the WPILib BSD license file in the root directory of this project.
+#
 
 import rev
 import wpilib
@@ -25,34 +25,60 @@ class Robot(wpilib.TimedRobot):
         #
         # The example below initializes four brushless motors with CAN IDs
         # 1, 2, 3, 4. Change these parameters to match your setup
-        self.leftLeadMotor = rev.CANSparkMax(1, rev.CANSparkMax.MotorType.kBrushless)
-        self.rightLeadMotor = rev.CANSparkMax(3, rev.CANSparkMax.MotorType.kBrushless)
-        self.leftFollowMotor = rev.CANSparkMax(2, rev.CANSparkMax.MotorType.kBrushless)
-        self.rightFollowMotor = rev.CANSparkMax(4, rev.CANSparkMax.MotorType.kBrushless)
+        self.leftLeadMotor = rev.SparkMax(1, rev.SparkMax.MotorType.kBrushless)
+        self.rightLeadMotor = rev.SparkMax(3, rev.SparkMax.MotorType.kBrushless)
+        self.leftFollowMotor = rev.SparkMax(2, rev.SparkMax.MotorType.kBrushless)
+        self.rightFollowMotor = rev.SparkMax(4, rev.SparkMax.MotorType.kBrushless)
 
         # Passing in the lead motors into DifferentialDrive allows any
         # commmands sent to the lead motors to be sent to the follower motors.
         self.driveTrain = DifferentialDrive(self.leftLeadMotor, self.rightLeadMotor)
         self.joystick = wpilib.Joystick(0)
 
-        # The RestoreFactoryDefaults method can be used to reset the
-        # configuration parameters in the SPARK MAX to their factory default
-        # state. If no argument is passed, these parameters will not persist
-        # between power cycles
-        self.leftLeadMotor.restoreFactoryDefaults()
-        self.rightLeadMotor.restoreFactoryDefaults()
-        self.leftFollowMotor.restoreFactoryDefaults()
-        self.rightFollowMotor.restoreFactoryDefaults()
+        # Create new SPARK MAX configuration objects. These will store the
+        # configuration parameters for the SPARK MAXes that we will set below.
+        self.globalConfig = rev.SparkMaxConfig()
+        self.rightLeaderConfig = rev.SparkMaxConfig()
+        self.leftFollowerConfig = rev.SparkMaxConfig()
+        self.rightFollowerConfig = rev.SparkMaxConfig()
 
-        # In CAN mode, one SPARK MAX can be configured to follow another. This
-        # is done by calling the follow() method on the SPARK MAX you want to
-        # configure as a follower, and by passing as a parameter the SPARK MAX
-        # you want to configure as a leader.
+        # Apply the global config and invert since it is on the opposite side
+        self.rightLeaderConfig.apply(self.globalConfig).inverted(True)
+
+        # Apply the global config and set the leader SPARK for follower mode
+        self.leftFollowerConfig.apply(self.globalConfig).follow(self.leftLeadMotor)
+
+        # Apply the global config and set the leader SPARK for follower mode
+        self.rightFollowerConfig.apply(self.globalConfig).follow(self.rightLeadMotor)
+
+        # Apply the configuration to the SPARKs.
         #
-        # This is shown in the example below, where one motor on each side of
-        # our drive train is configured to follow a lead motor.
-        self.leftFollowMotor.follow(self.leftLeadMotor)
-        self.rightFollowMotor.follow(self.rightLeadMotor)
+        # kResetSafeParameters is used to get the SPARK MAX to a known state. This
+        # is useful in case the SPARK MAX is replaced.
+        #
+        # kPersistParameters is used to ensure the configuration is not lost when
+        # the SPARK MAX loses power. This is useful for power cycles that may occur
+        # mid-operation.
+        self.leftLeadMotor.configure(
+            self.globalConfig,
+            rev.SparkBase.ResetMode.kResetSafeParameters,
+            rev.SparkBase.PersistMode.kPersistParameters,
+        )
+        self.leftFollowMotor.configure(
+            self.leftFollowerConfig,
+            rev.SparkBase.ResetMode.kResetSafeParameters,
+            rev.SparkBase.PersistMode.kPersistParameters,
+        )
+        self.rightLeadMotor.configure(
+            self.rightLeaderConfig,
+            rev.SparkBase.ResetMode.kResetSafeParameters,
+            rev.SparkBase.PersistMode.kPersistParameters,
+        )
+        self.rightFollowMotor.configure(
+            self.rightFollowerConfig,
+            rev.SparkBase.ResetMode.kResetSafeParameters,
+            rev.SparkBase.PersistMode.kPersistParameters,
+        )
 
     def teleopPeriodic(self):
         # Drive with arcade style

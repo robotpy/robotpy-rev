@@ -1,9 +1,9 @@
-# ----------------------------------------------------------------------------
-# Copyright (c) 2017-2018 FIRST. All Rights Reserved.
-# Open Source Software - may be modified and shared by FRC teams. The code
-# must be accompanied by the FIRST BSD license file in the root directory of
-# the project.
-# ----------------------------------------------------------------------------
+#!/usr/bin/env python3
+#
+# Copyright (c) FIRST and other WPILib contributors.
+# Open Source Software; you can modify and/or share it under the terms of
+# the WPILib BSD license file in the root directory of this project.
+#
 
 import rev
 import wpilib
@@ -25,15 +25,22 @@ class Robot(wpilib.TimedRobot):
         #
         # The example below initializes two brushless motors with CAN IDs
         # 1 and 2. Change these parameters to match your setup
-        self.leftMotor = rev.CANSparkMax(1, rev.CANSparkMax.MotorType.kBrushless)
-        self.rightMotor = rev.CANSparkMax(2, rev.CANSparkMax.MotorType.kBrushless)
+        self.leftMotor = rev.SparkMax(1, rev.SparkMax.MotorType.kBrushless)
+        self.rightMotor = rev.SparkMax(2, rev.SparkMax.MotorType.kBrushless)
 
-        # The RestoreFactoryDefaults method can be used to reset the
-        # configuration parameters in the SPARK MAX to their factory default
-        # state. If no argument is passed, these parameters will not persist
-        # between power cycles
-        self.leftMotor.restoreFactoryDefaults()
-        self.rightMotor.restoreFactoryDefaults()
+        # Configure for factory defaults and invert right side motor
+        self.globalConfig = rev.SparkMaxConfig()
+        self.rightConfig = self.globalConfig.inverted(True)
+        self.leftMotor.configure(
+            self.globalConfig,
+            rev.SparkBase.ResetMode.kResetSafeParameters,
+            rev.SparkBase.PersistMode.kPersistParameters,
+        )
+        self.rightMotor.configure(
+            self.rightConfig,
+            rev.SparkBase.ResetMode.kResetSafeParameters,
+            rev.SparkBase.PersistMode.kPersistParameters,
+        )
 
         self.driveTrain = DifferentialDrive(self.leftMotor, self.rightMotor)
         self.l_stick = wpilib.Joystick(0)

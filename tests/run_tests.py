@@ -10,3 +10,5 @@ if __name__ == "__main__":
     os.chdir(root)
 
     subprocess.check_call([sys.executable, "-m", "pytest"])
+
+    subprocess.check_call([sys.executable, "../examples/run_examples.py"])

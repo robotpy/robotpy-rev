@@ -16,8 +16,8 @@ class MyRobot(wpilib.TimedRobot):
         This function is called upon program startup and
         should be used for any initialization code.
         """
-        self.leftDrive = rev.CANSparkMax(1, rev.CANSparkMax.MotorType.kBrushless)
-        self.rightDrive = rev.CANSparkMax(2, rev.CANSparkMax.MotorType.kBrushless)
+        self.leftDrive = rev.SparkMax(1, rev.SparkMax.MotorType.kBrushless)
+        self.rightDrive = rev.SparkMax(2, rev.SparkMax.MotorType.kBrushless)
         self.robotDrive = wpilib.drive.DifferentialDrive(
             self.leftDrive, self.rightDrive
         )
