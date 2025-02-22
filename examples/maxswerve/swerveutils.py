@@ -41,7 +41,7 @@ def stepTowardsCircular(current: float, target: float, stepsize: float) -> float
     current = wrapAngle(current)
     target = wrapAngle(target)
 
-    stepDirection = math.copysign(target - current, 1)
+    stepDirection = math.copysign(1, target - current)
     difference = abs(current - target)
 
     if difference <= stepsize:
