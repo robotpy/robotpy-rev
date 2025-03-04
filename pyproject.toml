@@ -11,7 +11,7 @@ install_requires = [
 
 [build-system]
 requires = [
-    "robotpy-build<2026.0.0,~=2025.0.0",
+    "robotpy-build @ git+https://github.com/robotpy/robotpy-build.git@new-smart-holder",
     "wpilib<2026.0.0,>=2025.3.1",
 ]
 
