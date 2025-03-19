@@ -1,2 +1,2 @@
 pytest
-robotpy
+pyfrc<2026.0.0,>=2025.0.0
