@@ -1,0 +1,10 @@
+
+extra_includes_first:
+- rev/REVLibError.h
+
+classes:
+  rev::RelativeEncoder:
+    methods:
+      GetPosition:
+      GetVelocity:
+      SetPosition:

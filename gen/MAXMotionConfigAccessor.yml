@@ -1,9 +1,0 @@
----
-
-classes:
-  MAXMotionConfigAccessor:
-    methods:
-      GetMaxVelocity:
-      GetMaxAcceleration:
-      GetAllowedClosedLoopError:
-      GetPositionMode:

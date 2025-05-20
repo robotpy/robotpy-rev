@@ -1,0 +1,8 @@
+
+classes:
+  rev::spark::SmartMotionConfigAccessor:
+    methods:
+      GetMaxVelocity:
+      GetMaxAcceleration:
+      GetMinOutputVelocity:
+      GetAllowedClosedLoopError:

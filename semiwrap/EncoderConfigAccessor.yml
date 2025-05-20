@@ -1,0 +1,12 @@
+
+classes:
+  rev::spark::EncoderConfigAccessor:
+    methods:
+      GetCountsPerRevolution:
+      GetInverted:
+      GetPositionConversionFactor:
+      GetVelocityConversionFactor:
+      GetQuadratureAverageDepth:
+      GetQuadratureMeasurementPeriod:
+      GetUvwAverageDepth:
+      GetUvwMeasurementPeriod:

@@ -1,0 +1,17 @@
+
+classes:
+  rev::spark::AbsoluteEncoderConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
+    methods:
+      AbsoluteEncoderConfig:
+      Apply:
+      SetSparkMaxDataPortConfig:
+      Inverted:
+      PositionConversionFactor:
+      VelocityConversionFactor:
+      ZeroOffset:
+      AverageDepth:
+      StartPulseUs:
+      EndPulseUs:
+      ZeroCentered:

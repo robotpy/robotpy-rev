@@ -1,7 +1,0 @@
----
-
-classes:
-  AbsoluteEncoder:
-    methods:
-      GetPosition:
-      GetVelocity:

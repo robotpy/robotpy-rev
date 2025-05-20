@@ -1,7 +1,0 @@
----
-
-classes:
-  NoiseGenerator:
-    methods:
-      whiteNoise:
-      hallSensorVelocity:

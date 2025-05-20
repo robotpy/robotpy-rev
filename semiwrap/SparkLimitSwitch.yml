@@ -1,0 +1,5 @@
+
+classes:
+  rev::spark::SparkLimitSwitch:
+    methods:
+      Get:

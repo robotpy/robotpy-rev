@@ -1,0 +1,8 @@
+
+classes:
+  rev::spark::SparkAbsoluteEncoder:
+    base_qualnames:
+      AbsoluteEncoder: rev::AbsoluteEncoder
+    methods:
+      GetPosition:
+      GetVelocity:

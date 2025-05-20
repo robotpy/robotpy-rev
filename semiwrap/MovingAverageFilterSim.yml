@@ -1,0 +1,7 @@
+
+classes:
+  rev::spark::MovingAverageFilterSim:
+    methods:
+      MovingAverageFilterSim:
+      put:
+      get:

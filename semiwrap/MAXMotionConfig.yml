@@ -1,0 +1,14 @@
+
+classes:
+  rev::spark::MAXMotionConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
+    enums:
+      MAXMotionPositionMode:
+    methods:
+      MAXMotionConfig:
+      Apply:
+      MaxVelocity:
+      MaxAcceleration:
+      AllowedClosedLoopError:
+      PositionMode:

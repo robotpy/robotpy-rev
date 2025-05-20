@@ -1,0 +1,12 @@
+
+classes:
+  rev::spark::SoftLimitConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
+    methods:
+      SoftLimitConfig:
+      Apply:
+      ForwardSoftLimit:
+      ForwardSoftLimitEnabled:
+      ReverseSoftLimit:
+      ReverseSoftLimitEnabled:

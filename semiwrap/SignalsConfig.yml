@@ -1,0 +1,42 @@
+
+classes:
+  rev::spark::SignalsConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
+    methods:
+      SignalsConfig:
+      Apply:
+      AppliedOutputPeriodMs:
+      AppliedOutputAlwaysOn:
+      BusVoltagePeriodMs:
+      BusVoltageAlwaysOn:
+      OutputCurrentPeriodMs:
+      OutputCurrentAlwaysOn:
+      MotorTemperaturePeriodMs:
+      MotorTemperatureAlwaysOn:
+      LimitsPeriodMs:
+      LimitsAlwaysOn:
+      FaultsPeriodMs:
+      FaultsAlwaysOn:
+      WarningsPeriodMs:
+      WarningsAlwaysOn:
+      PrimaryEncoderVelocityPeriodMs:
+      PrimaryEncoderVelocityAlwaysOn:
+      PrimaryEncoderPositionPeriodMs:
+      PrimaryEncoderPositionAlwaysOn:
+      AnalogVoltagePeriodMs:
+      AnalogVoltageAlwaysOn:
+      AnalogVelocityPeriodMs:
+      AnalogVelocityAlwaysOn:
+      AnalogPositionPeriodMs:
+      AnalogPositionAlwaysOn:
+      ExternalOrAltEncoderVelocity:
+      ExternalOrAltEncoderVelocityAlwaysOn:
+      ExternalOrAltEncoderPosition:
+      ExternalOrAltEncoderPositionAlwaysOn:
+      AbsoluteEncoderVelocityPeriodMs:
+      AbsoluteEncoderVelocityAlwaysOn:
+      AbsoluteEncoderPositionPeriodMs:
+      AbsoluteEncoderPositionAlwaysOn:
+      IAccumulationPeriodMs:
+      IAccumulationAlwaysOn:

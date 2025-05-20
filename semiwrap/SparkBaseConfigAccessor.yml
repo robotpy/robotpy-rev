@@ -1,0 +1,25 @@
+
+classes:
+  rev::spark::SparkBaseConfigAccessor:
+    attributes:
+      absoluteEncoder:
+      analogSensor:
+      closedLoop:
+      encoder:
+      limitSwitch:
+      signals:
+      softLimit:
+    methods:
+      GetIdleMode:
+      GetInverted:
+      GetSmartCurrentLimit:
+      GetSmartCurrentFreeLimit:
+      GetSmartCurrentRPMLimit:
+      GetSecondaryCurrentLimit:
+      GetSecondaryCurrentLimitChopCycles:
+      GetOpenLoopRampRate:
+      GetClosedLoopRampRate:
+      GetVoltageCompensation:
+      GetVoltageCompensationEnabled:
+      GetFollowerModeLeaderId:
+      GetFollowerModeInverted:

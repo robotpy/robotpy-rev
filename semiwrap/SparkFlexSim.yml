@@ -1,0 +1,8 @@
+
+classes:
+  rev::spark::SparkFlexSim:
+    is_polymorphic: false
+    methods:
+      SparkFlexSim:
+      GetExternalEncoderSim:
+        return_value_policy: reference_internal

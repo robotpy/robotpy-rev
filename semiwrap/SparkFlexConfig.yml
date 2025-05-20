@@ -1,0 +1,18 @@
+
+extra_includes:
+- sparkbaseconfig_apply.h
+
+classes:
+  rev::spark::SparkFlexConfig:
+    attributes:
+      externalEncoder:
+    methods:
+      SparkFlexConfig:
+      Apply:
+        overloads:
+          SparkFlexConfig&:
+          ExternalEncoderConfig&:
+      Flatten:
+inline_code: |
+  bind_sparkbaseconfig_apply<SparkFlexConfig, decltype(cls_SparkFlexConfig)>(cls_SparkFlexConfig);
+

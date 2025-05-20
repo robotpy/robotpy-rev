@@ -1,9 +1,0 @@
----
-
-classes:
-  SoftLimitConfigAccessor:
-    methods:
-      GetForwardSoftLimitEnabled:
-      GetForwardSoftLimit:
-      GetReverseSoftLimitEnabled:
-      GetReverseSoftLimit:

@@ -1,8 +1,0 @@
----
-
-classes:
-  MovingAverageFilterSim:
-    methods:
-      MovingAverageFilterSim:
-      put:
-      get:
