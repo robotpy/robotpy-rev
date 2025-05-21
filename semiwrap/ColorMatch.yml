@@ -1,0 +1,12 @@
+
+classes:
+  rev::ColorMatch:
+    methods:
+      ColorMatch:
+      AddColorMatch:
+      SetConfidenceThreshold:
+      MatchColor:
+        overloads:
+          const frc::Color&:
+          const frc::Color&, double&:
+      MatchClosestColor:

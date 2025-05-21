@@ -1,0 +1,8 @@
+
+classes:
+  rev::spark::SoftLimitConfigAccessor:
+    methods:
+      GetForwardSoftLimitEnabled:
+      GetForwardSoftLimit:
+      GetReverseSoftLimitEnabled:
+      GetReverseSoftLimit:

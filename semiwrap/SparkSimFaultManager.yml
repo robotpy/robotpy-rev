@@ -1,0 +1,12 @@
+
+classes:
+  rev::spark::SparkSimFaultManager:
+    methods:
+      SparkSimFaultManager:
+        overloads:
+          SparkMax*:
+          SparkFlex*:
+      SetFaults:
+      SetStickyFaults:
+      SetWarnings:
+      SetStickyWarnings:

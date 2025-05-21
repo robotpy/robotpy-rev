@@ -1,0 +1,23 @@
+
+classes:
+  rev::BaseConfig:
+    methods:
+      Flatten:
+      BaseConfig:
+        ignore: true
+      PutParameter:
+        ignore: true
+      GetParameter:
+        overloads:
+          uint8_t:
+            ignore: true
+          BaseConfig&, uint8_t:
+            ignore: true
+      RemoveParameter:
+        overloads:
+          uint8_t:
+            ignore: true
+          BaseConfig&, uint8_t:
+            ignore: true
+      Apply:
+        ignore: true

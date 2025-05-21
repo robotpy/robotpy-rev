@@ -1,0 +1,15 @@
+
+classes:
+  rev::spark::LimitSwitchConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
+    enums:
+      Type:
+    methods:
+      LimitSwitchConfig:
+      Apply:
+      SetSparkMaxDataPortConfig:
+      ForwardLimitSwitchEnabled:
+      ForwardLimitSwitchType:
+      ReverseLimitSwitchEnabled:
+      ReverseLimitSwitchType:

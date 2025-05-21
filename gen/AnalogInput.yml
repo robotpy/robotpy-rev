@@ -1,7 +1,0 @@
----
-
-classes:
-  AnalogInput:
-    methods:
-      GetVoltage:
-      GetPosition:

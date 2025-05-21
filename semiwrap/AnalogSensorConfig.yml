@@ -1,0 +1,11 @@
+
+classes:
+  rev::spark::AnalogSensorConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
+    methods:
+      AnalogSensorConfig:
+      Apply:
+      Inverted:
+      PositionConversionFactor:
+      VelocityConversionFactor:

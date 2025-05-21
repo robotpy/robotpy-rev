@@ -1,0 +1,18 @@
+
+classes:
+  rev::spark::SparkMaxAlternateEncoderSim:
+    methods:
+      SparkMaxAlternateEncoderSim:
+      SetPosition:
+      GetPosition:
+      SetVelocity:
+      GetVelocity:
+      SetInverted:
+      GetInverted:
+      SetZeroOffset:
+      GetZeroOffset:
+      SetPositionConversionFactor:
+      GetPositionConversionFactor:
+      SetVelocityConversionFactor:
+      GetVelocityConversionFactor:
+      iterate:

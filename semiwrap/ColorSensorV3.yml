@@ -1,0 +1,32 @@
+
+classes:
+  rev::ColorSensorV3:
+    enums:
+      GainFactor:
+      LEDPulseFrequency:
+      LEDCurrent:
+      ProximityResolution:
+      ProximityMeasurementRate:
+      ColorResolution:
+      ColorMeasurementRate:
+    methods:
+      ColorSensorV3:
+      GetColor:
+      GetRawColor:
+      GetCIEColor:
+      GetIR:
+      GetProximity:
+      SetGain:
+      ConfigureProximitySensorLED:
+      ConfigureProximitySensor:
+      ConfigureColorSensor:
+      HasReset:
+      IsConnected:
+  rev::ColorSensorV3::RawColor:
+    attributes:
+      red:
+      green:
+      blue:
+      ir:
+    methods:
+      RawColor:

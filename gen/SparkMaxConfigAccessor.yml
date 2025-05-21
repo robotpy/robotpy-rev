@@ -1,7 +1,0 @@
----
-
-classes:
-  SparkMaxConfigAccessor:
-    is_polymorphic: false
-    attributes:
-      alternateEncoder:

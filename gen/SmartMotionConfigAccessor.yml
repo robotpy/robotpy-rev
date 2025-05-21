@@ -1,9 +1,0 @@
----
-
-classes:
-  SmartMotionConfigAccessor:
-    methods:
-      GetMaxVelocity:
-      GetMaxAcceleration:
-      GetMinOutputVelocity:
-      GetAllowedClosedLoopError:

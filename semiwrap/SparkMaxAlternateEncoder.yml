@@ -1,0 +1,9 @@
+
+classes:
+  rev::spark::SparkMaxAlternateEncoder:
+    base_qualnames:
+      RelativeEncoder: rev::RelativeEncoder
+    methods:
+      GetPosition:
+      GetVelocity:
+      SetPosition:

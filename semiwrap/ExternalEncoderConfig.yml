@@ -1,0 +1,17 @@
+
+classes:
+  rev::spark::ExternalEncoderConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
+    enums:
+      Type:
+    methods:
+      FromId:
+      ExternalEncoderConfig:
+      Apply:
+      CountsPerRevolution:
+      Inverted:
+      PositionConversionFactor:
+      VelocityConversionFactor:
+      AverageDepth:
+      MeasurementPeriod:

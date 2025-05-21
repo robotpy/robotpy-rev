@@ -9,12 +9,12 @@ __pycache__
 *.egg-info
 build
 dist
+/lib
 
 /rev/version.py
-/rev/_init_rev.py
-/rev/rpy-include
-/rev/pkgcfg.py
-/rev/py.typed
+/rev/_init__rev.py
+/rev/trampolines
+/rev/*.pc
 
 *.dylib
 *.dll

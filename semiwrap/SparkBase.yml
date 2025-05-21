@@ -1,0 +1,126 @@
+
+extra_includes_first:
+- rev/REVLibError.h
+
+extra_includes:
+- rev/SparkLowLevel.h
+- rev/config/SparkBaseConfig.h
+
+# typealias:
+# - rev::REVLibError
+
+classes:
+  rev::spark::SparkBase:
+    typealias:
+    - rev::spark::SparkLowLevel::MotorType
+    - rev::spark::SparkLowLevel::SparkModel
+    attributes:
+      m_RelativeEncoder:
+        ignore: true
+      m_relativeEncoderCreated:
+        ignore: true
+      m_AnalogSensor:
+        ignore: true
+      m_analogSensorCreated:
+        ignore: true
+      m_AbsoluteEncoder:
+        ignore: true
+      m_absoluteEncoderCreated:
+        ignore: true
+      m_ClosedLoopController:
+        ignore: true
+      m_closedLoopControllerCreated:
+        ignore: true
+      m_ForwardLimitSwitch:
+        ignore: true
+      m_forwardLimitSwitchCreated:
+        ignore: true
+      m_ReverseLimitSwitch:
+        ignore: true
+      m_reverseLimitSwitchCreated:
+        ignore: true
+      m_setpoint:
+        ignore: true
+    enums:
+      IdleMode:
+      SoftLimitDirection:
+      ResetMode:
+      PersistMode:
+    methods:
+      Set:
+      SetVoltage:
+      Get:
+      SetInverted:
+      GetInverted:
+      Disable:
+      StopMotor:
+      Configure:
+      GetEncoder:
+        return_value_policy: reference_internal
+      GetAnalog:
+        return_value_policy: reference_internal
+      GetAbsoluteEncoder:
+        return_value_policy: reference_internal
+      GetClosedLoopController:
+        return_value_policy: reference_internal
+      GetForwardLimitSwitch:
+        return_value_policy: reference_internal
+      GetReverseLimitSwitch:
+        return_value_policy: reference_internal
+      ResumeFollowerMode:
+      PauseFollowerMode:
+      IsFollower:
+      HasActiveFault:
+      HasStickyFault:
+      HasActiveWarning:
+      HasStickyWarning:
+      GetFaults:
+      GetStickyFaults:
+      GetWarnings:
+      GetStickyWarnings:
+      GetBusVoltage:
+      GetAppliedOutput:
+      GetOutputCurrent:
+      GetMotorTemperature:
+      ClearFaults:
+      SetCANTimeout:
+      GetLastError:
+      PreGetAbsoluteEncoder:
+      PreGetForwardLimitSwitch:
+      PreGetReverseLimitSwitch:
+      SparkBase:
+      GetEncoderEvenIfAlreadyCreated:
+      GetMotorInterface:
+      GetSparkModel:
+  rev::spark::SparkBase::Faults:
+    attributes:
+      other:
+      motorType:
+      sensor:
+      can:
+      temperature:
+      gateDriver:
+      escEeprom:
+      firmware:
+      rawBits:
+    methods:
+      Faults:
+        overloads:
+          "":
+          uint16_t:
+  rev::spark::SparkBase::Warnings:
+    attributes:
+      brownout:
+      overcurrent:
+      escEeprom:
+      extEeprom:
+      sensor:
+      stall:
+      hasReset:
+      other:
+      rawBits:
+    methods:
+      Warnings:
+        overloads:
+          "":
+          uint16_t:

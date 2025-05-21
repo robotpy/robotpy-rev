@@ -1,0 +1,33 @@
+
+classes:
+  rev::spark::SparkSim:
+    methods:
+      SparkSim:
+      GetAppliedOutput:
+      SetAppliedOutput:
+      GetSetpoint:
+      GetClosedLoopSlot:
+      iterate:
+      GetVelocity:
+      SetVelocity:
+      GetPosition:
+      SetPosition:
+      GetBusVoltage:
+      SetBusVoltage:
+      GetMotorCurrent:
+      SetMotorCurrent:
+      enable:
+      disable:
+      useDriverStationEnable:
+      GetRelativeEncoderSim:
+        return_value_policy: reference_internal
+      GetAbsoluteEncoderSim:
+        return_value_policy: reference_internal
+      GetAnalogSensorSim:
+        return_value_policy: reference_internal
+      GetForwardLimitSwitchSim:
+        return_value_policy: reference_internal
+      GetReverseLimitSwitchSim:
+        return_value_policy: reference_internal
+      GetFaultManager:
+        return_value_policy: reference_internal

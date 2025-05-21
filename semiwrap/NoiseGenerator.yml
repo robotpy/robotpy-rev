@@ -1,0 +1,6 @@
+
+classes:
+  rev::spark::NoiseGenerator:
+    methods:
+      whiteNoise:
+      hallSensorVelocity:

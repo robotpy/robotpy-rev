@@ -1,0 +1,6 @@
+
+classes:
+  rev::AbsoluteEncoder:
+    methods:
+      GetPosition:
+      GetVelocity:

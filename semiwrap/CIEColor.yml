@@ -1,0 +1,10 @@
+
+classes:
+  rev::CIEColor:
+    methods:
+      CIEColor:
+      GetX:
+      GetY:
+      GetZ:
+      GetYx:
+      GetYy:

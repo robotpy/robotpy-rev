@@ -1,0 +1,18 @@
+
+classes:
+  rev::spark::SparkExternalEncoderSim:
+    methods:
+      SparkExternalEncoderSim:
+      SetPosition:
+      GetPosition:
+      SetVelocity:
+      GetVelocity:
+      SetInverted:
+      GetInverted:
+      SetZeroOffset:
+      GetZeroOffset:
+      SetPositionConversionFactor:
+      GetPositionConversionFactor:
+      SetVelocityConversionFactor:
+      GetVelocityConversionFactor:
+      iterate:

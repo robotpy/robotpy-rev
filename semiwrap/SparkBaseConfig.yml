@@ -1,0 +1,41 @@
+
+classes:
+  rev::spark::SparkBaseConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
+    attributes:
+      absoluteEncoder:
+      analogSensor:
+      closedLoop:
+      encoder:
+      limitSwitch:
+      signals:
+      softLimit:
+    enums:
+      IdleMode:
+    methods:
+      SparkBaseConfig:
+      Apply:
+        overloads:
+          SparkBaseConfig&:
+          AbsoluteEncoderConfig&:
+          AnalogSensorConfig&:
+          EncoderConfig&:
+          LimitSwitchConfig&:
+          SoftLimitConfig&:
+          ClosedLoopConfig&:
+          SignalsConfig&:
+      SetIdleMode:
+      Inverted:
+      SmartCurrentLimit:
+      SecondaryCurrentLimit:
+      OpenLoopRampRate:
+      ClosedLoopRampRate:
+      VoltageCompensation:
+      DisableVoltageCompensation:
+      Follow:
+        overloads:
+          int, bool:
+          SparkBase&, bool:
+      DisableFollowerMode:
+      Flatten:

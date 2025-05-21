@@ -1,0 +1,12 @@
+
+classes:
+  rev::spark::SmartMotionConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
+    methods:
+      SmartMotionConfig:
+      Apply:
+      MaxVelocity:
+      MaxAcceleration:
+      MinOutputVelocity:
+      AllowedClosedLoopError:

@@ -1,9 +1,0 @@
----
-
-classes:
-  LimitSwitchConfigAccessor:
-    methods:
-      GetForwardLimitSwitchEnabled:
-      GetForwardSwitchType:
-      GetReverseLimitSwitchEnabled:
-      GetReverseSwitchType:

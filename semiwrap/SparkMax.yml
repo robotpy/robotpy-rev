@@ -1,0 +1,27 @@
+
+extra_includes_first:
+- rev/REVLibError.h
+- rev/SparkLowLevel.h
+
+classes:
+  rev::spark::SparkMax:
+    typealias:
+    - rev::spark::SparkLowLevel::MotorType
+    - rev::spark::SparkBase::PersistMode
+    - rev::spark::SparkBase::ResetMode
+    attributes:
+      configAccessor:
+    methods:
+      SparkMax:
+      Configure:
+      GetAlternateEncoder:
+        return_value_policy: reference_internal
+      GetAbsoluteEncoder:
+        return_value_policy: reference_internal
+      GetForwardLimitSwitch:
+        return_value_policy: reference_internal
+      GetReverseLimitSwitch:
+        return_value_policy: reference_internal
+      PreGetAbsoluteEncoder:
+      PreGetForwardLimitSwitch:
+      PreGetReverseLimitSwitch:

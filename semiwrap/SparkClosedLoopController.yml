@@ -1,0 +1,9 @@
+
+classes:
+  rev::spark::SparkClosedLoopController:
+    enums:
+      ArbFFUnits:
+    methods:
+      SetReference:
+      SetIAccum:
+      GetIAccum:

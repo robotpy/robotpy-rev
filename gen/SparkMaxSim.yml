@@ -1,9 +1,0 @@
----
-
-classes:
-  SparkMaxSim:
-    is_polymorphic: false
-    methods:
-      SparkMaxSim:
-      GetAlternateEncoderSim:
-        return_value_policy: reference_internal

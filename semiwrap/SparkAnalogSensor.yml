@@ -1,0 +1,9 @@
+
+classes:
+  rev::spark::SparkAnalogSensor:
+    base_qualnames:
+      AnalogInput: rev::AnalogInput
+    methods:
+      GetVoltage:
+      GetPosition:
+      GetVelocity:

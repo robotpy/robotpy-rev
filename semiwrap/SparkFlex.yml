@@ -1,0 +1,17 @@
+
+extra_includes_first:
+- rev/REVLibError.h
+
+extra_includes:
+- rev/SparkLowLevel.h
+
+classes:
+  rev::spark::SparkFlex:
+    typealias:
+    - rev::spark::SparkLowLevel::MotorType
+    attributes:
+      configAccessor:
+    methods:
+      SparkFlex:
+      GetExternalEncoder:
+        return_value_policy: reference_internal
