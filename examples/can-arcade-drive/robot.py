@@ -25,10 +25,10 @@ class Robot(wpilib.TimedRobot):
         #
         # The example below initializes four brushless motors with CAN IDs
         # 1, 2, 3, 4. Change these parameters to match your setup
-        self.leftLeadMotor = rev.SparkMax(1, rev.SparkMax.MotorType.kBrushless)
-        self.rightLeadMotor = rev.SparkMax(3, rev.SparkMax.MotorType.kBrushless)
-        self.leftFollowMotor = rev.SparkMax(2, rev.SparkMax.MotorType.kBrushless)
-        self.rightFollowMotor = rev.SparkMax(4, rev.SparkMax.MotorType.kBrushless)
+        self.leftLeadMotor = rev.SparkMax(0, 1, rev.SparkMax.MotorType.kBrushless)
+        self.rightLeadMotor = rev.SparkMax(0, 3, rev.SparkMax.MotorType.kBrushless)
+        self.leftFollowMotor = rev.SparkMax(0, 2, rev.SparkMax.MotorType.kBrushless)
+        self.rightFollowMotor = rev.SparkMax(0, 4, rev.SparkMax.MotorType.kBrushless)
 
         # Passing in the lead motors into DifferentialDrive allows any
         # commmands sent to the lead motors to be sent to the follower motors.

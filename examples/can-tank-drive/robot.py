@@ -25,8 +25,8 @@ class Robot(wpilib.TimedRobot):
         #
         # The example below initializes two brushless motors with CAN IDs
         # 1 and 2. Change these parameters to match your setup
-        self.leftMotor = rev.SparkMax(1, rev.SparkMax.MotorType.kBrushless)
-        self.rightMotor = rev.SparkMax(2, rev.SparkMax.MotorType.kBrushless)
+        self.leftMotor = rev.SparkMax(0, 1, rev.SparkMax.MotorType.kBrushless)
+        self.rightMotor = rev.SparkMax(0, 2, rev.SparkMax.MotorType.kBrushless)
 
         # Configure for factory defaults and invert right side motor
         self.globalConfig = rev.SparkMaxConfig()

@@ -16,7 +16,7 @@ class MyRobot(wpilib.TimedRobot):
     """
 
     def robotInit(self):
-        self.colorSensor = ColorSensorV3(wpilib.I2C.Port.kOnboard)
+        self.colorSensor = ColorSensorV3(wpilib.I2C.Port.kPort0)
 
     def robotPeriodic(self):
         # The method getColor() returns a normalized color value from the sensor and can be

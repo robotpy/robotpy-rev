@@ -16,7 +16,7 @@ class MyRobot(wpilib.TimedRobot):
     """
 
     def robotInit(self):
-        self.colorSensor = ColorSensorV3(wpilib.I2C.Port.kOnboard)
+        self.colorSensor = ColorSensorV3(wpilib.I2C.Port.kPort0)
 
         # A Rev Color Match object is used to register and detect known colors. This can
         # be calibrated ahead of time or during operation.
