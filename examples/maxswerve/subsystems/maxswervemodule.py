@@ -24,12 +24,8 @@ class MAXSwerveModule:
         self.chassisAngularOffset = 0
         self.desiredState = SwerveModuleState(0.0, Rotation2d())
 
-        self.drivingSparkMax = SparkMax(
-            drivingCANId, SparkMax.MotorType.kBrushless
-        )
-        self.turningSparkMax = SparkMax(
-            turningCANId, SparkMax.MotorType.kBrushless
-        )
+        self.drivingSparkMax = SparkMax(drivingCANId, SparkMax.MotorType.kBrushless)
+        self.turningSparkMax = SparkMax(turningCANId, SparkMax.MotorType.kBrushless)
 
         self.drivingConfig = SparkMaxConfig()
         self.turningConfig = SparkMaxConfig()
@@ -39,8 +35,12 @@ class MAXSwerveModule:
         self.turningEncoder = self.turningSparkMax.getAbsoluteEncoder()
         self.drivingPidController = self.drivingSparkMax.getClosedLoopController()
         self.turningPidController = self.turningSparkMax.getClosedLoopController()
-        self.drivingConfig.closedLoop.setFeedbackSensor(ClosedLoopConfig.FeedbackSensor.kPrimaryEncoder)
-        self.turningConfig.closedLoop.setFeedbackSensor(ClosedLoopConfig.FeedbackSensor.kAbsoluteEncoder)
+        self.drivingConfig.closedLoop.setFeedbackSensor(
+            ClosedLoopConfig.FeedbackSensor.kPrimaryEncoder
+        )
+        self.turningConfig.closedLoop.setFeedbackSensor(
+            ClosedLoopConfig.FeedbackSensor.kAbsoluteEncoder
+        )
 
         # Apply position and velocity conversion factors for the driving encoder. The
         # native units for position and velocity are rotations and RPM, respectively,
@@ -64,7 +64,9 @@ class MAXSwerveModule:
 
         # Invert the turning encoder, since the output shaft rotates in the opposite direction of
         # the steering motor in the MAXSwerve Module.
-        self.turningConfig.absoluteEncoder.inverted(ModuleConstants.kTurningEncoderInverted)
+        self.turningConfig.absoluteEncoder.inverted(
+            ModuleConstants.kTurningEncoderInverted
+        )
 
         # Enable PID wrap around for the turning motor. This will allow the PID
         # controller to go through 0 to get to the setpoint i.e. going from 350 degrees
@@ -104,8 +106,16 @@ class MAXSwerveModule:
 
         # Save the SPARK MAX configurations. If a SPARK MAX browns out during
         # operation, it will maintain the above configurations.
-        self.drivingSparkMax.configure(self.drivingConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kPersistParameters)
-        self.turningSparkMax.configure(self.turningConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kPersistParameters)
+        self.drivingSparkMax.configure(
+            self.drivingConfig,
+            SparkBase.ResetMode.kResetSafeParameters,
+            SparkBase.PersistMode.kPersistParameters
+        )
+        self.turningSparkMax.configure(
+            self.turningConfig,
+            SparkBase.ResetMode.kResetSafeParameters,
+            SparkBase.PersistMode.kPersistParameters
+        )
 
         self.chassisAngularOffset = chassisAngularOffset
         self.desiredState.angle = Rotation2d(self.turningEncoder.getPosition())
