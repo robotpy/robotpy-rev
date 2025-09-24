@@ -109,12 +109,12 @@ class MAXSwerveModule:
         self.drivingSparkMax.configure(
             self.drivingConfig,
             SparkBase.ResetMode.kResetSafeParameters,
-            SparkBase.PersistMode.kPersistParameters
+            SparkBase.PersistMode.kPersistParameters,
         )
         self.turningSparkMax.configure(
             self.turningConfig,
             SparkBase.ResetMode.kResetSafeParameters,
-            SparkBase.PersistMode.kPersistParameters
+            SparkBase.PersistMode.kPersistParameters,
         )
 
         self.chassisAngularOffset = chassisAngularOffset
