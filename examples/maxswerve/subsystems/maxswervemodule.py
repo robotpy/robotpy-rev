@@ -4,7 +4,7 @@
 # the WPILib BSD license file in the root directory of this project.
 #
 
-from rev import CANSparkMax, SparkMaxAbsoluteEncoder
+from rev import SparkMax, SparkMaxConfig, ClosedLoopConfig, SparkBase
 from wpimath.geometry import Rotation2d
 from wpimath.kinematics import SwerveModuleState, SwerveModulePosition
 
@@ -24,97 +24,88 @@ class MAXSwerveModule:
         self.chassisAngularOffset = 0
         self.desiredState = SwerveModuleState(0.0, Rotation2d())
 
-        self.drivingSparkMax = CANSparkMax(
-            drivingCANId, CANSparkMax.MotorType.kBrushless
+        self.drivingSparkMax = SparkMax(
+            drivingCANId, SparkMax.MotorType.kBrushless
         )
-        self.turningSparkMax = CANSparkMax(
-            turningCANId, CANSparkMax.MotorType.kBrushless
+        self.turningSparkMax = SparkMax(
+            turningCANId, SparkMax.MotorType.kBrushless
         )
 
-        # Factory reset, so we get the SPARKS MAX to a known state before configuring
-        # them. This is useful in case a SPARK MAX is swapped out.
-        self.drivingSparkMax.restoreFactoryDefaults()
-        self.turningSparkMax.restoreFactoryDefaults()
+        self.drivingConfig = SparkMaxConfig()
+        self.turningConfig = SparkMaxConfig()
 
         # Setup encoders and PID controllers for the driving and turning SPARKS MAX.
         self.drivingEncoder = self.drivingSparkMax.getEncoder()
-        self.turningEncoder = self.turningSparkMax.getAbsoluteEncoder(
-            SparkMaxAbsoluteEncoder.Type.kDutyCycle
-        )
-        self.drivingPIDController = self.drivingSparkMax.getPIDController()
-        self.turningPIDController = self.turningSparkMax.getPIDController()
-        self.drivingPIDController.setFeedbackDevice(self.drivingEncoder)
-        self.turningPIDController.setFeedbackDevice(self.turningEncoder)
+        self.turningEncoder = self.turningSparkMax.getAbsoluteEncoder()
+        self.drivingPidController = self.drivingSparkMax.getClosedLoopController()
+        self.turningPidController = self.turningSparkMax.getClosedLoopController()
+        self.drivingConfig.closedLoop.setFeedbackSensor(ClosedLoopConfig.FeedbackSensor.kPrimaryEncoder)
+        self.turningConfig.closedLoop.setFeedbackSensor(ClosedLoopConfig.FeedbackSensor.kAbsoluteEncoder)
 
         # Apply position and velocity conversion factors for the driving encoder. The
         # native units for position and velocity are rotations and RPM, respectively,
         # but we want meters and meters per second to use with WPILib's swerve APIs.
-        self.drivingEncoder.setPositionConversionFactor(
+        self.drivingConfig.encoder.positionConversionFactor(
             ModuleConstants.kDrivingEncoderPositionFactor
         )
-        self.drivingEncoder.setVelocityConversionFactor(
+        self.drivingConfig.encoder.velocityConversionFactor(
             ModuleConstants.kDrivingEncoderVelocityFactor
         )
 
         # Apply position and velocity conversion factors for the turning encoder. We
         # want these in radians and radians per second to use with WPILib's swerve
         # APIs.
-        self.turningEncoder.setPositionConversionFactor(
+        self.turningConfig.absoluteEncoder.positionConversionFactor(
             ModuleConstants.kTurningEncoderPositionFactor
         )
-        self.turningEncoder.setVelocityConversionFactor(
+        self.turningConfig.absoluteEncoder.velocityConversionFactor(
             ModuleConstants.kTurningEncoderVelocityFactor
         )
 
         # Invert the turning encoder, since the output shaft rotates in the opposite direction of
         # the steering motor in the MAXSwerve Module.
-        self.turningEncoder.setInverted(ModuleConstants.kTurningEncoderInverted)
+        self.turningConfig.absoluteEncoder.inverted(ModuleConstants.kTurningEncoderInverted)
 
         # Enable PID wrap around for the turning motor. This will allow the PID
         # controller to go through 0 to get to the setpoint i.e. going from 350 degrees
         # to 10 degrees will go through 0 rather than the other direction which is a
         # longer route.
-        self.turningPIDController.setPositionPIDWrappingEnabled(True)
-        self.turningPIDController.setPositionPIDWrappingMinInput(
+        self.turningConfig.closedLoop.positionWrappingEnabled(True)
+        self.turningConfig.closedLoop.positionWrappingMinInput(
             ModuleConstants.kTurningEncoderPositionPIDMinInput
         )
-        self.turningPIDController.setPositionPIDWrappingMaxInput(
+        self.turningConfig.closedLoop.positionWrappingMaxInput(
             ModuleConstants.kTurningEncoderPositionPIDMaxInput
         )
 
         # Set the PID gains for the driving motor. Note these are example gains, and you
         # may need to tune them for your own robot!
-        self.drivingPIDController.setP(ModuleConstants.kDrivingP)
-        self.drivingPIDController.setI(ModuleConstants.kDrivingI)
-        self.drivingPIDController.setD(ModuleConstants.kDrivingD)
-        self.drivingPIDController.setFF(ModuleConstants.kDrivingFF)
-        self.drivingPIDController.setOutputRange(
+        self.drivingConfig.closedLoop.P(ModuleConstants.kDrivingP)
+        self.drivingConfig.closedLoop.I(ModuleConstants.kDrivingI)
+        self.drivingConfig.closedLoop.D(ModuleConstants.kDrivingD)
+        self.drivingConfig.closedLoop.velocityFF(ModuleConstants.kDrivingFF)
+        self.drivingConfig.closedLoop.outputRange(
             ModuleConstants.kDrivingMinOutput, ModuleConstants.kDrivingMaxOutput
         )
 
         # Set the PID gains for the turning motor. Note these are example gains, and you
         # may need to tune them for your own robot!
-        self.turningPIDController.setP(ModuleConstants.kTurningP)
-        self.turningPIDController.setI(ModuleConstants.kTurningI)
-        self.turningPIDController.setD(ModuleConstants.kTurningD)
-        self.turningPIDController.setFF(ModuleConstants.kTurningFF)
-        self.turningPIDController.setOutputRange(
+        self.turningConfig.closedLoop.P(ModuleConstants.kTurningP)
+        self.turningConfig.closedLoop.I(ModuleConstants.kTurningI)
+        self.turningConfig.closedLoop.D(ModuleConstants.kTurningD)
+        self.turningConfig.closedLoop.velocityFF(ModuleConstants.kTurningFF)
+        self.turningConfig.closedLoop.outputRange(
             ModuleConstants.kTurningMinOutput, ModuleConstants.kTurningMaxOutput
         )
 
-        self.drivingSparkMax.setIdleMode(ModuleConstants.kDrivingMotorIdleMode)
-        self.turningSparkMax.setIdleMode(ModuleConstants.kTurningMotorIdleMode)
-        self.drivingSparkMax.setSmartCurrentLimit(
-            ModuleConstants.kDrivingMotorCurrentLimit
-        )
-        self.turningSparkMax.setSmartCurrentLimit(
-            ModuleConstants.kTurningMotorCurrentLimit
-        )
+        self.drivingConfig.setIdleMode(ModuleConstants.kDrivingMotorIdleMode)
+        self.turningConfig.setIdleMode(ModuleConstants.kTurningMotorIdleMode)
+        # XXX -- can we set current limits?
 
         # Save the SPARK MAX configurations. If a SPARK MAX browns out during
         # operation, it will maintain the above configurations.
-        self.drivingSparkMax.burnFlash()
-        self.turningSparkMax.burnFlash()
+        self.drivingSparkMax.configure(self.drivingConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kPersistParameters)
+        self.turningSparkMax.configure(self.turningConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kPersistParameters)
 
         self.chassisAngularOffset = chassisAngularOffset
         self.desiredState.angle = Rotation2d(self.turningEncoder.getPosition())
@@ -158,16 +149,16 @@ class MAXSwerveModule:
         )
 
         # Optimize the reference state to avoid spinning further than 90 degrees.
-        optimizedDesiredState = SwerveModuleState.optimize(
+        SwerveModuleState.optimize(
             correctedDesiredState, Rotation2d(self.turningEncoder.getPosition())
         )
 
         # Command driving and turning SPARKS MAX towards their respective setpoints.
-        self.drivingPIDController.setReference(
-            optimizedDesiredState.speed, CANSparkMax.ControlType.kVelocity
+        self.drivingPidController.setReference(
+            correctedDesiredState.speed, SparkMax.ControlType.kVelocity
         )
-        self.turningPIDController.setReference(
-            optimizedDesiredState.angle.radians(), CANSparkMax.ControlType.kPosition
+        self.turningPidController.setReference(
+            correctedDesiredState.angle.radians(), SparkMax.ControlType.kPosition
         )
 
         self.desiredState = desiredState
