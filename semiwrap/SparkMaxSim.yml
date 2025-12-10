@@ -1,4 +1,3 @@
-
 classes:
   rev::spark::SparkMaxSim:
     is_polymorphic: false

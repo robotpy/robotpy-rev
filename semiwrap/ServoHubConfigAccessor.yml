@@ -1,0 +1,11 @@
+classes:
+  rev::servohub::ServoHubConfigAccessor:
+    attributes:
+      channel0:
+      channel1:
+      channel2:
+      channel3:
+      channel4:
+      channel5:
+    methods:
+      channel:

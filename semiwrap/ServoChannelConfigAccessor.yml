@@ -1,0 +1,5 @@
+classes:
+  rev::servohub::ServoChannelConfigAccessor:
+    methods:
+      GetPulseRange:
+      GetDisableBehavior:

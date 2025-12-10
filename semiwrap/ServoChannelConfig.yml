@@ -1,0 +1,19 @@
+classes:
+  rev::servohub::ServoChannelConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
+    enums:
+      BehaviorWhenDisabled:
+    methods:
+      ServoChannelConfig:
+      Apply:
+      PulseRange:
+        overloads:
+          uint32_t, uint32_t, uint32_t:
+          const PulseRange_t&:
+      DisableBehavior:
+  rev::servohub::ServoChannelConfig::PulseRange_t:
+    attributes:
+      minPulse_us:
+      centerPulse_us:
+      maxPulse_us:

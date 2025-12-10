@@ -1,9 +1,8 @@
-
 classes:
   rev::spark::ClosedLoopConfigAccessor:
     attributes:
       maxMotion:
-      smartMotion:
+      feedForward:
     methods:
       GetP:
       GetI:
@@ -18,3 +17,4 @@ classes:
       GetPositionWrappingMinInput:
       GetPositionWrappingMaxInput:
       GetFeedbackSensor:
+      GetAllowedClosedLoopError:

@@ -1,0 +1,19 @@
+classes:
+  rev::spark::FeedForwardConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
+    methods:
+      FeedForwardConfig:
+      Apply:
+      kS:
+      kV:
+      kA:
+      kG:
+      kCos:
+      kCosRatio:
+      sv:
+      sva:
+      svag:
+      svacr:
+      sg:
+      scr:

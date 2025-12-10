@@ -1,4 +1,3 @@
-
 classes:
   rev::spark::SignalsConfigAccessor:
     methods:
@@ -36,3 +35,13 @@ classes:
       GetAbsoluteEncoderPositionAlwaysOn:
       GetIAccumulationPeriodMs:
       GetIAccumulationAlwaysOn:
+      GetSetpointPeriodMs:
+      GetSetpointAlwaysOn:
+      GetIsAtSetpointPeriodMs:
+      GetIsAtSetpointAlwaysOn:
+      GetSelectedSlotPeriodMs:
+      GetSelectedSlotAlwaysOn:
+      GetMAXMotionSetpointPositionPeriodMs:
+      GetMAXMotionSetpointPositionAlwaysOn:
+      GetMAXMotionSetpointVelocityPeriodMs:
+      GetMAXMotionSetpointVelocityAlwaysOn:

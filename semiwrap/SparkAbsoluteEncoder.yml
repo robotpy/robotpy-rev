@@ -1,4 +1,3 @@
-
 classes:
   rev::spark::SparkAbsoluteEncoder:
     base_qualnames:

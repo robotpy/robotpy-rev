@@ -1,20 +1,17 @@
-
 classes:
   rev::spark::ClosedLoopConfig:
     base_qualnames:
       BaseConfig: rev::BaseConfig
     attributes:
       maxMotion:
-      smartMotion:
-    enums:
-      FeedbackSensor:
+      feedForward:
     methods:
       ClosedLoopConfig:
       Apply:
         overloads:
           ClosedLoopConfig&:
-          SmartMotionConfig&:
           MAXMotionConfig&:
+          FeedForwardConfig&:
       Pidf:
       Pid:
       P:
@@ -33,3 +30,4 @@ classes:
       PositionWrappingInputRange:
       SetFeedbackSensor:
       Flatten:
+      AllowedClosedLoopError:

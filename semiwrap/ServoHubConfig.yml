@@ -1,0 +1,18 @@
+classes:
+  rev::servohub::ServoHubConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
+    attributes:
+      channel0:
+      channel1:
+      channel2:
+      channel3:
+      channel4:
+      channel5:
+    methods:
+      ServoHubConfig:
+      Apply:
+        overloads:
+          ServoHubConfig&:
+          ServoChannel::ChannelId, ServoChannelConfig&:
+      Flatten:

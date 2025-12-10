@@ -1,4 +1,3 @@
-
 classes:
   rev::spark::MAXMotionConfigAccessor:
     methods:
@@ -6,3 +5,5 @@ classes:
       GetMaxAcceleration:
       GetAllowedClosedLoopError:
       GetPositionMode:
+      GetCruiseVelocity:
+      GetAllowedProfileError:
