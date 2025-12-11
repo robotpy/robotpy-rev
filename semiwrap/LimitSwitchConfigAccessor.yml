@@ -1,4 +1,3 @@
-
 classes:
   rev::spark::LimitSwitchConfigAccessor:
     methods:
@@ -6,3 +5,7 @@ classes:
       GetForwardSwitchType:
       GetReverseLimitSwitchEnabled:
       GetReverseSwitchType:
+      GetForwardLimitSwitchTriggerBehavior:
+      GetForwardLimitSwitchPosition:
+      GetReverseLimitSwitchTriggerBehavior:
+      GetReverseLimitSwitchPosition:

@@ -1,0 +1,14 @@
+classes:
+  rev::servohub::ServoChannel:
+    attributes:
+      kNumServoChannels:
+    enums:
+      ChannelId:
+    methods:
+      GetChannelId:
+      GetPulseWidth:
+      IsEnabled:
+      GetCurrent:
+      SetPulseWidth:
+      SetEnabled:
+      SetPowered:

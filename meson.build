@@ -16,6 +16,8 @@ cpp = meson.get_compiler('cpp')
 libs_path = meson.current_source_dir() + '/lib/lib'
 
 rev_deps += [
+    cpp.find_library('BackendDriver', dirs: libs_path),
+    cpp.find_library('REVLibWpi', dirs: libs_path),
     cpp.find_library('REVLibDriver', dirs: libs_path),
     cpp.find_library('REVLib', dirs: libs_path),
 ]

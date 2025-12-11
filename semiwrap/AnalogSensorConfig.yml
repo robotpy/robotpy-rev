@@ -1,4 +1,3 @@
-
 classes:
   rev::spark::AnalogSensorConfig:
     base_qualnames:

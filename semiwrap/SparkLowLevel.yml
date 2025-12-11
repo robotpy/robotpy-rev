@@ -1,4 +1,3 @@
-
 extra_includes_first:
 - rev/REVLibError.h
 
@@ -54,6 +53,8 @@ classes:
         ignore: true
       GetSafeFloat:
         ignore: true
+      GetPeriodicStatus8:
+      GetPeriodicStatus9:
   rev::spark::SparkLowLevel::PeriodicStatus0:
     attributes:
       appliedOutput:
@@ -133,4 +134,15 @@ classes:
   rev::spark::SparkLowLevel::PeriodicStatus7:
     attributes:
       iAccumulation:
+      timestamp:
+  rev::spark::SparkLowLevel::PeriodicStatus8:
+    attributes:
+      setpoint:
+      isAtSetpoint:
+      selectedPidSlot:
+      timestamp:
+  rev::spark::SparkLowLevel::PeriodicStatus9:
+    attributes:
+      maxMotionSetpointPosition:
+      maxMotionSetpointVelocity:
       timestamp:

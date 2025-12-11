@@ -1,4 +1,3 @@
-
 classes:
   rev::spark::SparkExternalEncoderSim:
     methods:
@@ -11,8 +10,6 @@ classes:
       GetInverted:
       SetZeroOffset:
       GetZeroOffset:
-      SetPositionConversionFactor:
       GetPositionConversionFactor:
-      SetVelocityConversionFactor:
       GetVelocityConversionFactor:
       iterate:

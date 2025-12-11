@@ -1,4 +1,3 @@
-
 extra_includes_first:
 - rev/REVLibError.h
 - rev/SparkLowLevel.h
@@ -22,6 +21,3 @@ classes:
         return_value_policy: reference_internal
       GetReverseLimitSwitch:
         return_value_policy: reference_internal
-      PreGetAbsoluteEncoder:
-      PreGetForwardLimitSwitch:
-      PreGetReverseLimitSwitch:

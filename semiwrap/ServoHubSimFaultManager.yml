@@ -1,0 +1,8 @@
+classes:
+  rev::servohub::ServoHubSimFaultManager:
+    methods:
+      ServoHubSimFaultManager:
+      SetFaults:
+      SetStickyFaults:
+      SetWarnings:
+      SetStickyWarnings:

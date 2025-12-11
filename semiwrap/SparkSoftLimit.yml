@@ -1,0 +1,4 @@
+classes:
+  rev::spark::SparkSoftLimit:
+    methods:
+      isReached:

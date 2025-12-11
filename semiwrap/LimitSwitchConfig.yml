@@ -1,10 +1,10 @@
-
 classes:
   rev::spark::LimitSwitchConfig:
     base_qualnames:
       BaseConfig: rev::BaseConfig
     enums:
       Type:
+      Behavior:
     methods:
       LimitSwitchConfig:
       Apply:
@@ -13,3 +13,8 @@ classes:
       ForwardLimitSwitchType:
       ReverseLimitSwitchEnabled:
       ReverseLimitSwitchType:
+      ForwardLimitSwitchTriggerBehavior:
+      ForwardLimitSwitchPosition:
+      ReverseLimitSwitchTriggerBehavior:
+      ReverseLimitSwitchPosition:
+      LimitSwitchPositionSensor:

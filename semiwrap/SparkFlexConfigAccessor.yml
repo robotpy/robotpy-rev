@@ -1,4 +1,3 @@
-
 classes:
   rev::spark::SparkFlexConfigAccessor:
     is_polymorphic: false

@@ -1,4 +1,3 @@
-
 classes:
   rev::spark::SparkMaxAlternateEncoder:
     base_qualnames:

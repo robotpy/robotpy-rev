@@ -1,4 +1,3 @@
-
 extra_includes_first:
 - rev/REVLibError.h
 
@@ -40,6 +39,14 @@ classes:
       m_reverseLimitSwitchCreated:
         ignore: true
       m_setpoint:
+        ignore: true
+      m_ForwardSoftLimit:
+        ignore: true
+      m_forwardSoftLimitCreated:
+        ignore: true
+      m_ReverseSoftLimit:
+        ignore: true
+      m_reverseSoftLimitCreated:
         ignore: true
     enums:
       IdleMode:
@@ -85,13 +92,15 @@ classes:
       ClearFaults:
       SetCANTimeout:
       GetLastError:
-      PreGetAbsoluteEncoder:
-      PreGetForwardLimitSwitch:
-      PreGetReverseLimitSwitch:
       SparkBase:
       GetEncoderEvenIfAlreadyCreated:
       GetMotorInterface:
       GetSparkModel:
+      ConfigureAsync:
+      GetForwardSoftLimit:
+      GetReverseSoftLimit:
+      ResumeFollowerModeAsync:
+      PauseFollowerModeAsync:
   rev::spark::SparkBase::Faults:
     attributes:
       other:

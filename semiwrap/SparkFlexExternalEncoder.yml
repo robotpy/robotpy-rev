@@ -1,4 +1,3 @@
-
 classes:
   rev::spark::SparkFlexExternalEncoder:
     base_qualnames:

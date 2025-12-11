@@ -1,0 +1,9 @@
+classes:
+  rev::spark::FeedForwardConfigAccessor:
+    methods:
+      getkS:
+      getkV:
+      getkA:
+      getkG:
+      getkCos:
+      getkCosRatio:

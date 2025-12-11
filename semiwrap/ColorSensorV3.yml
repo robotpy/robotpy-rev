@@ -1,4 +1,3 @@
-
 classes:
   rev::ColorSensorV3:
     enums:

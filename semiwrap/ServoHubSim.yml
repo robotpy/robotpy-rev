@@ -1,0 +1,16 @@
+classes:
+  rev::servohub::ServoHubSim:
+    methods:
+      ServoHubSim:
+      GetDeviceVoltage:
+      SetDeviceVoltage:
+      GetDeviceCurrent:
+      SetDeviceCurrent:
+      GetServoVoltage:
+      SetServoVoltage:
+      GetBankPulsePeriod:
+      SetBankPulsePeriod:
+      enable:
+      disable:
+      useDriverStationEnable:
+      GetFaultManager:

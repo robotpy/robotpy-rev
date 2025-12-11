@@ -1,0 +1,6 @@
+classes:
+  StatusLogger:
+    methods:
+      Start:
+      Stop:
+      DisableAutoLogging:
