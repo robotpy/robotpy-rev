@@ -1,3 +1,6 @@
+typealias:
+- rev::REVLibError
+
 classes:
   rev::servohub::ServoHub:
     attributes:

@@ -1,5 +1,7 @@
 classes:
   rev::detached::SignalsConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
     methods:
       SignalsConfig:
       Apply:

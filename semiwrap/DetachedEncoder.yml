@@ -1,5 +1,13 @@
+extra_includes:
+- rev/DetachedEncoderLowLevel.h
+- rev/RelativeEncoder.h
+
 classes:
   rev::detached::DetachedEncoder:
+    typealias:
+    - rev::detached::DetachedEncoderLowLevel::EncoderModel
+    base_qualnames:
+      RelativeEncoder: rev::RelativeEncoder
     attributes:
       configAccessor:
     methods:

@@ -2,6 +2,9 @@ extra_includes_first:
 - rev/REVLibError.h
 - rev/SparkLowLevel.h
 
+typealias:
+- rev::REVLibError
+
 classes:
   rev::spark::SparkMax:
     typealias:

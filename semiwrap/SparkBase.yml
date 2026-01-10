@@ -5,8 +5,8 @@ extra_includes:
 - rev/SparkLowLevel.h
 - rev/config/SparkBaseConfig.h
 
-# typealias:
-# - rev::REVLibError
+typealias:
+- rev::REVLibError
 
 classes:
   rev::spark::SparkBase:

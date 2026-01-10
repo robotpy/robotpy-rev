@@ -1,5 +1,7 @@
 classes:
   rev::detached::DetachedEncoderConfig:
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
     attributes:
       signals:
     methods:
