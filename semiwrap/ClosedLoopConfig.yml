@@ -29,5 +29,9 @@ classes:
       PositionWrappingMaxInput:
       PositionWrappingInputRange:
       SetFeedbackSensor:
+        overloads:
+          FeedbackSensor:
+          FeedbackSensor, int:
+          FeedbackSensor, rev::detached::DetachedEncoder&:
       Flatten:
       AllowedClosedLoopError:

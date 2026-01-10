@@ -13,6 +13,9 @@ classes:
     methods:
       SparkMax:
       Configure:
+        overloads:
+          SparkBaseConfig&, ResetMode, PersistMode:
+          SparkBaseConfig&, rev::ResetMode, rev::PersistMode:
       GetAlternateEncoder:
         return_value_policy: reference_internal
       GetAbsoluteEncoder:

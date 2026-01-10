@@ -13,3 +13,8 @@ classes:
       QuadratureMeasurementPeriod:
       UvwAverageDepth:
       UvwMeasurementPeriod:
+  rev::spark::EncoderConfig::Presets:
+    methods:
+      REV_ThroughBoreEncoder:
+      REV_ThroughBoreEncoderV2:
+      REV_SplineEncoder:

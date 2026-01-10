@@ -11,6 +11,7 @@ classes:
       SparkMaxConfig:
       Apply:
         overloads:
+          SparkBaseConfig&:
           SparkMaxConfig&:
           AlternateEncoderConfig&:
       Flatten:

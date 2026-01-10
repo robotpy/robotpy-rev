@@ -9,6 +9,7 @@ classes:
       SparkFlexConfig:
       Apply:
         overloads:
+          SparkBaseConfig&:
           SparkFlexConfig&:
           ExternalEncoderConfig&:
       Flatten:

@@ -14,3 +14,8 @@ classes:
       StartPulseUs:
       EndPulseUs:
       ZeroCentered:
+  rev::spark::AbsoluteEncoderConfig::Presets:
+    methods:
+      REV_ThroughBoreEncoder:
+      REV_ThroughBoreEncoderV2:
+      REV_SplineEncoder:
