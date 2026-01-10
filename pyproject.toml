@@ -6,7 +6,7 @@ requires = [
     "semiwrap~=0.2.1",
     "hatch-meson~=0.1.0",
     "hatch-robotpy~=0.2.1",
-    "wpilib~=2026.1.1b1",
+    "wpilib~=2026.1.1",
 ]
 
 
@@ -16,7 +16,7 @@ dynamic = ["version"]
 description = "REVLib for RobotPy"
 license = "BSD-3-Clause"
 dependencies = [
-    "wpilib~=2026.1.1b1",
+    "wpilib>=2026.1.1,<2027",
 ]
 
 [[project.authors]]
@@ -44,7 +44,7 @@ packages = ["rev"]
 artifact_id = "REVLib-cpp"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2026.0.0-beta-1"
+version = "2026.0.0"
 staticlibs = ["REVLib"]
 extract_to = "lib"
 
@@ -52,7 +52,7 @@ extract_to = "lib"
 artifact_id = "REVLib-driver"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2026.0.0-beta-1"
+version = "2026.0.0"
 staticlibs = [ "REVLibDriver"]
 extract_to = "lib"
 
@@ -60,7 +60,7 @@ extract_to = "lib"
 artifact_id = "RevLibBackendDriver"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2026.0.0-beta-1"
+version = "2026.0.0"
 staticlibs = [
     "BackendDriver",
 ]
@@ -71,7 +71,7 @@ use_headers = false
 artifact_id = "RevLibWpiBackendDriver"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2026.0.0-beta-1"
+version = "2026.0.0"
 staticlibs = [
     "REVLibWpi",
 ]
