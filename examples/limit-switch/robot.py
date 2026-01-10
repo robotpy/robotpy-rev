@@ -41,8 +41,8 @@ class Robot(wpilib.TimedRobot):
         )
         self.motor.configure(
             self.limitConfig,
-            rev.SparkBase.ResetMode.kResetSafeParameters,
-            rev.SparkBase.PersistMode.kNoPersistParameters,
+            rev.ResetMode.kResetSafeParameters,
+            rev.PersistMode.kNoPersistParameters,
         )
 
         self.prevForwardLimitEnabled = (
@@ -75,8 +75,8 @@ class Robot(wpilib.TimedRobot):
             )
             self.motor.configure(
                 self.limitConfig,
-                rev.SparkBase.ResetMode.kResetSafeParameters,
-                rev.SparkBase.PersistMode.kNoPersistParameters,
+                rev.ResetMode.kResetSafeParameters,
+                rev.PersistMode.kNoPersistParameters,
             )
         if self.prevReverseLimitEnabled != wpilib.SmartDashboard.getBoolean(
             "Reverse Limit Enabled", False
@@ -89,8 +89,8 @@ class Robot(wpilib.TimedRobot):
             )
             self.motor.configure(
                 self.limitConfig,
-                rev.SparkBase.ResetMode.kResetSafeParameters,
-                rev.SparkBase.PersistMode.kNoPersistParameters,
+                rev.ResetMode.kResetSafeParameters,
+                rev.PersistMode.kNoPersistParameters,
             )
 
         # The get() method can be used on a SparkLimitSwitch object to read the

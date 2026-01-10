@@ -1,0 +1,11 @@
+classes:
+  rev::detached::SignalsConfig:
+    rename: DetachedSignalsConfig
+    base_qualnames:
+      BaseConfig: rev::BaseConfig
+    methods:
+      SignalsConfig:
+      Apply:
+      EncoderPositionPeriodMs:
+      EncoderVelocityPeriodMs:
+      EncoderAnglePeriodMs:

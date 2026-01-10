@@ -21,8 +21,8 @@ def test_current_limit():
     cfg.secondaryCurrentLimit(50)
     sm.configure(
         cfg,
-        rev.SparkMax.ResetMode.kResetSafeParameters,
-        rev.SparkMax.PersistMode.kPersistParameters,
+        rev.ResetMode.kResetSafeParameters,
+        rev.PersistMode.kPersistParameters,
     )
 
     # assert hal_data["CAN"]["sparkmax-1"]["currentChop"] == 50.0

@@ -16,6 +16,7 @@ classes:
       GetSmartCurrentRPMLimit:
       GetSecondaryCurrentLimit:
       GetSecondaryCurrentLimitChopCycles:
+      GetAdvanceCommutation:
       GetOpenLoopRampRate:
       GetClosedLoopRampRate:
       GetVoltageCompensation:

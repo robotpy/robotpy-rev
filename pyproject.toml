@@ -6,7 +6,7 @@ requires = [
     "semiwrap~=0.2.1",
     "hatch-meson~=0.1.0",
     "hatch-robotpy~=0.2.1",
-    "wpilib~=2026.1.1b1",
+    "wpilib~=2026.1.1",
 ]
 
 
@@ -16,7 +16,7 @@ dynamic = ["version"]
 description = "REVLib for RobotPy"
 license = "BSD-3-Clause"
 dependencies = [
-    "wpilib~=2026.1.1b1",
+    "wpilib>=2026.1.1,<2027",
 ]
 
 [[project.authors]]
@@ -44,7 +44,7 @@ packages = ["rev"]
 artifact_id = "REVLib-cpp"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2026.0.0-beta-1"
+version = "2026.0.0"
 staticlibs = ["REVLib"]
 extract_to = "lib"
 
@@ -52,7 +52,7 @@ extract_to = "lib"
 artifact_id = "REVLib-driver"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2026.0.0-beta-1"
+version = "2026.0.0"
 staticlibs = [ "REVLibDriver"]
 extract_to = "lib"
 
@@ -60,7 +60,7 @@ extract_to = "lib"
 artifact_id = "RevLibBackendDriver"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2026.0.0-beta-1"
+version = "2026.0.0"
 staticlibs = [
     "BackendDriver",
 ]
@@ -71,7 +71,7 @@ use_headers = false
 artifact_id = "RevLibWpiBackendDriver"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2026.0.0-beta-1"
+version = "2026.0.0"
 staticlibs = [
     "REVLibWpi",
 ]
@@ -94,6 +94,9 @@ update_init = ["rev"]
 scan_headers_ignore = [
     # rev
     "rev/CANCommonParameters.h",
+    "rev/CANDetachedEncoderDriver.h",
+    "rev/CANDetachedEncoderFrames.h",
+    "rev/CANDetachedEncoderParameters.h",
     "rev/CANDeviceScanner.h",
     "rev/CANDriverPrivate.h",
     "rev/CANServoHubDriver.h",
@@ -112,10 +115,14 @@ scan_headers_ignore = [
     "rev/canupdate/CANSparkSWDL.h",
     "rev/canupdate/DfuSeFile.h",
 
+    # rev/config
+    "rev/config/DetachedEncoderParameters.h",
+
     # rev/rev
     "rev/rev/REVLibVersion.h",
 
     # rev/sim
+    "rev/sim/CANDetachedEncoder.h",
     "rev/sim/CANServoHub.h",
     "rev/sim/CANSpark.h",
     "rev/sim/MAXMotion.h",
@@ -148,6 +155,9 @@ CIEColor = "rev/CIEColor.h"
 ClosedLoopTypes = "rev/ClosedLoopTypes.h"
 ColorMatch = "rev/ColorMatch.h"
 ColorSensorV3 = "rev/ColorSensorV3.h"
+ConfigureTypes = "rev/ConfigureTypes.h"
+DetachedEncoder = "rev/DetachedEncoder.h"
+DetachedEncoderLowLevel = "rev/DetachedEncoderLowLevel.h"
 REVLibError = "rev/REVLibError.h"
 RelativeEncoder = "rev/RelativeEncoder.h"
 ServoChannel = "rev/ServoChannel.h"
@@ -167,6 +177,7 @@ SparkMaxAlternateEncoder = "rev/SparkMaxAlternateEncoder.h"
 SparkRelativeEncoder = "rev/SparkRelativeEncoder.h"
 SparkSim = "rev/SparkSim.h"
 SparkSoftLimit = "rev/SparkSoftLimit.h"
+SplineEncoder = "rev/SplineEncoder.h"
 
 # rev/config
 AbsoluteEncoderConfig = "rev/config/AbsoluteEncoderConfig.h"
@@ -178,6 +189,9 @@ AnalogSensorConfigAccessor = "rev/config/AnalogSensorConfigAccessor.h"
 BaseConfig = "rev/config/BaseConfig.h"
 ClosedLoopConfig = "rev/config/ClosedLoopConfig.h"
 ClosedLoopConfigAccessor = "rev/config/ClosedLoopConfigAccessor.h"
+DetachedEncoderConfig = "rev/config/DetachedEncoderConfig.h"
+DetachedEncoderConfigAccessor = "rev/config/DetachedEncoderConfigAccessor.h"
+DetachedSignalsConfig = "rev/config/DetachedSignalsConfig.h"
 EncoderConfig = "rev/config/EncoderConfig.h"
 EncoderConfigAccessor = "rev/config/EncoderConfigAccessor.h"
 ExternalEncoderConfig = "rev/config/ExternalEncoderConfig.h"
@@ -206,6 +220,7 @@ SparkMaxConfigAccessor = "rev/config/SparkMaxConfigAccessor.h"
 SparkParameters = "rev/config/SparkParameters.h"
 
 # rev/sim
+DetachedEncoderSim = "rev/sim/DetachedEncoderSim.h"
 MovingAverageFilterSim = "rev/sim/MovingAverageFilterSim.h"
 NoiseGenerator = "rev/sim/NoiseGenerator.h"
 ServoHubSimFaultManager = "rev/sim/ServoHubSimFaultManager.h"

@@ -1,0 +1,31 @@
+extra_includes:
+- rev/DetachedEncoderLowLevel.h
+- rev/RelativeEncoder.h
+
+classes:
+  rev::detached::DetachedEncoder:
+    typealias:
+    - rev::detached::DetachedEncoderLowLevel::EncoderModel
+    base_qualnames:
+      RelativeEncoder: rev::RelativeEncoder
+    attributes:
+      configAccessor:
+    methods:
+      GetPosition:
+      GetVelocity:
+      GetAngle:
+      GetRawAngle:
+      SetPosition:
+      Configure:
+      GetFaults:
+      GetStickyFaults:
+      ClearFaults:
+      DetachedEncoder:
+  rev::detached::DetachedEncoder::Faults:
+    attributes:
+      unexpected:
+      hasReset:
+      canTx:
+      canRx:
+      eeprom:
+      rawBits:

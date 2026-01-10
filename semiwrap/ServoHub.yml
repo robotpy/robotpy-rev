@@ -1,3 +1,6 @@
+typealias:
+- rev::REVLibError
+
 classes:
   rev::servohub::ServoHub:
     attributes:
@@ -8,7 +11,13 @@ classes:
     methods:
       ServoHub:
       Configure:
+        overloads:
+          ServoHubConfig&, ResetMode:
+          ServoHubConfig&, rev::ResetMode:
       ConfigureAsync:
+        overloads:
+          ServoHubConfig&, ResetMode:
+          ServoHubConfig&, rev::ResetMode:
       HasActiveFault:
       HasStickyFault:
       HasActiveWarning:

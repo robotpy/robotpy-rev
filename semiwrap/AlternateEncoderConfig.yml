@@ -15,3 +15,8 @@ classes:
       VelocityConversionFactor:
       AverageDepth:
       MeasurementPeriod:
+  rev::spark::AlternateEncoderConfig::Presets:
+    methods:
+      REV_ThroughBoreEncoder:
+      REV_ThroughBoreEncoderV2:
+      REV_SplineEncoder:

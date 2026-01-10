@@ -3,12 +3,14 @@ extra_includes:
 
 classes:
   rev::spark::SparkFlexConfig:
+    force_no_trampoline: true
     attributes:
       externalEncoder:
     methods:
       SparkFlexConfig:
       Apply:
         overloads:
+          SparkBaseConfig&:
           SparkFlexConfig&:
           ExternalEncoderConfig&:
       Flatten:

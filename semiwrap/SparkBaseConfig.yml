@@ -28,6 +28,7 @@ classes:
       Inverted:
       SmartCurrentLimit:
       SecondaryCurrentLimit:
+      AdvanceCommutation:
       OpenLoopRampRate:
       ClosedLoopRampRate:
       VoltageCompensation:
@@ -38,3 +39,10 @@ classes:
           SparkBase&, bool:
       DisableFollowerMode:
       Flatten:
+  rev::spark::SparkBaseConfig::Presets:
+    methods:
+      REV_NEO:
+      REV_NEO_2:
+      REV_NEO_550:
+      REV_Vortex:
+      CTRE_Minion:

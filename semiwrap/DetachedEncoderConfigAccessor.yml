@@ -1,0 +1,10 @@
+classes:
+  rev::detached::DetachedEncoderConfigAccessor:
+    methods:
+      GetInverted:
+      GetPositionConversionFactor:
+      GetVelocityConversionFactor:
+      GetVelocityAverageDepth:
+      GetAngleConversionFactor:
+      GetZeroOffset:
+      GetZeroCentered:

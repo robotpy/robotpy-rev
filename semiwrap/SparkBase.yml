@@ -5,8 +5,8 @@ extra_includes:
 - rev/SparkLowLevel.h
 - rev/config/SparkBaseConfig.h
 
-# typealias:
-# - rev::REVLibError
+typealias:
+- rev::REVLibError
 
 classes:
   rev::spark::SparkBase:
@@ -52,7 +52,9 @@ classes:
       IdleMode:
       SoftLimitDirection:
       ResetMode:
+        ignore: true
       PersistMode:
+        ignore: true
     methods:
       Set:
       SetVoltage:
@@ -62,6 +64,10 @@ classes:
       Disable:
       StopMotor:
       Configure:
+        overloads:
+          SparkBaseConfig&, ResetMode, PersistMode:
+            ignore: true # semiwrap redeclaration bug?
+          SparkBaseConfig&, rev::ResetMode, rev::PersistMode:
       GetEncoder:
         return_value_policy: reference_internal
       GetAnalog:
@@ -97,6 +103,10 @@ classes:
       GetMotorInterface:
       GetSparkModel:
       ConfigureAsync:
+        overloads:
+          SparkBaseConfig&, ResetMode, PersistMode:
+            ignore: true # semiwrap redeclaration bug?
+          SparkBaseConfig&, rev::ResetMode, rev::PersistMode:
       GetForwardSoftLimit:
       GetReverseSoftLimit:
       ResumeFollowerModeAsync:

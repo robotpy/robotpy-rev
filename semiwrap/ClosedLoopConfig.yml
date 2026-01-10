@@ -1,3 +1,6 @@
+extra_includes:
+- rev/DetachedEncoder.h
+
 classes:
   rev::spark::ClosedLoopConfig:
     base_qualnames:
@@ -29,5 +32,9 @@ classes:
       PositionWrappingMaxInput:
       PositionWrappingInputRange:
       SetFeedbackSensor:
+        overloads:
+          FeedbackSensor:
+          FeedbackSensor, int:
+          FeedbackSensor, rev::detached::DetachedEncoder&:
       Flatten:
       AllowedClosedLoopError:

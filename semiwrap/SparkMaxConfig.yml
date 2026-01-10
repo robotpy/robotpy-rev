@@ -3,6 +3,7 @@ extra_includes:
 
 classes:
   rev::spark::SparkMaxConfig:
+    force_no_trampoline: true
     attributes:
       alternateEncoder:
     enums:
@@ -11,6 +12,7 @@ classes:
       SparkMaxConfig:
       Apply:
         overloads:
+          SparkBaseConfig&:
           SparkMaxConfig&:
           AlternateEncoderConfig&:
       Flatten:
