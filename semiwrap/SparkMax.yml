@@ -18,6 +18,7 @@ classes:
       Configure:
         overloads:
           SparkBaseConfig&, ResetMode, PersistMode:
+            ignore: true # semiwrap redeclaration bug?
           SparkBaseConfig&, rev::ResetMode, rev::PersistMode:
       GetAlternateEncoder:
         return_value_policy: reference_internal
