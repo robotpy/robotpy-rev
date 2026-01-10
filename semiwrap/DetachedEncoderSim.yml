@@ -1,0 +1,19 @@
+classes:
+  rev::detached::DetachedEncoderSim:
+    methods:
+      DetachedEncoderSim:
+      SetPosition:
+      GetPosition:
+      SetVelocity:
+      GetVelocity:
+      SetAngle:
+      GetAngle:
+      SetRawAngle:
+      GetRawAngle:
+      SetInverted:
+      GetInverted:
+      SetZeroOffset:
+      GetZeroOffset:
+      GetPositionConversionFactor:
+      GetVelocityConversionFactor:
+      iterate:

@@ -1,0 +1,4 @@
+classes:
+  rev::detached::SplineEncoder:
+    methods:
+      SplineEncoder:

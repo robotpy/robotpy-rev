@@ -1,0 +1,14 @@
+classes:
+  rev::detached::DetachedEncoderConfig:
+    attributes:
+      signals:
+    methods:
+      DetachedEncoderConfig:
+      Apply:
+      Inverted:
+      VelocityConversionFactor:
+      VelocityAverageDepth:
+      PositionConversionFactor:
+      AngleConversionFactor:
+      ZeroOffset:
+      ZeroCentered:

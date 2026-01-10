@@ -1,0 +1,8 @@
+classes:
+  rev::detached::SignalsConfig:
+    methods:
+      SignalsConfig:
+      Apply:
+      EncoderPositionPeriodMs:
+      EncoderVelocityPeriodMs:
+      EncoderAnglePeriodMs:

@@ -1,0 +1,23 @@
+classes:
+  rev::detached::DetachedEncoder:
+    attributes:
+      configAccessor:
+    methods:
+      GetPosition:
+      GetVelocity:
+      GetAngle:
+      GetRawAngle:
+      SetPosition:
+      Configure:
+      GetFaults:
+      GetStickyFaults:
+      ClearFaults:
+      DetachedEncoder:
+  rev::detached::DetachedEncoder::Faults:
+    attributes:
+      unexpected:
+      hasReset:
+      canTx:
+      canRx:
+      eeprom:
+      rawBits:
