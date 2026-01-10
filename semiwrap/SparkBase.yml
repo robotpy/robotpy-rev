@@ -52,7 +52,9 @@ classes:
       IdleMode:
       SoftLimitDirection:
       ResetMode:
+        ignore: true
       PersistMode:
+        ignore: true
     methods:
       Set:
       SetVoltage:

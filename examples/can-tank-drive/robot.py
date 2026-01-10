@@ -33,13 +33,13 @@ class Robot(wpilib.TimedRobot):
         self.rightConfig = self.globalConfig.inverted(True)
         self.leftMotor.configure(
             self.globalConfig,
-            rev.SparkBase.ResetMode.kResetSafeParameters,
-            rev.SparkBase.PersistMode.kPersistParameters,
+            rev.ResetMode.kResetSafeParameters,
+            rev.PersistMode.kPersistParameters,
         )
         self.rightMotor.configure(
             self.rightConfig,
-            rev.SparkBase.ResetMode.kResetSafeParameters,
-            rev.SparkBase.PersistMode.kPersistParameters,
+            rev.ResetMode.kResetSafeParameters,
+            rev.PersistMode.kPersistParameters,
         )
 
         self.driveTrain = DifferentialDrive(self.leftMotor, self.rightMotor)

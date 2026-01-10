@@ -4,7 +4,7 @@
 # the WPILib BSD license file in the root directory of this project.
 #
 
-from rev import SparkMax, SparkMaxConfig, ClosedLoopConfig, SparkBase
+from rev import SparkMax, SparkMaxConfig, ClosedLoopConfig, ResetMode, PersistMode
 from wpimath.geometry import Rotation2d
 from wpimath.kinematics import SwerveModuleState, SwerveModulePosition
 
@@ -108,13 +108,13 @@ class MAXSwerveModule:
         # operation, it will maintain the above configurations.
         self.drivingSparkMax.configure(
             self.drivingConfig,
-            SparkBase.ResetMode.kResetSafeParameters,
-            SparkBase.PersistMode.kPersistParameters,
+            ResetMode.kResetSafeParameters,
+            PersistMode.kPersistParameters,
         )
         self.turningSparkMax.configure(
             self.turningConfig,
-            SparkBase.ResetMode.kResetSafeParameters,
-            SparkBase.PersistMode.kPersistParameters,
+            ResetMode.kResetSafeParameters,
+            PersistMode.kPersistParameters,
         )
 
         self.chassisAngularOffset = chassisAngularOffset
