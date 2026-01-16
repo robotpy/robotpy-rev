@@ -36,7 +36,7 @@ classes:
       Follow:
         overloads:
           int, bool:
-          const SparkBase&, bool:
+          SparkBase&, bool:
       DisableFollowerMode:
       Flatten:
   rev::spark::SparkBaseConfig::Presets:

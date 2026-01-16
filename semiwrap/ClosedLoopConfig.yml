@@ -35,6 +35,6 @@ classes:
         overloads:
           FeedbackSensor:
           FeedbackSensor, int:
-          FeedbackSensor, const rev::detached::DetachedEncoder&:
+          FeedbackSensor, rev::detached::DetachedEncoder&:
       Flatten:
       AllowedClosedLoopError:
