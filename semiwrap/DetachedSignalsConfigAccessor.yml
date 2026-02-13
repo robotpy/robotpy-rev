@@ -1,0 +1,7 @@
+classes:
+  rev::detached::SignalsConfigAccessor:
+    rename: DetachedSignalsConfigAccessor
+    methods:
+      GetEncoderPositionPeriodMs:
+      GetEncoderVelocityPeriodMs:
+      GetEncoderAnglePeriodMs:

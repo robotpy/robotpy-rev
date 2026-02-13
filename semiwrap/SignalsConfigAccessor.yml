@@ -33,6 +33,10 @@ classes:
       GetAbsoluteEncoderVelocityAlwaysOn:
       GetAbsoluteEncoderPositionPeriodMs:
       GetAbsoluteEncoderPositionAlwaysOn:
+      GetUnadjustedDutyCyclePeriodMs:
+      GetUnadjustedDutyCyclePeriodAlwaysOn:
+      GetDutyCyclePeriodMs:
+      GetDutyCyclePeriodAlwaysOn:
       GetIAccumulationPeriodMs:
       GetIAccumulationAlwaysOn:
       GetSetpointPeriodMs:

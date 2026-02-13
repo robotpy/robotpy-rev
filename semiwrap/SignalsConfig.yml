@@ -37,6 +37,10 @@ classes:
       AbsoluteEncoderVelocityAlwaysOn:
       AbsoluteEncoderPositionPeriodMs:
       AbsoluteEncoderPositionAlwaysOn:
+      UnadjustedDutyCyclePeriodMs:
+      UnadjustedDutyCyclePeriodAlwaysOn:
+      DutyCyclePeriodMs:
+      DutyCyclePeriodAlwaysOn:
       IAccumulationPeriodMs:
       IAccumulationAlwaysOn:
       SetpointPeriodMs:
