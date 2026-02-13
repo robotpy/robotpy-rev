@@ -8,7 +8,6 @@
 import rev
 import wpilib
 
-
 # Before Running:
 # Open Shuffleboard, select File->Load Layout and select the
 # shuffleboard.json that is in the root directory of this example

@@ -9,7 +9,6 @@ The constants module is a convenience place for teams to hold robot-wide
 numerical or boolean constants. Don't use this for any other purpose!
 """
 
-
 import math
 
 from wpimath import units
