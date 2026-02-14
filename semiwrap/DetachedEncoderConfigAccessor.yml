@@ -8,3 +8,8 @@ classes:
       GetAngleConversionFactor:
       GetZeroOffset:
       GetZeroCentered:
+      GetStartPulseUs:
+      GetEndPulseUs:
+      GetAbsolutePeriodUs:
+    attributes:
+      signals:

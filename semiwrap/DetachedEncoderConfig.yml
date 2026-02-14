@@ -7,6 +7,9 @@ classes:
     methods:
       DetachedEncoderConfig:
       Apply:
+        overloads:
+          DetachedEncoderConfig&:
+          SignalsConfig&:
       Inverted:
       VelocityConversionFactor:
       VelocityAverageDepth:
@@ -14,3 +17,7 @@ classes:
       AngleConversionFactor:
       ZeroOffset:
       ZeroCentered:
+      StartPulseUs:
+      EndPulseUs:
+      AbsolutePeriodUs:
+      Flatten:

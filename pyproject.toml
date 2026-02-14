@@ -44,7 +44,7 @@ packages = ["rev"]
 artifact_id = "REVLib-cpp"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2026.0.1"
+version = "2026.0.2"
 staticlibs = ["REVLib"]
 extract_to = "lib"
 
@@ -52,7 +52,7 @@ extract_to = "lib"
 artifact_id = "REVLib-driver"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2026.0.1"
+version = "2026.0.2"
 staticlibs = [ "REVLibDriver"]
 extract_to = "lib"
 
@@ -60,7 +60,7 @@ extract_to = "lib"
 artifact_id = "RevLibBackendDriver"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2026.0.1"
+version = "2026.0.2"
 staticlibs = [
     "BackendDriver",
 ]
@@ -71,7 +71,7 @@ use_headers = false
 artifact_id = "RevLibWpiBackendDriver"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2026.0.1"
+version = "2026.0.2"
 staticlibs = [
     "REVLibWpi",
 ]
@@ -192,6 +192,7 @@ ClosedLoopConfigAccessor = "rev/config/ClosedLoopConfigAccessor.h"
 DetachedEncoderConfig = "rev/config/DetachedEncoderConfig.h"
 DetachedEncoderConfigAccessor = "rev/config/DetachedEncoderConfigAccessor.h"
 DetachedSignalsConfig = "rev/config/DetachedSignalsConfig.h"
+DetachedSignalsConfigAccessor = "rev/config/DetachedSignalsConfigAccessor.h"
 EncoderConfig = "rev/config/EncoderConfig.h"
 EncoderConfigAccessor = "rev/config/EncoderConfigAccessor.h"
 ExternalEncoderConfig = "rev/config/ExternalEncoderConfig.h"
