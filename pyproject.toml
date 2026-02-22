@@ -3,10 +3,10 @@ build-backend = "hatchling.build"
 requires = [
     "hatchling",
     "hatch-vcs",
-    "semiwrap~=0.2.1",
+    "semiwrap~=0.3.0",
     "hatch-meson~=0.1.0",
     "hatch-robotpy~=0.2.1",
-    "wpilib~=2026.1.1",
+    "wpilib~=2026.2.1",
 ]
 
 
@@ -16,7 +16,7 @@ dynamic = ["version"]
 description = "REVLib for RobotPy"
 license = "BSD-3-Clause"
 dependencies = [
-    "wpilib>=2026.1.1,<2027",
+    "wpilib>=2026.2.1,<2027",
 ]
 
 [[project.authors]]
