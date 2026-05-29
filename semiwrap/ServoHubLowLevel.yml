@@ -20,6 +20,7 @@ classes:
       GetPeriodicStatus4:
       CreateSimFaultManager:
       ServoHubLowLevel:
+      GetBusId:
   rev::servohub::ServoHubLowLevel::FirmwareVersion:
     attributes:
       firmwareFix:
@@ -67,6 +68,8 @@ classes:
       stickyChannel4Overcurrent:
       stickyChannel5Overcurrent:
       timestamp:
+      lowBatteryFault:
+      stickyLowBatteryFault:
   rev::servohub::ServoHubLowLevel::PeriodicStatus2:
     attributes:
       channel0PulseWidth:

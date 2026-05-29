@@ -41,6 +41,9 @@ classes:
       rawBits:
     methods:
       Faults:
+        overloads:
+          "":
+          uint16_t:
   rev::servohub::ServoHub::Warnings:
     attributes:
       brownout:
@@ -56,3 +59,6 @@ classes:
       rawBits:
     methods:
       Warnings:
+        overloads:
+          "":
+          uint16_t:

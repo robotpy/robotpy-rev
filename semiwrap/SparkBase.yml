@@ -56,9 +56,7 @@ classes:
       PersistMode:
         ignore: true
     methods:
-      Set:
       SetVoltage:
-      Get:
       SetInverted:
       GetInverted:
       Disable:
@@ -111,6 +109,8 @@ classes:
       GetReverseSoftLimit:
       ResumeFollowerModeAsync:
       PauseFollowerModeAsync:
+      SetThrottle:
+      GetThrottle:
   rev::spark::SparkBase::Faults:
     attributes:
       other:

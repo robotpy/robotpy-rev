@@ -6,6 +6,6 @@ classes:
       SetConfidenceThreshold:
       MatchColor:
         overloads:
-          const frc::Color&:
-          const frc::Color&, double&:
+          const wpi::util::Color&:
+          const wpi::util::Color&, double&:
       MatchClosestColor:
