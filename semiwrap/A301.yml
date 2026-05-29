@@ -37,7 +37,8 @@ classes:
       GetInverted:
       Disable:
       A301:
-      GetOutputCurrent:
+      GetMotorCurrent:
+      SetRelativeEncoderPosition:
   first::a301::A301::Faults:
     attributes:
       other:
