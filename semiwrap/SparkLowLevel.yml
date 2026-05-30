@@ -27,6 +27,7 @@ classes:
           bool&:
       GetFirmwareString:
       GetSerialNumber:
+      GetBusId:
       GetDeviceId:
       GetMotorType:
       SetPeriodicFrameTimeout:

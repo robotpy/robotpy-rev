@@ -25,9 +25,9 @@ TESTS = BASE_TESTS
 script_dir = os.path.dirname(__file__)
 
 robot_files = []
-for root, dirs, files in os.walk("."):
+for root, dirs, files in os.walk(script_dir):
     if "robot.py" in files:
-        robot_files.append(os.path.relpath(root, "."))
+        robot_files.append(os.path.relpath(root, script_dir))
 
 for file in robot_files:
     print("found: " + file)
@@ -39,5 +39,5 @@ for file in robot_files:
 for test in TESTS:
     print(f"Running test: {test}")
     os.chdir(os.path.join(script_dir, test))
-    subprocess.run([sys.executable, "-m", "robotpy", "test", "--builtin"])
+    subprocess.check_call([sys.executable, "-m", "robotpy", "test", "--builtin"])
     os.chdir(script_dir)

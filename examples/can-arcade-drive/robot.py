@@ -7,32 +7,35 @@
 
 import rev
 import wpilib
-from wpilib.drive import DifferentialDrive
 
 
 class Robot(wpilib.TimedRobot):
-    def robotInit(self):
+    def __init__(self):
+        super().__init__()
         # SPARK MAX controllers are intialized over CAN by constructing a
         # CANSparkMax object
         #
-        # The CAN ID, which can be configured using the SPARK MAX Client, is passed
-        # as the first parameter
+        # The CAN bus ID is passed as the first parameter, and the device ID,
+        # which can be configured using the SPARK MAX Client, is passed as the
+        # second parameter.
         #
-        # The motor type is passed as the second parameter.
+        # The motor type is passed as the third parameter.
         # Motor type can either be:
         #   rev.CANSparkMax.MotorType.kBrushless
         #   rev.CANSparkMax.MotorType.kBrushed
         #
         # The example below initializes four brushless motors with CAN IDs
         # 1, 2, 3, 4. Change these parameters to match your setup
-        self.leftLeadMotor = rev.SparkMax(1, rev.SparkMax.MotorType.kBrushless)
-        self.rightLeadMotor = rev.SparkMax(3, rev.SparkMax.MotorType.kBrushless)
-        self.leftFollowMotor = rev.SparkMax(2, rev.SparkMax.MotorType.kBrushless)
-        self.rightFollowMotor = rev.SparkMax(4, rev.SparkMax.MotorType.kBrushless)
+        self.leftLeadMotor = rev.SparkMax(0, 1, rev.SparkMax.MotorType.kBrushless)
+        self.rightLeadMotor = rev.SparkMax(0, 3, rev.SparkMax.MotorType.kBrushless)
+        self.leftFollowMotor = rev.SparkMax(0, 2, rev.SparkMax.MotorType.kBrushless)
+        self.rightFollowMotor = rev.SparkMax(0, 4, rev.SparkMax.MotorType.kBrushless)
 
         # Passing in the lead motors into DifferentialDrive allows any
         # commmands sent to the lead motors to be sent to the follower motors.
-        self.driveTrain = DifferentialDrive(self.leftLeadMotor, self.rightLeadMotor)
+        self.driveTrain = wpilib.DifferentialDrive(
+            self.leftLeadMotor, self.rightLeadMotor
+        )
         self.joystick = wpilib.Joystick(0)
 
         # Create new SPARK MAX configuration objects. These will store the

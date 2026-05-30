@@ -1,0 +1,145 @@
+extra_includes_first:
+- rev/SparkBase.h
+- rev/DetachedEncoder.h
+- rev/ServoHub.h
+- first/A301.h
+
+classes:
+  rev::util::Signal:
+    template_params:
+    - T
+    typealias:
+    - "rev::REVLibError"
+    methods:
+      Signal:
+      Map:
+        ignore: true
+      Get:
+        overloads:
+          '[const]':
+          T [const]:
+      GetTimestamp:
+      GetError:
+      IsValid:
+
+templates:
+  Signal_double:
+    qualname: rev::util::Signal
+    params:
+    - double
+  Signal_bool:
+    qualname: rev::util::Signal
+    params:
+    - bool
+  Signal_int:
+    qualname: rev::util::Signal
+    params:
+    - int
+  Signal_ClosedLoopSlot:
+    qualname: rev::util::Signal
+    params:
+    - rev::spark::ClosedLoopSlot
+  Signal_SparkFaults:
+    qualname: rev::util::Signal
+    params:
+    - rev::spark::SparkBase::Faults
+  Signal_SparkWarnings:
+    qualname: rev::util::Signal
+    params:
+    - rev::spark::SparkBase::Warnings
+  Signal_SparkPeriodicStatus0:
+    qualname: rev::util::Signal
+    params:
+    - rev::spark::SparkLowLevel::PeriodicStatus0
+  Signal_SparkPeriodicStatus1:
+    qualname: rev::util::Signal
+    params:
+    - rev::spark::SparkLowLevel::PeriodicStatus1
+  Signal_SparkPeriodicStatus2:
+    qualname: rev::util::Signal
+    params:
+    - rev::spark::SparkLowLevel::PeriodicStatus2
+  Signal_SparkPeriodicStatus3:
+    qualname: rev::util::Signal
+    params:
+    - rev::spark::SparkLowLevel::PeriodicStatus3
+  Signal_SparkPeriodicStatus4:
+    qualname: rev::util::Signal
+    params:
+    - rev::spark::SparkLowLevel::PeriodicStatus4
+  Signal_SparkPeriodicStatus5:
+    qualname: rev::util::Signal
+    params:
+    - rev::spark::SparkLowLevel::PeriodicStatus5
+  Signal_SparkPeriodicStatus6:
+    qualname: rev::util::Signal
+    params:
+    - rev::spark::SparkLowLevel::PeriodicStatus6
+  Signal_SparkPeriodicStatus7:
+    qualname: rev::util::Signal
+    params:
+    - rev::spark::SparkLowLevel::PeriodicStatus7
+  Signal_SparkPeriodicStatus8:
+    qualname: rev::util::Signal
+    params:
+    - rev::spark::SparkLowLevel::PeriodicStatus8
+  Signal_SparkPeriodicStatus9:
+    qualname: rev::util::Signal
+    params:
+    - rev::spark::SparkLowLevel::PeriodicStatus9
+  Signal_DetachedFaults:
+    qualname: rev::util::Signal
+    params:
+    - rev::detached::DetachedEncoder::Faults
+  Signal_DetachedPeriodicStatus1:
+    qualname: rev::util::Signal
+    params:
+    - rev::detached::DetachedEncoderLowLevel::PeriodicStatus1
+  Signal_DetachedPeriodicStatus2:
+    qualname: rev::util::Signal
+    params:
+    - rev::detached::DetachedEncoderLowLevel::PeriodicStatus2
+  Signal_DetachedPeriodicStatus3:
+    qualname: rev::util::Signal
+    params:
+    - rev::detached::DetachedEncoderLowLevel::PeriodicStatus3
+  Signal_DetachedPeriodicStatus4:
+    qualname: rev::util::Signal
+    params:
+    - rev::detached::DetachedEncoderLowLevel::PeriodicStatus4
+  Signal_ServoHubFaults:
+    qualname: rev::util::Signal
+    params:
+    - rev::servohub::ServoHub::Faults
+  Signal_ServoHubWarnings:
+    qualname: rev::util::Signal
+    params:
+    - rev::servohub::ServoHub::Warnings
+  Signal_ServoHubPeriodicStatus0:
+    qualname: rev::util::Signal
+    params:
+    - rev::servohub::ServoHubLowLevel::PeriodicStatus0
+  Signal_ServoHubPeriodicStatus1:
+    qualname: rev::util::Signal
+    params:
+    - rev::servohub::ServoHubLowLevel::PeriodicStatus1
+  Signal_ServoHubPeriodicStatus2:
+    qualname: rev::util::Signal
+    params:
+    - rev::servohub::ServoHubLowLevel::PeriodicStatus2
+  Signal_ServoHubPeriodicStatus3:
+    qualname: rev::util::Signal
+    params:
+    - rev::servohub::ServoHubLowLevel::PeriodicStatus3
+  Signal_ServoHubPeriodicStatus4:
+    qualname: rev::util::Signal
+    params:
+    - rev::servohub::ServoHubLowLevel::PeriodicStatus4
+  Signal_A301Faults:
+    qualname: rev::util::Signal
+    params:
+    - first::a301::A301::Faults
+  Signal_A301Warnings:
+    qualname: rev::util::Signal
+    params:
+    - first::a301::A301::Warnings

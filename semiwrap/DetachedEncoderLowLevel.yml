@@ -16,6 +16,7 @@ classes:
       GetPeriodicStatus4:
       CreateSimFaultManager:
       DetachedEncoderLowLevel:
+      GetBusId:
   rev::detached::DetachedEncoderLowLevel::FirmwareVersion:
     attributes:
       year:
@@ -39,13 +40,17 @@ classes:
       stickyCanTxFault:
       stickyCanRxFault:
       stickyEepromFault:
+      timestamp:
   rev::detached::DetachedEncoderLowLevel::PeriodicStatus2:
     attributes:
       rawAngle:
       angle:
+      timestamp:
   rev::detached::DetachedEncoderLowLevel::PeriodicStatus3:
     attributes:
       position:
+      timestamp:
   rev::detached::DetachedEncoderLowLevel::PeriodicStatus4:
     attributes:
       velocity:
+      timestamp:
