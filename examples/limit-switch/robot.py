@@ -14,9 +14,10 @@ import wpilib
 
 
 class Robot(wpilib.TimedRobot):
-    def robotInit(self):
+    def __init__(self):
+        super().__init__()
         # Create motor
-        self.motor = rev.SparkMax(1, rev.SparkMax.MotorType.kBrushless)
+        self.motor = rev.SparkMax(0, 1, rev.SparkMax.MotorType.kBrushless)
 
         self.joystick = wpilib.Joystick(0)
 
@@ -60,8 +61,8 @@ class Robot(wpilib.TimedRobot):
         )
 
     def teleopPeriodic(self):
-        # Pair motor and the joystick's Y Axis
-        self.motor.set(self.joystick.getY())
+        # Pair motor output and the joystick's Y Axis
+        self.motor.setVoltage(self.joystick.getY() * 12)
 
         # enable/disable limit switches based on value read from SmartDashboard
         if self.prevForwardLimitEnabled != wpilib.SmartDashboard.getBoolean(
@@ -101,10 +102,10 @@ class Robot(wpilib.TimedRobot):
         # pressed. It will also return true if you do not have a switch
         # connected. get() will return false when the switch is released.
         wpilib.SmartDashboard.putBoolean(
-            "Forward Limit Switch", self.forwardLimit.get()
+            "Forward Limit Switch", self.forwardLimit.get().get()
         )
         wpilib.SmartDashboard.putBoolean(
-            "Reverse Limit Switch", self.reverseLimit.get()
+            "Reverse Limit Switch", self.reverseLimit.get().get()
         )
 
 

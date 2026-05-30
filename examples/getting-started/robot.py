@@ -6,22 +6,20 @@
 #
 
 import wpilib
-import wpilib.drive
 import rev
 
 
 class MyRobot(wpilib.TimedRobot):
-    def robotInit(self):
+    def __init__(self):
+        super().__init__()
         """
         This function is called upon program startup and
         should be used for any initialization code.
         """
-        self.leftDrive = rev.SparkMax(1, rev.SparkMax.MotorType.kBrushless)
-        self.rightDrive = rev.SparkMax(2, rev.SparkMax.MotorType.kBrushless)
-        self.robotDrive = wpilib.drive.DifferentialDrive(
-            self.leftDrive, self.rightDrive
-        )
-        self.controller = wpilib.XboxController(0)
+        self.leftDrive = rev.SparkMax(0, 1, rev.SparkMax.MotorType.kBrushless)
+        self.rightDrive = rev.SparkMax(0, 2, rev.SparkMax.MotorType.kBrushless)
+        self.robotDrive = wpilib.DifferentialDrive(self.leftDrive, self.rightDrive)
+        self.controller = wpilib.Gamepad(0)
         self.timer = wpilib.Timer()
 
         # We need to invert one side of the drivetrain so that positive voltages
