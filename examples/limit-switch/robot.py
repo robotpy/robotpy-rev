@@ -49,10 +49,12 @@ class Robot(wpilib.TimedRobot):
         )
 
         self.prevForwardLimitEnabled = (
-            self.motor.configAccessor.limitSwitch.getForwardLimitSwitchTriggerBehavior() != 0
+            self.motor.configAccessor.limitSwitch.getForwardLimitSwitchTriggerBehavior()
+            != 0
         )
         self.prevReverseLimitEnabled = (
-            self.motor.configAccessor.limitSwitch.getReverseLimitSwitchTriggerBehavior() != 0
+            self.motor.configAccessor.limitSwitch.getReverseLimitSwitchTriggerBehavior()
+            != 0
         )
 
         wpilib.SmartDashboard.putBoolean(
@@ -74,7 +76,9 @@ class Robot(wpilib.TimedRobot):
                 "Forward Limit Enabled", False
             )
             self.limitConfig.limitSwitch.forwardLimitSwitchTriggerBehavior(
-                rev.LimitSwitchConfig.Behavior.kStopMovingMotor if self.prevForwardLimitEnabled else rev.LimitSwitchConfig.Behavior.kKeepMovingMotor
+                rev.LimitSwitchConfig.Behavior.kStopMovingMotor
+                if self.prevForwardLimitEnabled
+                else rev.LimitSwitchConfig.Behavior.kKeepMovingMotor
             )
             self.motor.configure(
                 self.limitConfig,
@@ -88,7 +92,9 @@ class Robot(wpilib.TimedRobot):
                 "Reverse Limit Enabled", False
             )
             self.limitConfig.limitSwitch.reverseLimitSwitchTriggerBehavior(
-                rev.LimitSwitchConfig.Behavior.kStopMovingMotor if self.prevReverseLimitEnabled else rev.LimitSwitchConfig.Behavior.kKeepMovingMotor
+                rev.LimitSwitchConfig.Behavior.kStopMovingMotor
+                if self.prevReverseLimitEnabled
+                else rev.LimitSwitchConfig.Behavior.kKeepMovingMotor
             )
             self.motor.configure(
                 self.limitConfig,
