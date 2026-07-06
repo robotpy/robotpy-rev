@@ -53,4 +53,4 @@ def test_pid_set():
     pid = sm.getClosedLoopController()
     # pid.setOutputRange(-1, 1)
     # pid.setP(0.005)
-    pid.setReference(5, rev.SparkBase.ControlType.kPosition)
+    pid.setSetpoint(5, rev.SparkBase.ControlType.kPosition)

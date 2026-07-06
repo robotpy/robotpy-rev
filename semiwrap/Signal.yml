@@ -143,3 +143,7 @@ templates:
     qualname: rev::util::Signal
     params:
     - first::a301::A301::Warnings
+  Signal_A301GearboxRPM:
+    qualname: rev::util::Signal
+    params:
+    - first::a301::A301::GearboxRPM

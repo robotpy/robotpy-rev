@@ -3,14 +3,14 @@ extra_includes_first:
 
 classes:
   first::a301::A301:
+    enums:
+      GearboxRPM:
     methods:
-      GetFirmwareVersion:
-        overloads:
-          "":
-          bool&:
-      GetFirmwareString:
+      A301:
       GetBusId:
       GetDeviceId:
+      GetFirmwareVersion:
+      GetFirmwareString:
       HasActiveFault:
       HasStickyFault:
       HasActiveWarning:
@@ -21,14 +21,23 @@ classes:
       GetStickyWarnings:
       GetBusVoltage:
       GetAppliedOutput:
+      GetMotorCurrent:
       GetMotorTemperature:
+      GetGearboxRPM:
       GetRelativeEncoderPosition:
       GetEncoderVelocity:
       GetAbsoluteEncoderPosition:
+      SetRelativeEncoderPosition:
+      SetAbsoluteEncoderPosition:
       ClearFaults:
       SetVelocity:
-      SetPosition:
+      SetRelativePosition:
+      SetRelativePositionWithSpeed:
       SetAbsolutePosition:
+      SetAbsolutePositionWithSpeed:
+      EnableAbsolutePositionContinuousInput:
+      DisableAbsolutePositionContinuousInput:
+      IsAbsolutePositionContinuousInputEnabled:
       SetCurrent:
       SetThrottle:
       GetThrottle:
@@ -36,19 +45,40 @@ classes:
       SetInverted:
       GetInverted:
       Disable:
-      A301:
-      GetMotorCurrent:
-      SetRelativeEncoderPosition:
+      FaultsPeriodMs:
+      GetFaultsPeriodMs:
+      WarningsPeriodMs:
+      GetWarningsPeriodMs:
+      BusVoltagePeriodMs:
+      GetBusVoltagePeriodMs:
+      AppliedOutputPeriodMs:
+      GetAppliedOutputPeriodMs:
+      MotorCurrentPeriodMs:
+      GetMotorCurrentPeriodMs:
+      MotorTemperaturePeriodMs:
+      GetMotorTemperaturePeriodMs:
+      RelativeEncoderPositionPeriodMs:
+      GetRelativeEncoderPositionPeriodMs:
+      EncoderVelocityPeriodMs:
+      GetEncoderVelocityPeriodMs:
+      AbsoluteEncoderPositionPeriodMs:
+      GetAbsoluteEncoderPositionPeriodMs:
+  first::a301::A301::FirmwareVersion:
+    attributes:
+      major:
+      minor:
+      patch:
+      prerelease:
   first::a301::A301::Faults:
     attributes:
       other:
-      motorType:
       sensor:
       can:
       temperature:
       gateDriver:
       escEeprom:
       firmware:
+      motorStartup:
       rawBits:
     methods:
       Faults:
@@ -57,6 +87,8 @@ classes:
           uint16_t:
   first::a301::A301::Warnings:
     attributes:
+      overvoltage:
+      motorLoopSpeed:
       brownout:
       overcurrent:
       escEeprom:
