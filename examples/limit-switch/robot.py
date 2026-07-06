@@ -35,10 +35,12 @@ class Robot(wpilib.TimedRobot):
         self.limitConfig = rev.SparkMaxConfig()
         self.limitConfig.limitSwitch.forwardLimitSwitchType(
             rev.LimitSwitchConfig.Type.kNormallyClosed
-        ).forwardLimitSwitchEnabled(False).reverseLimitSwitchType(
+        ).forwardLimitSwitchTriggerBehavior(
+            rev.LimitSwitchConfig.Behavior.kStopMovingMotor
+        ).reverseLimitSwitchType(
             rev.LimitSwitchConfig.Type.kNormallyClosed
-        ).reverseLimitSwitchEnabled(
-            False
+        ).reverseLimitSwitchTriggerBehavior(
+            rev.LimitSwitchConfig.Behavior.kStopMovingMotor
         )
         self.motor.configure(
             self.limitConfig,
@@ -47,10 +49,10 @@ class Robot(wpilib.TimedRobot):
         )
 
         self.prevForwardLimitEnabled = (
-            self.motor.configAccessor.limitSwitch.getForwardLimitSwitchEnabled()
+            self.motor.configAccessor.limitSwitch.getForwardLimitSwitchTriggerBehavior() != 0
         )
         self.prevReverseLimitEnabled = (
-            self.motor.configAccessor.limitSwitch.getReverseLimitSwitchEnabled()
+            self.motor.configAccessor.limitSwitch.getReverseLimitSwitchTriggerBehavior() != 0
         )
 
         wpilib.SmartDashboard.putBoolean(
@@ -71,8 +73,8 @@ class Robot(wpilib.TimedRobot):
             self.prevForwardLimitEnabled = wpilib.SmartDashboard.getBoolean(
                 "Forward Limit Enabled", False
             )
-            self.limitConfig.limitSwitch.forwardLimitSwitchEnabled(
-                self.prevForwardLimitEnabled
+            self.limitConfig.limitSwitch.forwardLimitSwitchTriggerBehavior(
+                rev.LimitSwitchConfig.Behavior.kStopMovingMotor if self.prevForwardLimitEnabled else rev.LimitSwitchConfig.Behavior.kKeepMovingMotor
             )
             self.motor.configure(
                 self.limitConfig,
@@ -85,8 +87,8 @@ class Robot(wpilib.TimedRobot):
             self.prevReverseLimitEnabled = wpilib.SmartDashboard.getBoolean(
                 "Reverse Limit Enabled", False
             )
-            self.limitConfig.limitSwitch.reverseLimitSwitchEnabled(
-                self.prevReverseLimitEnabled
+            self.limitConfig.limitSwitch.reverseLimitSwitchTriggerBehavior(
+                rev.LimitSwitchConfig.Behavior.kStopMovingMotor if self.prevReverseLimitEnabled else rev.LimitSwitchConfig.Behavior.kKeepMovingMotor
             )
             self.motor.configure(
                 self.limitConfig,
