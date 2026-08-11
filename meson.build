@@ -9,7 +9,7 @@ rev_sources += files(
 )
 
 #
-# Static link 
+# Static link
 #
 
 cpp = meson.get_compiler('cpp')
