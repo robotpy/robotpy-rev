@@ -3,7 +3,6 @@ classes:
     enums:
       ArbFFUnits:
     methods:
-      SetReference:
       SetIAccum:
       GetIAccum:
       SetSetpoint:

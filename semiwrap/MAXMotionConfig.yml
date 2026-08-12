@@ -7,9 +7,7 @@ classes:
     methods:
       MAXMotionConfig:
       Apply:
-      MaxVelocity:
       MaxAcceleration:
-      AllowedClosedLoopError:
       PositionMode:
       CruiseVelocity:
       AllowedProfileError:

@@ -6,15 +6,10 @@ classes:
       SignalsConfig:
       Apply:
       AppliedOutputPeriodMs:
-      AppliedOutputAlwaysOn:
       BusVoltagePeriodMs:
-      BusVoltageAlwaysOn:
       OutputCurrentPeriodMs:
-      OutputCurrentAlwaysOn:
       MotorTemperaturePeriodMs:
-      MotorTemperatureAlwaysOn:
       LimitsPeriodMs:
-      LimitsAlwaysOn:
       FaultsPeriodMs:
       FaultsAlwaysOn:
       WarningsPeriodMs:
