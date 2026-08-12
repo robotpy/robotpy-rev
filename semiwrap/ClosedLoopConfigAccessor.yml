@@ -7,14 +7,13 @@ classes:
       GetP:
       GetI:
       GetD:
-      GetFF:
       GetDFilter:
       GetIZone:
       GetMinOutput:
       GetMaxOutput:
       GetMaxIAccumulation:
+      GetAllowedClosedLoopError:
       GetPositionWrappingEnabled:
       GetPositionWrappingMinInput:
       GetPositionWrappingMaxInput:
       GetFeedbackSensor:
-      GetAllowedClosedLoopError:

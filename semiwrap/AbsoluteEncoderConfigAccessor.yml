@@ -8,3 +8,5 @@ classes:
       GetStartPulseUs:
       GetEndPulseUs:
       GetZeroOffset:
+      IsZeroCentered:
+      GetRangeOffset:

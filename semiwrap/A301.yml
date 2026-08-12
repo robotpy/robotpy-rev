@@ -5,8 +5,12 @@ classes:
   first::a301::A301:
     enums:
       GearboxRPM:
+      IdleMode:
     methods:
       A301:
+        overloads:
+          int:
+          int, int:
       GetBusId:
       GetDeviceId:
       GetFirmwareVersion:
@@ -35,9 +39,13 @@ classes:
       SetRelativePositionWithSpeed:
       SetAbsolutePosition:
       SetAbsolutePositionWithSpeed:
+      SetIdleMode:
+      GetIdleMode:
       EnableAbsolutePositionContinuousInput:
       DisableAbsolutePositionContinuousInput:
       IsAbsolutePositionContinuousInputEnabled:
+      SetAbsoluteEncoderRangeOffset:
+      GetAbsoluteEncoderRangeOffset:
       SetCurrent:
       SetThrottle:
       GetThrottle:

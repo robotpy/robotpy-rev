@@ -9,9 +9,7 @@ classes:
       LimitSwitchConfig:
       Apply:
       SetSparkMaxDataPortConfig:
-      ForwardLimitSwitchEnabled:
       ForwardLimitSwitchType:
-      ReverseLimitSwitchEnabled:
       ReverseLimitSwitchType:
       ForwardLimitSwitchTriggerBehavior:
       ForwardLimitSwitchPosition:

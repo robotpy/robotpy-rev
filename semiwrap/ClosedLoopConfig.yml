@@ -15,18 +15,17 @@ classes:
           ClosedLoopConfig&:
           MAXMotionConfig&:
           FeedForwardConfig&:
-      Pidf:
       Pid:
       P:
       I:
       D:
-      VelocityFF:
       DFilter:
       IZone:
       MinOutput:
       MaxOutput:
       OutputRange:
       IMaxAccum:
+      AllowedClosedLoopError:
       PositionWrappingEnabled:
       PositionWrappingMinInput:
       PositionWrappingMaxInput:
@@ -37,4 +36,3 @@ classes:
           FeedbackSensor, int:
           FeedbackSensor, const rev::detached::DetachedEncoder&:
       Flatten:
-      AllowedClosedLoopError:
