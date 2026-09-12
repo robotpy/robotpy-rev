@@ -13,6 +13,12 @@ classes:
           const PulseRange_t&:
       DisableBehavior:
   rev::servohub::ServoChannelConfig::PulseRange_t:
+    inline_code: |
+      .def("__repr__", [](const rev::servohub::ServoChannelConfig::PulseRange_t &self) {
+        return py::str("ServoChannelConfig.PulseRange_t(min_pulse_us={!r}, "
+                       "center_pulse_us={!r}, max_pulse_us={!r})")
+          .format(self.minPulse_us, self.centerPulse_us, self.maxPulse_us);
+      });
     attributes:
       minPulse_us:
       centerPulse_us:

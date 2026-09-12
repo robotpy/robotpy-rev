@@ -22,6 +22,11 @@ classes:
       HasReset:
       IsConnected:
   rev::ColorSensorV3::RawColor:
+    inline_code: |
+      .def("__repr__", [](const rev::ColorSensorV3::RawColor &self) {
+        return py::str("ColorSensorV3.RawColor(red={!r}, green={!r}, blue={!r}, ir={!r})")
+          .format(self.red, self.green, self.blue, self.ir);
+      });
     attributes:
       red:
       green:

@@ -22,6 +22,13 @@ classes:
       ServoHubLowLevel:
       GetCanPort:
   rev::servohub::ServoHubLowLevel::FirmwareVersion:
+    inline_code: |
+      .def("__repr__", [](const rev::servohub::ServoHubLowLevel::FirmwareVersion &self) {
+        return py::str("ServoHubLowLevel.FirmwareVersion(firmware_fix={!r}, firmware_minor={!r}, "
+                       "firmware_year={!r}, hardware_minor={!r}, hardware_major={!r})")
+          .format(self.firmwareFix, self.firmwareMinor, self.firmwareYear,
+                  self.hardwareMinor, self.hardwareMajor);
+      });
     attributes:
       firmwareFix:
       firmwareMinor:
@@ -29,6 +36,16 @@ classes:
       hardwareMinor:
       hardwareMajor:
   rev::servohub::ServoHubLowLevel::PeriodicStatus0:
+    inline_code: |
+      .def("__repr__", [](const rev::servohub::ServoHubLowLevel::PeriodicStatus0 &self) {
+        return py::str("ServoHubLowLevel.PeriodicStatus0(voltage={!r}, servo_voltage={!r}, "
+                       "device_current={!r}, primary_heartbeat_lock={!r}, system_enabled={!r}, "
+                       "communication_mode={!r}, programming_enabled={!r}, "
+                       "actively_programming={!r}, timestamp={!r})")
+          .format(self.voltage, self.servoVoltage, self.deviceCurrent, self.primaryHeartbeatLock,
+                  self.systemEnabled, self.communicationMode, self.programmingEnabled,
+                  self.activelyProgramming, self.timestamp);
+      });
     attributes:
       voltage:
       servoVoltage:
@@ -40,6 +57,31 @@ classes:
       activelyProgramming:
       timestamp:
   rev::servohub::ServoHubLowLevel::PeriodicStatus1:
+    inline_code: |
+      .def("__repr__", [](const rev::servohub::ServoHubLowLevel::PeriodicStatus1 &self) {
+        return py::str("ServoHubLowLevel.PeriodicStatus1(regulator_power_good_fault={!r}, "
+                       "brownout={!r}, can_warning={!r}, can_bus_off={!r}, hardware_fault={!r}, "
+                       "firmware_fault={!r}, has_reset={!r}, low_battery_fault={!r}, "
+                       "channel0_overcurrent={!r}, channel1_overcurrent={!r}, "
+                       "channel2_overcurrent={!r}, channel3_overcurrent={!r}, "
+                       "channel4_overcurrent={!r}, channel5_overcurrent={!r}, "
+                       "sticky_regulator_power_good_fault={!r}, sticky_brownout={!r}, "
+                       "sticky_can_warning={!r}, sticky_can_bus_off={!r}, sticky_hardware_fault={!r}, "
+                       "sticky_firmware_fault={!r}, sticky_has_reset={!r}, sticky_low_battery_fault={!r}, "
+                       "sticky_channel0_overcurrent={!r}, sticky_channel1_overcurrent={!r}, "
+                       "sticky_channel2_overcurrent={!r}, sticky_channel3_overcurrent={!r}, "
+                       "sticky_channel4_overcurrent={!r}, sticky_channel5_overcurrent={!r}, timestamp={!r})")
+          .format(self.regulatorPowerGoodFault, self.brownout, self.canWarning, self.canBusOff,
+                  self.hardwareFault, self.firmwareFault, self.hasReset, self.lowBatteryFault,
+                  self.channel0Overcurrent, self.channel1Overcurrent, self.channel2Overcurrent,
+                  self.channel3Overcurrent, self.channel4Overcurrent, self.channel5Overcurrent,
+                  self.stickyRegulatorPowerGoodFault, self.stickyBrownout, self.stickyCanWarning,
+                  self.stickyCanBusOff, self.stickyHardwareFault, self.stickyFirmwareFault,
+                  self.stickyHasReset, self.stickyLowBatteryFault, self.stickyChannel0Overcurrent,
+                  self.stickyChannel1Overcurrent, self.stickyChannel2Overcurrent,
+                  self.stickyChannel3Overcurrent, self.stickyChannel4Overcurrent,
+                  self.stickyChannel5Overcurrent, self.timestamp);
+      });
     attributes:
       regulatorPowerGoodFault:
       brownout:
@@ -71,6 +113,17 @@ classes:
       lowBatteryFault:
       stickyLowBatteryFault:
   rev::servohub::ServoHubLowLevel::PeriodicStatus2:
+    inline_code: |
+      .def("__repr__", [](const rev::servohub::ServoHubLowLevel::PeriodicStatus2 &self) {
+        return py::str("ServoHubLowLevel.PeriodicStatus2(channel0_pulse_width={!r}, "
+                       "channel1_pulse_width={!r}, channel2_pulse_width={!r}, channel0_enabled={!r}, "
+                       "channel1_enabled={!r}, channel2_enabled={!r}, channel0_out_of_range={!r}, "
+                       "channel1_out_of_range={!r}, channel2_out_of_range={!r}, timestamp={!r})")
+          .format(self.channel0PulseWidth, self.channel1PulseWidth, self.channel2PulseWidth,
+                  self.channel0Enabled, self.channel1Enabled, self.channel2Enabled,
+                  self.channel0OutOfRange, self.channel1OutOfRange, self.channel2OutOfRange,
+                  self.timestamp);
+      });
     attributes:
       channel0PulseWidth:
       channel1PulseWidth:
@@ -83,6 +136,17 @@ classes:
       channel2OutOfRange:
       timestamp:
   rev::servohub::ServoHubLowLevel::PeriodicStatus3:
+    inline_code: |
+      .def("__repr__", [](const rev::servohub::ServoHubLowLevel::PeriodicStatus3 &self) {
+        return py::str("ServoHubLowLevel.PeriodicStatus3(channel3_pulse_width={!r}, "
+                       "channel4_pulse_width={!r}, channel5_pulse_width={!r}, channel3_enabled={!r}, "
+                       "channel4_enabled={!r}, channel5_enabled={!r}, channel3_out_of_range={!r}, "
+                       "channel4_out_of_range={!r}, channel5_out_of_range={!r}, timestamp={!r})")
+          .format(self.channel3PulseWidth, self.channel4PulseWidth, self.channel5PulseWidth,
+                  self.channel3Enabled, self.channel4Enabled, self.channel5Enabled,
+                  self.channel3OutOfRange, self.channel4OutOfRange, self.channel5OutOfRange,
+                  self.timestamp);
+      });
     attributes:
       channel3PulseWidth:
       channel4PulseWidth:
@@ -95,6 +159,14 @@ classes:
       channel5OutOfRange:
       timestamp:
   rev::servohub::ServoHubLowLevel::PeriodicStatus4:
+    inline_code: |
+      .def("__repr__", [](const rev::servohub::ServoHubLowLevel::PeriodicStatus4 &self) {
+        return py::str("ServoHubLowLevel.PeriodicStatus4(channel0_current={!r}, channel1_current={!r}, "
+                       "channel2_current={!r}, channel3_current={!r}, channel4_current={!r}, "
+                       "channel5_current={!r}, timestamp={!r})")
+          .format(self.channel0Current, self.channel1Current, self.channel2Current,
+                  self.channel3Current, self.channel4Current, self.channel5Current, self.timestamp);
+      });
     attributes:
       channel0Current:
       channel1Current:

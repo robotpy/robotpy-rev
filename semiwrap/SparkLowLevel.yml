@@ -57,6 +57,17 @@ classes:
       GetPeriodicStatus8:
       GetPeriodicStatus9:
   rev::spark::SparkLowLevel::PeriodicStatus0:
+    inline_code: |
+      .def("__repr__", [](const rev::spark::SparkLowLevel::PeriodicStatus0 &self) {
+        return py::str("SparkLowLevel.PeriodicStatus0(applied_output={!r}, voltage={!r}, current={!r}, "
+                       "motor_temperature={!r}, hard_forward_limit_reached={!r}, "
+                       "hard_reverse_limit_reached={!r}, soft_forward_limit_reached={!r}, "
+                       "soft_reverse_limit_reached={!r}, inverted={!r}, primary_heartbeat_lock={!r}, timestamp={!r})")
+          .format(self.appliedOutput, self.voltage, self.current, self.motorTemperature,
+                  self.hardForwardLimitReached, self.hardReverseLimitReached,
+                  self.softForwardLimitReached, self.softReverseLimitReached, self.inverted,
+                  self.primaryHeartbeatLock, self.timestamp);
+      });
     attributes:
       appliedOutput:
       voltage:
@@ -70,6 +81,30 @@ classes:
       primaryHeartbeatLock:
       timestamp:
   rev::spark::SparkLowLevel::PeriodicStatus1:
+    inline_code: |
+      .def("__repr__", [](const rev::spark::SparkLowLevel::PeriodicStatus1 &self) {
+        return py::str("SparkLowLevel.PeriodicStatus1(other_fault={!r}, motor_type_fault={!r}, "
+                       "sensor_fault={!r}, can_fault={!r}, temperature_fault={!r}, drv_fault={!r}, "
+                       "esc_eeprom_fault={!r}, firmware_fault={!r}, brownout_warning={!r}, "
+                       "overcurrent_warning={!r}, esc_eeprom_warning={!r}, ext_eeprom_warning={!r}, "
+                       "sensor_warning={!r}, stall_warning={!r}, has_reset_warning={!r}, other_warning={!r}, "
+                       "other_sticky_fault={!r}, motor_type_sticky_fault={!r}, sensor_sticky_fault={!r}, "
+                       "can_sticky_fault={!r}, temperature_sticky_fault={!r}, drv_sticky_fault={!r}, "
+                       "esc_eeprom_sticky_fault={!r}, firmware_sticky_fault={!r}, brownout_sticky_warning={!r}, "
+                       "overcurrent_sticky_warning={!r}, esc_eeprom_sticky_warning={!r}, ext_eeprom_sticky_warning={!r}, "
+                       "sensor_sticky_warning={!r}, stall_sticky_warning={!r}, has_reset_sticky_warning={!r}, "
+                       "other_sticky_warning={!r}, is_follower={!r}, timestamp={!r})")
+          .format(self.otherFault, self.motorTypeFault, self.sensorFault, self.canFault,
+                  self.temperatureFault, self.drvFault, self.escEepromFault, self.firmwareFault,
+                  self.brownoutWarning, self.overcurrentWarning, self.escEepromWarning,
+                  self.extEepromWarning, self.sensorWarning, self.stallWarning, self.hasResetWarning,
+                  self.otherWarning, self.otherStickyFault, self.motorTypeStickyFault,
+                  self.sensorStickyFault, self.canStickyFault, self.temperatureStickyFault,
+                  self.drvStickyFault, self.escEepromStickyFault, self.firmwareStickyFault,
+                  self.brownoutStickyWarning, self.overcurrentStickyWarning, self.escEepromStickyWarning,
+                  self.extEepromStickyWarning, self.sensorStickyWarning, self.stallStickyWarning,
+                  self.hasResetStickyWarning, self.otherStickyWarning, self.isFollower, self.timestamp);
+      });
     attributes:
       otherFault:
       motorTypeFault:
@@ -106,43 +141,90 @@ classes:
       isFollower:
       timestamp:
   rev::spark::SparkLowLevel::PeriodicStatus2:
+    inline_code: |
+      .def("__repr__", [](const rev::spark::SparkLowLevel::PeriodicStatus2 &self) {
+        return py::str("SparkLowLevel.PeriodicStatus2(primary_encoder_velocity={!r}, "
+                       "primary_encoder_position={!r}, timestamp={!r})")
+          .format(self.primaryEncoderVelocity, self.primaryEncoderPosition, self.timestamp);
+      });
     attributes:
       primaryEncoderVelocity:
       primaryEncoderPosition:
       timestamp:
   rev::spark::SparkLowLevel::PeriodicStatus3:
+    inline_code: |
+      .def("__repr__", [](const rev::spark::SparkLowLevel::PeriodicStatus3 &self) {
+        return py::str("SparkLowLevel.PeriodicStatus3(analog_voltage={!r}, analog_velocity={!r}, "
+                       "analog_position={!r}, timestamp={!r})")
+          .format(self.analogVoltage, self.analogVelocity, self.analogPosition, self.timestamp);
+      });
     attributes:
       analogVoltage:
       analogVelocity:
       analogPosition:
       timestamp:
   rev::spark::SparkLowLevel::PeriodicStatus4:
+    inline_code: |
+      .def("__repr__", [](const rev::spark::SparkLowLevel::PeriodicStatus4 &self) {
+        return py::str("SparkLowLevel.PeriodicStatus4(external_or_alt_encoder_velocity={!r}, "
+                       "external_or_alt_encoder_position={!r}, timestamp={!r})")
+          .format(self.externalOrAltEncoderVelocity, self.externalOrAltEncoderPosition, self.timestamp);
+      });
     attributes:
       externalOrAltEncoderVelocity:
       externalOrAltEncoderPosition:
       timestamp:
   rev::spark::SparkLowLevel::PeriodicStatus5:
+    inline_code: |
+      .def("__repr__", [](const rev::spark::SparkLowLevel::PeriodicStatus5 &self) {
+        return py::str("SparkLowLevel.PeriodicStatus5(duty_cycle_encoder_velocity={!r}, "
+                       "duty_cycle_encoder_position={!r}, timestamp={!r})")
+          .format(self.dutyCycleEncoderVelocity, self.dutyCycleEncoderPosition, self.timestamp);
+      });
     attributes:
       dutyCycleEncoderVelocity:
       dutyCycleEncoderPosition:
       timestamp:
   rev::spark::SparkLowLevel::PeriodicStatus6:
+    inline_code: |
+      .def("__repr__", [](const rev::spark::SparkLowLevel::PeriodicStatus6 &self) {
+        return py::str("SparkLowLevel.PeriodicStatus6(unadjusted_duty_cycle={!r}, duty_cycle_period={!r}, "
+                       "duty_cycle_no_signal={!r}, timestamp={!r})")
+          .format(self.unadjustedDutyCycle, self.dutyCyclePeriod, self.dutyCycleNoSignal, self.timestamp);
+      });
     attributes:
       unadjustedDutyCycle:
       dutyCyclePeriod:
       dutyCycleNoSignal:
       timestamp:
   rev::spark::SparkLowLevel::PeriodicStatus7:
+    inline_code: |
+      .def("__repr__", [](const rev::spark::SparkLowLevel::PeriodicStatus7 &self) {
+        return py::str("SparkLowLevel.PeriodicStatus7(i_accumulation={!r}, timestamp={!r})")
+          .format(self.iAccumulation, self.timestamp);
+      });
     attributes:
       iAccumulation:
       timestamp:
   rev::spark::SparkLowLevel::PeriodicStatus8:
+    inline_code: |
+      .def("__repr__", [](const rev::spark::SparkLowLevel::PeriodicStatus8 &self) {
+        return py::str("SparkLowLevel.PeriodicStatus8(setpoint={!r}, is_at_setpoint={!r}, "
+                       "selected_pid_slot={!r}, timestamp={!r})")
+          .format(self.setpoint, self.isAtSetpoint, self.selectedPidSlot, self.timestamp);
+      });
     attributes:
       setpoint:
       isAtSetpoint:
       selectedPidSlot:
       timestamp:
   rev::spark::SparkLowLevel::PeriodicStatus9:
+    inline_code: |
+      .def("__repr__", [](const rev::spark::SparkLowLevel::PeriodicStatus9 &self) {
+        return py::str("SparkLowLevel.PeriodicStatus9(max_motion_setpoint_position={!r}, "
+                       "max_motion_setpoint_velocity={!r}, timestamp={!r})")
+          .format(self.maxMotionSetpointPosition, self.maxMotionSetpointVelocity, self.timestamp);
+      });
     attributes:
       maxMotionSetpointPosition:
       maxMotionSetpointVelocity:

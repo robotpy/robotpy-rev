@@ -22,6 +22,13 @@ classes:
       ClearFaults:
       DetachedEncoder:
   rev::detached::DetachedEncoder::Faults:
+    inline_code: |
+      .def("__repr__", [](const rev::detached::DetachedEncoder::Faults &self) {
+        return py::str("DetachedEncoder.Faults(unexpected={!r}, has_reset={!r}, "
+                       "can_tx={!r}, can_rx={!r}, eeprom={!r}, raw_bits={!r})")
+          .format(self.unexpected, self.hasReset, self.canTx, self.canRx,
+                  self.eeprom, self.rawBits);
+      });
     attributes:
       unexpected:
       hasReset:
