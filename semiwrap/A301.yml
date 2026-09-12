@@ -9,9 +9,9 @@ classes:
     methods:
       A301:
         overloads:
-          int:
-          int, int:
-      GetBusId:
+          wpi::CANPort:
+          wpi::CANPort, int:
+      GetCanPort:
       GetDeviceId:
       GetFirmwareVersion:
       GetFirmwareString:

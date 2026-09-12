@@ -20,7 +20,7 @@ classes:
       GetPeriodicStatus4:
       CreateSimFaultManager:
       ServoHubLowLevel:
-      GetBusId:
+      GetCanPort:
   rev::servohub::ServoHubLowLevel::FirmwareVersion:
     attributes:
       firmwareFix:

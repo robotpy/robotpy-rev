@@ -16,7 +16,7 @@ classes:
       GetPeriodicStatus4:
       CreateSimFaultManager:
       DetachedEncoderLowLevel:
-      GetBusId:
+      GetCanPort:
   rev::detached::DetachedEncoderLowLevel::FirmwareVersion:
     attributes:
       year:

@@ -27,9 +27,6 @@ classes:
       IMaxAccum:
       AllowedClosedLoopError:
       PositionWrappingEnabled:
-      PositionWrappingMinInput:
-      PositionWrappingMaxInput:
-      PositionWrappingInputRange:
       SetFeedbackSensor:
         overloads:
           FeedbackSensor:

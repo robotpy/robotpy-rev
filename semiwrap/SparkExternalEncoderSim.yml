@@ -10,6 +10,4 @@ classes:
       GetInverted:
       SetZeroOffset:
       GetZeroOffset:
-      GetPositionConversionFactor:
-      GetVelocityConversionFactor:
       iterate:

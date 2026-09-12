@@ -13,6 +13,4 @@ classes:
       GetVelocity:
       SetInverted:
       GetInverted:
-      GetPositionConversionFactor:
-      GetVelocityConversionFactor:
       iterate:

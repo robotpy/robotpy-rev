@@ -11,8 +11,6 @@ classes:
       SetSparkMaxDataPortConfig:
       CountsPerRevolution:
       Inverted:
-      PositionConversionFactor:
-      VelocityConversionFactor:
       AverageDepth:
       MeasurementPeriod:
   rev::spark::AlternateEncoderConfig::Presets:

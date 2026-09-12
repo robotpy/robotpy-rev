@@ -10,8 +10,6 @@ classes:
       Apply:
       CountsPerRevolution:
       Inverted:
-      PositionConversionFactor:
-      VelocityConversionFactor:
       AverageDepth:
       MeasurementPeriod:
   rev::spark::ExternalEncoderConfig::Presets:

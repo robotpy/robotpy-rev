@@ -5,8 +5,8 @@
 # the WPILib BSD license file in the root directory of this project.
 #
 
-import wpilib
 import rev
+import wpilib
 
 
 class MyRobot(wpilib.TimedRobot):
@@ -16,8 +16,12 @@ class MyRobot(wpilib.TimedRobot):
         This function is called upon program startup and
         should be used for any initialization code.
         """
-        self.leftDrive = rev.SparkMax(0, 1, rev.SparkMax.MotorType.kBrushless)
-        self.rightDrive = rev.SparkMax(0, 2, rev.SparkMax.MotorType.kBrushless)
+        self.leftDrive = rev.SparkMax(
+            wpilib.CANPort.CAN_S0, 1, rev.SparkMax.MotorType.kBrushless
+        )
+        self.rightDrive = rev.SparkMax(
+            wpilib.CANPort.CAN_S0, 2, rev.SparkMax.MotorType.kBrushless
+        )
         self.robotDrive = wpilib.DifferentialDrive(self.leftDrive, self.rightDrive)
         self.controller = wpilib.Gamepad(0)
         self.timer = wpilib.Timer()
@@ -27,34 +31,34 @@ class MyRobot(wpilib.TimedRobot):
         # gearbox is constructed, you might have to invert the left side instead.
         self.rightDrive.setInverted(True)
 
-    def autonomousInit(self):
+    def autonomous_init(self):
         """This function is run once each time the robot enters autonomous mode."""
         self.timer.restart()
 
-    def autonomousPeriodic(self):
+    def autonomous_periodic(self):
         """This function is called periodically during autonomous."""
 
         # Drive for two seconds
         if self.timer.get() < 2.0:
             # Drive forwards half speed, make sure to turn input squaring off
-            self.robotDrive.arcadeDrive(0.5, 0, squareInputs=False)
+            self.robotDrive.arcade_drive(0.5, 0, square_inputs=False)
         else:
-            self.robotDrive.stopMotor()  # Stop robot
+            self.robotDrive.stop_motor()  # Stop robot
 
-    def teleopInit(self):
+    def teleop_init(self):
         """This function is called once each time the robot enters teleoperated mode."""
 
-    def teleopPeriodic(self):
+    def teleop_periodic(self):
         """This function is called periodically during teleoperated mode."""
-        self.robotDrive.arcadeDrive(
-            -self.controller.getLeftY(), -self.controller.getRightX()
+        self.robotDrive.arcade_drive(
+            -self.controller.get_left_y(), -self.controller.get_right_x()
         )
 
-    def testInit(self):
-        """This function is called once each time the robot enters test mode."""
+    def utility_init(self):
+        """This function is called once each time the robot enters utility mode."""
 
-    def testPeriodic(self):
-        """This function is called periodically during test mode."""
+    def utility_periodic(self):
+        """This function is called periodically during utility mode."""
 
 
 if __name__ == "__main__":

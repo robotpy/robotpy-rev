@@ -11,10 +11,7 @@ classes:
           DetachedEncoderConfig&:
           SignalsConfig&:
       Inverted:
-      VelocityConversionFactor:
       VelocityAverageDepth:
-      PositionConversionFactor:
-      AngleConversionFactor:
       ZeroOffset:
       ZeroCentered:
       StartPulseUs:

@@ -26,8 +26,12 @@ class Robot(wpilib.TimedRobot):
         #
         # The example below initializes two brushless motors with CAN IDs
         # 1 and 2. Change these parameters to match your setup
-        self.leftMotor = rev.SparkMax(0, 1, rev.SparkMax.MotorType.kBrushless)
-        self.rightMotor = rev.SparkMax(0, 2, rev.SparkMax.MotorType.kBrushless)
+        self.leftMotor = rev.SparkMax(
+            wpilib.CANPort.CAN_S0, 1, rev.SparkMax.MotorType.kBrushless
+        )
+        self.rightMotor = rev.SparkMax(
+            wpilib.CANPort.CAN_S0, 2, rev.SparkMax.MotorType.kBrushless
+        )
 
         # Configure for factory defaults and invert right side motor
         self.globalConfig = rev.SparkMaxConfig()
@@ -43,13 +47,13 @@ class Robot(wpilib.TimedRobot):
             rev.PersistMode.kPersistParameters,
         )
 
-        self.driveTrain = wpilib.DifferentialDrive(self.leftMotor, self.rightMotor)
+        self.drivetrain = wpilib.DifferentialDrive(self.leftMotor, self.rightMotor)
         self.l_stick = wpilib.Joystick(0)
         self.r_stick = wpilib.Joystick(1)
 
-    def teleopPeriodic(self):
+    def teleop_periodic(self):
         # Create tank drive
-        self.driveTrain.tankDrive(self.l_stick.getY(), self.r_stick.getY())
+        self.drivetrain.tank_drive(self.l_stick.get_x(), self.r_stick.get_y())
 
 
 if __name__ == "__main__":

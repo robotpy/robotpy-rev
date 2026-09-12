@@ -7,8 +7,6 @@ classes:
       Apply:
       SetSparkMaxDataPortConfig:
       Inverted:
-      PositionConversionFactor:
-      VelocityConversionFactor:
       ZeroOffset:
       AverageDepth:
       StartPulseUs:

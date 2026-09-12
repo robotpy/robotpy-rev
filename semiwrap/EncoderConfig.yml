@@ -7,12 +7,8 @@ classes:
       Apply:
       CountsPerRevolution:
       Inverted:
-      PositionConversionFactor:
-      VelocityConversionFactor:
       QuadratureAverageDepth:
       QuadratureMeasurementPeriod:
-      UvwAverageDepth:
-      UvwMeasurementPeriod:
   rev::spark::EncoderConfig::Presets:
     methods:
       REV_ThroughBoreEncoder:

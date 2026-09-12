@@ -1,22 +1,24 @@
+import wpilib
+
 import rev
 from rev import REVLibError
 
 
 def test_setfeedbackdevice():
-    s = rev.SparkMax(0, 1, rev.SparkLowLevel.MotorType.kBrushless)
+    s = rev.SparkMax(wpilib.CANPort.CAN_S0, 1, rev.SparkLowLevel.MotorType.kBrushless)
     e = s.getEncoder()
     p = s.getClosedLoopController()
     # assert p.setFeedbackDevice(e) == REVLibError.kOk
 
 
 def test_get_fwd_limit():
-    sm = rev.SparkMax(0, 2, rev.SparkLowLevel.MotorType.kBrushless)
+    sm = rev.SparkMax(wpilib.CANPort.CAN_S0, 2, rev.SparkLowLevel.MotorType.kBrushless)
     switch = sm.getForwardLimitSwitch()
     switch.get()
 
 
 def test_current_limit():
-    sm = rev.SparkMax(0, 1, rev.SparkLowLevel.MotorType.kBrushless)
+    sm = rev.SparkMax(wpilib.CANPort.CAN_S0, 1, rev.SparkLowLevel.MotorType.kBrushless)
     cfg = rev.SparkMaxConfig()
     cfg.secondaryCurrentLimit(50)
     sm.configure(
@@ -49,7 +51,7 @@ def test_current_limit():
 
 
 def test_pid_set():
-    sm = rev.SparkMax(0, 0, rev.SparkLowLevel.MotorType.kBrushless)
+    sm = rev.SparkMax(wpilib.CANPort.CAN_S0, 0, rev.SparkLowLevel.MotorType.kBrushless)
     pid = sm.getClosedLoopController()
     # pid.setOutputRange(-1, 1)
     # pid.setP(0.005)

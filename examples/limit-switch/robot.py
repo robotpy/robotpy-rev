@@ -17,7 +17,9 @@ class Robot(wpilib.TimedRobot):
     def __init__(self):
         super().__init__()
         # Create motor
-        self.motor = rev.SparkMax(0, 1, rev.SparkMax.MotorType.kBrushless)
+        self.motor = rev.SparkMax(
+            wpilib.CANPort.CAN_S0, 1, rev.SparkMax.MotorType.kBrushless
+        )
 
         self.joystick = wpilib.Joystick(0)
 

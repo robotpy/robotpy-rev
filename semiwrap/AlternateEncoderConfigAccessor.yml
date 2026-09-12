@@ -3,6 +3,5 @@ classes:
     methods:
       GetCountsPerRevolution:
       GetInverted:
-      GetPositionConversionFactor:
-      GetVelocityConversionFactor:
       GetMeasurementPeriod:
+      GetAverageDepth:

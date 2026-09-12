@@ -2,8 +2,6 @@ classes:
   rev::spark::AbsoluteEncoderConfigAccessor:
     methods:
       GetInverted:
-      GetPositionConversionFactor:
-      GetVelocityConversionFactor:
       GetAverageDepth:
       GetStartPulseUs:
       GetEndPulseUs:
