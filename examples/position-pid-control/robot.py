@@ -6,112 +6,114 @@
 #
 
 import rev
+import telemetry
+import tunables
 import wpilib
-
-# Before Running:
-# Open Shuffleboard, select File->Load Layout and select the
-# shuffleboard.json that is in the root directory of this example
 
 
 class Robot(wpilib.TimedRobot):
-    def robotInit(self):
-        # Create motors
-        self.motor = rev.CANSparkMax(1, rev.CANSparkMax.MotorType.kBrushless)
+    def __init__(self):
+        super().__init__()
+        # Create motor
+        self.motor = rev.SparkMax(
+            wpilib.CANPort.CAN_S0, 1, rev.SparkLowLevel.MotorType.BRUSHLESS
+        )
 
-        # You must call getPIDController() on an existing CANSparkMax or
-        # SparkMax object to fully use PID functionality
-        self.pidController = self.motor.getPIDController()
+        # Use the SPARK closed loop controller for PID functionality.
+        self.pid_controller = self.motor.get_closed_loop_controller()
 
         # Instantiate built-in encoder to display position
-        self.encoder = self.motor.getEncoder()
+        self.encoder = self.motor.get_encoder()
 
         # PID Coefficents and Controller Output Range
-        self.kP = 0.1
-        self.kI = 1e-4
-        self.kD = 0
-        self.kIz = 0
-        self.kFF = 0
-        self.kMinOutput = -1
-        self.kMaxOutput = 1
+        self.p_gain = 0.1
+        self.i_gain = 1e-4
+        self.d_gain = 0
+        self.i_zone = 0
+        self.feed_forward = 0  # kV in volts/RPM
+        self.min_output = -1
+        self.max_output = 1
 
-        # The restoreFactoryDefaults() method can be used to reset the
-        # configuration parameters in the SPARK MAX to their factory default
-        # state. If no argument is passed, these parameters will not persist
-        # between power cycles
-        self.motor.restoreFactoryDefaults()
+        self.config = rev.SparkMaxConfig()
+        self._update_closed_loop_config()
+        self._apply_config()
 
-        # Set PID Constants
-        self.pidController.setP(self.kP)
-        self.pidController.setI(self.kI)
-        self.pidController.setD(self.kD)
-        self.pidController.setIZone(self.kIz)
-        self.pidController.setFF(self.kFF)
-        self.pidController.setOutputRange(self.kMinOutput, self.kMaxOutput)
+        # Publish editable PID coefficients in the Tunables table.
+        # Use doubles even for integer defaults so fractional tuning is supported.
+        self.p_gain_tunable = tunables.add_double("P Gain", self.p_gain)
+        self.i_gain_tunable = tunables.add_double("I Gain", self.i_gain)
+        self.d_gain_tunable = tunables.add_double("D Gain", self.d_gain)
+        self.i_zone_tunable = tunables.add_double("I Zone", self.i_zone)
+        self.feed_forward_tunable = tunables.add_double(
+            "Feed Forward", self.feed_forward
+        )
+        self.min_output_tunable = tunables.add_double("Min Output", self.min_output)
+        self.max_output_tunable = tunables.add_double("Max Output", self.max_output)
+        self.rotations_tunable = tunables.add_double("Set Rotations", 0.0)
 
-        # Push PID Coefficients to SmartDashboard
-        wpilib.SmartDashboard.putNumber("P Gain", self.kP)
-        wpilib.SmartDashboard.putNumber("I Gain", self.kI)
-        wpilib.SmartDashboard.putNumber("D Gain", self.kD)
-        wpilib.SmartDashboard.putNumber("I Zone", self.kIz)
-        wpilib.SmartDashboard.putNumber("Feed Forward", self.kFF)
-        wpilib.SmartDashboard.putNumber("Min Output", self.kMinOutput)
-        wpilib.SmartDashboard.putNumber("Max Output", self.kMaxOutput)
-        wpilib.SmartDashboard.putNumber("Set Rotations", 0)
+    def _update_closed_loop_config(self):
+        self.config.closed_loop.p(self.p_gain)
+        self.config.closed_loop.i(self.i_gain)
+        self.config.closed_loop.d(self.d_gain)
+        self.config.closed_loop.i_zone(self.i_zone)
+        self.config.closed_loop.feed_forward.v(self.feed_forward)
+        self.config.closed_loop.output_range(self.min_output, self.max_output)
 
-    def teleopPeriodic(self):
-        # Read data from SmartDashboard
-        p = wpilib.SmartDashboard.getNumber("P Gain", 0)
-        i = wpilib.SmartDashboard.getNumber("I Gain", 0)
-        d = wpilib.SmartDashboard.getNumber("D Gain", 0)
-        iz = wpilib.SmartDashboard.getNumber("I Zone", 0)
-        ff = wpilib.SmartDashboard.getNumber("Feed Forward", 0)
-        min_out = wpilib.SmartDashboard.getNumber("Min Output", 0)
-        max_out = wpilib.SmartDashboard.getNumber("Max Output", 0)
-        rotations = wpilib.SmartDashboard.getNumber("Set Rotations", 0)
+    def _apply_config(self):
+        self.motor.configure(
+            self.config,
+            rev.ResetMode.RESET_SAFE_PARAMETERS,
+            rev.PersistMode.NO_PERSIST_PARAMETERS,
+        )
 
-        # Update PIDController datapoints with the latest from SmartDashboard
-        if p != self.kP:
-            self.pidController.setP(p)
-            self.kP = p
-        if i != self.kI:
-            self.pidController.setI(i)
-            self.kI = i
-        if d != self.kD:
-            self.pidController.setD(d)
-            self.kD = d
-        if iz != self.kIz:
-            self.pidController.setIZone(iz)
-            self.kIz = iz
-        if ff != self.kFF:
-            self.pidController.setFF(ff)
-            self.kFF = ff
-        if (min_out != self.kMinOutput) or (max_out != self.kMaxOutput):
-            self.pidController.setOutputRange(min_out, max_out)
-            self.kMinOutput = min_out
-            self.kMaxOutput = max_out
+    def teleop_periodic(self):
+        # Read the latest dashboard values from the tunables.
+        p = self.p_gain_tunable.get()
+        i = self.i_gain_tunable.get()
+        d = self.d_gain_tunable.get()
+        iz = self.i_zone_tunable.get()
+        ff = self.feed_forward_tunable.get()
+        min_out = self.min_output_tunable.get()
+        max_out = self.max_output_tunable.get()
+        rotations = self.rotations_tunable.get()
 
-        # PIDController objects are commanded to a set point using the
-        # setReference() method.
+        # Update closed loop config with the latest tunable values.
+        if p != self.p_gain:
+            self.config.closed_loop.p(p)
+            self.p_gain = p
+            self._apply_config()
+        if i != self.i_gain:
+            self.config.closed_loop.i(i)
+            self.i_gain = i
+            self._apply_config()
+        if d != self.d_gain:
+            self.config.closed_loop.d(d)
+            self.d_gain = d
+            self._apply_config()
+        if iz != self.i_zone:
+            self.config.closed_loop.i_zone(iz)
+            self.i_zone = iz
+            self._apply_config()
+        if ff != self.feed_forward:
+            self.config.closed_loop.feed_forward.v(ff)
+            self.feed_forward = ff
+            self._apply_config()
+        if (min_out != self.min_output) or (max_out != self.max_output):
+            self.config.closed_loop.output_range(min_out, max_out)
+            self.min_output = min_out
+            self.max_output = max_out
+            self._apply_config()
+
+        # Closed loop controllers are commanded to a set point using the
+        # set_setpoint() method.
         #
         # The first parameter is the value of the set point, whose units vary
         # depending on the control type set in the second parameter.
-        #
-        # The second parameter is the control type can be set to one of four
-        # parameters:
-        # rev.CANSparkMax.ControlType.kDutyCycle
-        # rev.CANSparkMax.ControlType.kPosition
-        # rev.CANSparkMax.ControlType.kVelocity
-        # rev.CANSparkMax.ControlType.kVoltage
-        #
-        # For more information on what these types are, refer to the Spark Max
-        # documentation.
-        self.pidController.setReference(
-            rotations, rev.CANSparkMax.ControlType.kPosition
-        )
+        self.pid_controller.set_setpoint(rotations, rev.SparkBase.ControlType.POSITION)
 
-        # Push Setpoint and the motor's current position to SmartDashboard.
-        wpilib.SmartDashboard.putNumber("SetPoint", rotations)
-        wpilib.SmartDashboard.putNumber("ProcessVariable", self.encoder.getPosition())
+        # Log the setpoint and the motor's current position to the Telemetry table.
+        telemetry.log("SetPoint", rotations)
+        telemetry.log("ProcessVariable", self.encoder.get_position().get())
 
 
 if __name__ == "__main__":

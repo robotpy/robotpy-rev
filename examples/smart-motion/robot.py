@@ -6,24 +6,22 @@
 #
 
 import rev
+import telemetry
+import tunables
 import wpilib
 
-# Before Running:
-# Open Shuffleboard, select File->Load Layout and select the
-# shuffleboard.json that is in the root directory of this example
-
-# REV Smart Motion Guide
+# REV MAXMotion Guide
 #
-# The SPARK MAX includes a new control mode, REV Smart Motion which is used to
-# control the position of the motor, and includes a max velocity and max
-# acceleration parameter to ensure the motor moves in a smooth and predictable
+# The SPARK MAX includes a profiled closed-loop control mode, MAXMotion, which
+# is used to control the position of the motor and includes max velocity and max
+# acceleration parameters to ensure the motor moves in a smooth and predictable
 # way. This is done by generating a motion profile on the fly in SPARK MAX and
 # controlling the velocity of the motor to follow this profile.
 #
-# Since REV Smart Motion uses the velocity to track a profile, there are only
-# two steps required to configure this mode:
+# Since MAXMotion uses the velocity to track a profile, there are only two steps
+# required to configure this mode:
 #    1) Tune a velocity PID loop for the mechanism
-#    2) Configure the smart motion parameters
+#    2) Configure the MAXMotion parameters
 #
 # Tuning the Velocity PID Loop
 #
@@ -35,156 +33,158 @@ import wpilib
 #    2) The commanded velocity value (‘Setpoint’)
 #    3) The applied output
 #
-# This example will use ShuffleBoard to graph the above parameters. Make sure to
-# load the shuffleboard.json file in the root of this directory to get the full
-# effect of the GUI layout.
+# Graph these values from the Telemetry table in your dashboard, and edit
+# coefficients and setpoints in the Tunables table.
 
 
 class Robot(wpilib.TimedRobot):
-    def robotInit(self):
+    def __init__(self):
+        super().__init__()
         # initialize motor
-        self.motor = rev.CANSparkMax(1, rev.CANSparkMax.MotorType.kBrushless)
+        self.motor = rev.SparkMax(
+            wpilib.CANPort.CAN_S0, 1, rev.SparkLowLevel.MotorType.BRUSHLESS
+        )
 
-        # The RestoreFactoryDefaults method can be used to reset the configuration parameters
-        # in the SPARK MAX to their factory default state. If no argument is passed, these
-        # parameters will not persist between power cycles
-        self.motor.restoreFactoryDefaults()
-
-        self.pid_controller = self.motor.getPIDController()
-        self.encoder = self.motor.getEncoder()
+        self.pid_controller = self.motor.get_closed_loop_controller()
+        self.encoder = self.motor.get_encoder()
 
         # PID coefficients
-        self.kP = 5e-5
-        self.kI = 1e-6
-        self.kD = 0
-        self.kIz = 0
-        self.kFF = 0.000156
-        self.kMaxOutput = 1
-        self.kMinOutput = -1
+        self.p_gain = 5e-5
+        self.i_gain = 1e-6
+        self.d_gain = 0
+        self.i_zone = 0
+        # Convert the legacy duty-cycle/RPM gain to kV in volts/RPM at 12 V.
+        self.feed_forward = 0.000156 * 12
+        self.max_output = 1
+        self.min_output = -1
         self.max_rpm = 5700
 
-        # Smart Motion coefficients
+        # MAXMotion coefficients
         self.max_vel = 1500  # rpm
         self.max_acc = 500
-        self.min_vel = 0
         self.allowed_err = 0
 
-        # set PID coefficients
-        self.pid_controller.setP(self.kP)
-        self.pid_controller.setI(self.kI)
-        self.pid_controller.setD(self.kD)
-        self.pid_controller.setIZone(self.kIz)
-        self.pid_controller.setFF(self.kFF)
-        self.pid_controller.setOutputRange(self.kMinOutput, self.kMaxOutput)
+        self.config = rev.SparkMaxConfig()
+        self._update_closed_loop_config()
+        self._update_max_motion_config()
+        self._apply_config()
 
-        # Smart Motion coefficients are set on a CANPIDController object
-        #
-        # - setSmartMotionMaxVelocity() will limit the velocity in RPM of
-        # the pid controller in Smart Motion mode
-        # - setSmartMotionMinOutputVelocity() will put a lower bound in
-        # RPM of the pid controller in Smart Motion mode
-        # - setSmartMotionMaxAccel() will limit the acceleration in RPM^2
-        # of the pid controller in Smart Motion mode
-        # - setSmartMotionAllowedClosedLoopError() will set the max allowed
-        # error for the pid controller in Smart Motion mode
-        smart_motion_slot = 0
-        self.pid_controller.setSmartMotionMaxVelocity(self.max_vel, smart_motion_slot)
-        self.pid_controller.setSmartMotionMinOutputVelocity(
-            self.min_vel, smart_motion_slot
+        # Publish editable PID coefficients in the Tunables table.
+        # Use doubles even for integer defaults so fractional tuning is supported.
+        self.p_gain_tunable = tunables.add_double("P Gain", self.p_gain)
+        self.i_gain_tunable = tunables.add_double("I Gain", self.i_gain)
+        self.d_gain_tunable = tunables.add_double("D Gain", self.d_gain)
+        self.i_zone_tunable = tunables.add_double("I Zone", self.i_zone)
+        self.feed_forward_tunable = tunables.add_double(
+            "Feed Forward", self.feed_forward
         )
-        self.pid_controller.setSmartMotionMaxAccel(self.max_acc, smart_motion_slot)
-        self.pid_controller.setSmartMotionAllowedClosedLoopError(
-            self.allowed_err, smart_motion_slot
+        self.max_output_tunable = tunables.add_double("Max Output", self.max_output)
+        self.min_output_tunable = tunables.add_double("Min Output", self.min_output)
+
+        # Publish editable MAXMotion coefficients and setpoints.
+        self.max_velocity_tunable = tunables.add_double("Max Velocity", self.max_vel)
+        self.max_acceleration_tunable = tunables.add_double(
+            "Max Acceleration", self.max_acc
+        )
+        self.allowed_error_tunable = tunables.add_double(
+            "Allowed Closed Loop Error", self.allowed_err
+        )
+        self.position_tunable = tunables.add_double("Set Position", 0.0)
+        self.velocity_tunable = tunables.add_double("Set Velocity", 0.0)
+
+        # Button to toggle between velocity and MAXMotion modes.
+        self.mode_tunable = tunables.add_boolean("Mode", True)
+
+    def _update_closed_loop_config(self):
+        self.config.closed_loop.p(self.p_gain)
+        self.config.closed_loop.i(self.i_gain)
+        self.config.closed_loop.d(self.d_gain)
+        self.config.closed_loop.i_zone(self.i_zone)
+        self.config.closed_loop.feed_forward.v(self.feed_forward)
+        self.config.closed_loop.output_range(self.min_output, self.max_output)
+
+    def _update_max_motion_config(self):
+        self.config.closed_loop.max_motion.cruise_velocity(self.max_vel)
+        self.config.closed_loop.max_motion.max_acceleration(self.max_acc)
+        self.config.closed_loop.allowed_closed_loop_error(self.allowed_err)
+
+    def _apply_config(self):
+        self.motor.configure(
+            self.config,
+            rev.ResetMode.RESET_SAFE_PARAMETERS,
+            rev.PersistMode.NO_PERSIST_PARAMETERS,
         )
 
-        # display PID coefficients on SmartDashboard
-        wpilib.SmartDashboard.putNumber("P Gain", self.kP)
-        wpilib.SmartDashboard.putNumber("I Gain", self.kI)
-        wpilib.SmartDashboard.putNumber("D Gain", self.kD)
-        wpilib.SmartDashboard.putNumber("I Zone", self.kIz)
-        wpilib.SmartDashboard.putNumber("Feed Forward", self.kFF)
-        wpilib.SmartDashboard.putNumber("Max Output", self.kMaxOutput)
-        wpilib.SmartDashboard.putNumber("Min Output", self.kMinOutput)
+    def teleop_periodic(self):
+        # Read the latest dashboard values from the tunables.
+        p = self.p_gain_tunable.get()
+        i = self.i_gain_tunable.get()
+        d = self.d_gain_tunable.get()
+        iz = self.i_zone_tunable.get()
+        ff = self.feed_forward_tunable.get()
+        max_out = self.max_output_tunable.get()
+        min_out = self.min_output_tunable.get()
+        max_velocity = self.max_velocity_tunable.get()
+        max_acceleration = self.max_acceleration_tunable.get()
+        allowed_error = self.allowed_error_tunable.get()
 
-        # display Smart Motion coefficients
-        wpilib.SmartDashboard.putNumber("Max Velocity", self.max_vel)
-        wpilib.SmartDashboard.putNumber("Min Velocity", self.min_vel)
-        wpilib.SmartDashboard.putNumber("Max Acceleration", self.max_acc)
-        wpilib.SmartDashboard.putNumber("Allowed Closed Loop Error", self.allowed_err)
-        wpilib.SmartDashboard.putNumber("Set Position", 0)
-        wpilib.SmartDashboard.putNumber("Set Velocity", 0)
+        # If tunable values have changed, write new values to the controller.
+        if p != self.p_gain:
+            self.config.closed_loop.p(p)
+            self.p_gain = p
+            self._apply_config()
+        if i != self.i_gain:
+            self.config.closed_loop.i(i)
+            self.i_gain = i
+            self._apply_config()
+        if d != self.d_gain:
+            self.config.closed_loop.d(d)
+            self.d_gain = d
+            self._apply_config()
+        if iz != self.i_zone:
+            self.config.closed_loop.i_zone(iz)
+            self.i_zone = iz
+            self._apply_config()
+        if ff != self.feed_forward:
+            self.config.closed_loop.feed_forward.v(ff)
+            self.feed_forward = ff
+            self._apply_config()
+        if max_out != self.max_output or min_out != self.min_output:
+            self.config.closed_loop.output_range(min_out, max_out)
+            self.min_output = min_out
+            self.max_output = max_out
+            self._apply_config()
 
-        # button to toggle between velocity and smart motion modes
-        wpilib.SmartDashboard.putBoolean("Mode", True)
+        if max_velocity != self.max_vel:
+            self.config.closed_loop.max_motion.cruise_velocity(max_velocity)
+            self.max_vel = max_velocity
+            self._apply_config()
+        if max_acceleration != self.max_acc:
+            self.config.closed_loop.max_motion.max_acceleration(max_acceleration)
+            self.max_acc = max_acceleration
+            self._apply_config()
+        if allowed_error != self.allowed_err:
+            self.config.closed_loop.allowed_closed_loop_error(allowed_error)
+            self.allowed_err = allowed_error
+            self._apply_config()
 
-    def teleopPeriodic(self):
-        # read PID coefficients from SmartDashboard
-        p = wpilib.SmartDashboard.getNumber("P Gain", 0)
-        i = wpilib.SmartDashboard.getNumber("I Gain", 0)
-        d = wpilib.SmartDashboard.getNumber("D Gain", 0)
-        iz = wpilib.SmartDashboard.getNumber("I Zone", 0)
-        ff = wpilib.SmartDashboard.getNumber("Feed Forward", 0)
-        max_out = wpilib.SmartDashboard.getNumber("Max Output", 0)
-        min_out = wpilib.SmartDashboard.getNumber("Min Output", 0)
-        maxV = wpilib.SmartDashboard.getNumber("Max Velocity", 0)
-        minV = wpilib.SmartDashboard.getNumber("Min Velocity", 0)
-        maxA = wpilib.SmartDashboard.getNumber("Max Acceleration", 0)
-        allE = wpilib.SmartDashboard.getNumber("Allowed Closed Loop Error", 0)
-
-        # if PID coefficients on SmartDashboard have changed, write new values to controller
-        if p != self.kP:
-            self.pid_controller.setP(p)
-            self.kP = p
-        if i != self.kI:
-            self.pid_controller.setI(i)
-            self.kI = i
-        if d != self.kD:
-            self.pid_controller.setD(d)
-            self.kD = d
-        if iz != self.kIz:
-            self.pid_controller.setIZone(iz)
-            self.kIz = iz
-        if ff != self.kFF:
-            self.pid_controller.setFF(ff)
-            self.kFF = ff
-        if max_out != self.kMaxOutput or min_out != self.kMinOutput:
-            self.pid_controller.setOutputRange(min_out, max_out)
-            self.kMinOutput = min_out
-            self.kMaxOutput = max_out
-
-        if maxV != self.max_vel:
-            self.pid_controller.setSmartMotionMaxVelocity(maxV, 0)
-            self.max_vel = maxV
-        if minV != self.min_vel:
-            self.pid_controller.setSmartMotionMinOutputVelocity(minV, 0)
-            self.min_vel = minV
-        if maxA != self.max_acc:
-            self.pid_controller.setSmartMotionMaxAccel(maxA, 0)
-            self.max_acc = maxA
-        if allE != self.allowed_err:
-            self.pid_controller.setSmartMotionAllowedClosedLoopError(allE, 0)
-            self.allowed_err = allE
-
-        mode = wpilib.SmartDashboard.getBoolean("Mode", False)
+        mode = self.mode_tunable.get()
         if mode:
-            setpoint = wpilib.SmartDashboard.getNumber("Set Velocity", 0)
-            self.pid_controller.setReference(
-                setpoint, rev.CANSparkMax.ControlType.kVelocity
+            setpoint = self.velocity_tunable.get()
+            self.pid_controller.set_setpoint(
+                setpoint, rev.SparkBase.ControlType.VELOCITY
             )
-            pv = self.encoder.getVelocity()
+            pv = self.encoder.get_velocity().get()
         else:
-            setpoint = wpilib.SmartDashboard.getNumber("Set Position", 0)
-            # As with other PID modes, Smart Motion is set by calling the
-            # setReference method on an existing pid object and setting
-            # the control type to kSmartMotion
-            self.pid_controller.setReference(
-                setpoint, rev.CANSparkMax.ControlType.kSmartMotion
+            setpoint = self.position_tunable.get()
+            self.pid_controller.set_setpoint(
+                setpoint, rev.SparkBase.ControlType.MAX_MOTION_POSITION_CONTROL
             )
-            pv = self.encoder.getPosition()
+            pv = self.encoder.get_position().get()
 
-        wpilib.SmartDashboard.putNumber("SetPoint", setpoint)
-        wpilib.SmartDashboard.putNumber("Process Variable", pv)
-        wpilib.SmartDashboard.putNumber("Output", self.motor.getAppliedOutput())
+        telemetry.log("SetPoint", setpoint)
+        telemetry.log("Process Variable", pv)
+        telemetry.log("Output", self.motor.get_applied_output().get())
 
 
 if __name__ == "__main__":

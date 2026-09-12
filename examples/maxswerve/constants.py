@@ -11,122 +11,120 @@ numerical or boolean constants. Don't use this for any other purpose!
 
 import math
 
-from wpimath import units
-from wpimath.geometry import Translation2d
-from wpimath.kinematics import SwerveDrive4Kinematics
+from wpimath import SwerveDrive4Kinematics, Translation2d, units
 
-from rev import SparkMax, SparkBaseConfig
+from rev import SparkBaseConfig
 
 
 class NeoMotorConstants:
-    kFreeSpeedRpm = 5676
+    FREE_SPEED_RPM = 5676
 
 
 class DriveConstants:
     # Driving Parameters - Note that these are not the maximum capable speeds of
     # the robot, rather the allowed maximum speeds
-    kMaxSpeedMetersPerSecond = 4.8
-    kMaxAngularSpeed = math.tau  # radians per second
+    MAX_SPEED_METERS_PER_SECOND = 4.8
+    MAX_ANGULAR_SPEED = math.tau  # radians per second
 
-    kDirectionSlewRate = 1.2  # radians per second
-    kMagnitudeSlewRate = 1.8  # percent per second (1 = 100%)
-    kRotationalSlewRate = 2.0  # percent per second (1 = 100%)
+    DIRECTION_SLEW_RATE = 1.2  # radians per second
+    MAGNITUDE_SLEW_RATE = 1.8  # percent per second (1 = 100%)
+    ROTATIONAL_SLEW_RATE = 2.0  # percent per second (1 = 100%)
 
     # Chassis configuration
-    kTrackWidth = units.inchesToMeters(26.5)
+    TRACK_WIDTH = units.inches_to_meters(26.5)
     # Distance between centers of right and left wheels on robot
-    kWheelBase = units.inchesToMeters(26.5)
+    WHEEL_BASE = units.inches_to_meters(26.5)
 
     # Distance between front and back wheels on robot
-    kModulePositions = [
-        Translation2d(kWheelBase / 2, kTrackWidth / 2),
-        Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-        Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-        Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
+    MODULE_POSITIONS = [
+        Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2),
+        Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2),
+        Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2),
+        Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2),
     ]
-    kDriveKinematics = SwerveDrive4Kinematics(*kModulePositions)
+    DRIVE_KINEMATICS = SwerveDrive4Kinematics(*MODULE_POSITIONS)
 
     # Angular offsets of the modules relative to the chassis in radians
-    kFrontLeftChassisAngularOffset = -math.pi / 2
-    kFrontRightChassisAngularOffset = 0
-    kBackLeftChassisAngularOffset = math.pi
-    kBackRightChassisAngularOffset = math.pi / 2
+    FRONT_LEFT_CHASSIS_ANGULAR_OFFSET = -math.pi / 2
+    FRONT_RIGHT_CHASSIS_ANGULAR_OFFSET = 0
+    BACK_LEFT_CHASSIS_ANGULAR_OFFSET = math.pi
+    BACK_RIGHT_CHASSIS_ANGULAR_OFFSET = math.pi / 2
 
     # SPARK MAX CAN IDs
-    kFrontLeftDrivingCanId = 11
-    kRearLeftDrivingCanId = 13
-    kFrontRightDrivingCanId = 15
-    kRearRightDrivingCanId = 17
+    FRONT_LEFT_DRIVING_CAN_ID = 11
+    REAR_LEFT_DRIVING_CAN_ID = 13
+    FRONT_RIGHT_DRIVING_CAN_ID = 15
+    REAR_RIGHT_DRIVING_CAN_ID = 17
 
-    kFrontLeftTurningCanId = 10
-    kRearLeftTurningCanId = 12
-    kFrontRightTurningCanId = 14
-    kRearRightTurningCanId = 16
+    FRONT_LEFT_TURNING_CAN_ID = 10
+    REAR_LEFT_TURNING_CAN_ID = 12
+    FRONT_RIGHT_TURNING_CAN_ID = 14
+    REAR_RIGHT_TURNING_CAN_ID = 16
 
-    kGyroReversed = False
+    GYRO_REVERSED = False
 
 
 class ModuleConstants:
     # The MAXSwerve module can be configured with one of three pinion gears: 12T, 13T, or 14T.
     # This changes the drive speed of the module (a pinion gear with more teeth will result in a
     # robot that drives faster).
-    kDrivingMotorPinionTeeth = 14
+    DRIVING_MOTOR_PINION_TEETH = 14
 
     # Invert the turning encoder, since the output shaft rotates in the opposite direction of
     # the steering motor in the MAXSwerve Module.
-    kTurningEncoderInverted = True
+    TURNING_ENCODER_INVERTED = True
 
     # Calculations required for driving motor conversion factors and feed forward
-    kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60
-    kWheelDiameterMeters = 0.0762
-    kWheelCircumferenceMeters = kWheelDiameterMeters * math.pi
+    DRIVING_MOTOR_FREE_SPEED_RPS = NeoMotorConstants.FREE_SPEED_RPM / 60
+    WHEEL_DIAMETER_METERS = 0.0762
+    WHEEL_CIRCUMFERENCE_METERS = WHEEL_DIAMETER_METERS * math.pi
     # 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15 teeth on the bevel pinion
-    kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15)
-    kDriveWheelFreeSpeedRps = (
-        kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters
-    ) / kDrivingMotorReduction
+    DRIVING_MOTOR_REDUCTION = (45.0 * 22) / (DRIVING_MOTOR_PINION_TEETH * 15)
+    DRIVE_WHEEL_FREE_SPEED_RPS = (
+        DRIVING_MOTOR_FREE_SPEED_RPS * WHEEL_CIRCUMFERENCE_METERS
+    ) / DRIVING_MOTOR_REDUCTION
 
-    kDrivingEncoderPositionFactor = (
-        kWheelDiameterMeters * math.pi
-    ) / kDrivingMotorReduction  # meters
-    kDrivingEncoderVelocityFactor = (
-        (kWheelDiameterMeters * math.pi) / kDrivingMotorReduction
+    DRIVING_ENCODER_POSITION_FACTOR = (
+        WHEEL_DIAMETER_METERS * math.pi
+    ) / DRIVING_MOTOR_REDUCTION  # meters
+    DRIVING_ENCODER_VELOCITY_FACTOR = (
+        (WHEEL_DIAMETER_METERS * math.pi) / DRIVING_MOTOR_REDUCTION
     ) / 60.0  # meters per second
 
-    kTurningEncoderPositionFactor = math.tau  # radian
-    kTurningEncoderVelocityFactor = math.tau / 60.0  # radians per second
+    TURNING_ENCODER_POSITION_FACTOR = math.tau  # radian
+    TURNING_ENCODER_VELOCITY_FACTOR = math.tau / 60.0  # radians per second
 
-    kTurningEncoderPositionPIDMinInput = 0  # radian
-    kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor  # radian
+    TURNING_ENCODER_POSITION_PID_MIN_INPUT = 0  # radian
+    TURNING_ENCODER_POSITION_PID_MAX_INPUT = TURNING_ENCODER_POSITION_FACTOR  # radian
 
-    kDrivingP = 0.04
-    kDrivingI = 0
-    kDrivingD = 0
-    kDrivingFF = 1 / kDriveWheelFreeSpeedRps
-    kDrivingMinOutput = -1
-    kDrivingMaxOutput = 1
+    DRIVING_P = 0.04
+    DRIVING_I = 0
+    DRIVING_D = 0
+    DRIVING_FF = 1 / DRIVE_WHEEL_FREE_SPEED_RPS
+    DRIVING_MIN_OUTPUT = -1
+    DRIVING_MAX_OUTPUT = 1
 
-    kTurningP = 1
-    kTurningI = 0
-    kTurningD = 0
-    kTurningFF = 0
-    kTurningMinOutput = -1
-    kTurningMaxOutput = 1
+    TURNING_P = 1
+    TURNING_I = 0
+    TURNING_D = 0
+    TURNING_FF = 0
+    TURNING_MIN_OUTPUT = -1
+    TURNING_MAX_OUTPUT = 1
 
-    kDrivingMotorIdleMode = SparkBaseConfig.IdleMode.kBrake
-    kTurningMotorIdleMode = SparkBaseConfig.IdleMode.kBrake
+    DRIVING_MOTOR_IDLE_MODE = SparkBaseConfig.IdleMode.BRAKE
+    TURNING_MOTOR_IDLE_MODE = SparkBaseConfig.IdleMode.BRAKE
 
-    kDrivingMotorCurrentLimit = 50  # amp
-    kTurningMotorCurrentLimit = 20  # amp
+    DRIVING_MOTOR_CURRENT_LIMIT = 50  # amp
+    TURNING_MOTOR_CURRENT_LIMIT = 20  # amp
 
 
 class OIConstants:
-    kDriverControllerPort = 0
-    kDriveDeadband = 0.05
+    DRIVER_CONTROLLER_PORT = 0
+    DRIVE_DEADBAND = 0.05
 
 
 class AutoConstants:
-    kMaxSpeedMetersPerSecond = 3
-    kMaxAccelerationMetersPerSecondSquared = 3
-    kMaxAngularSpeedRadiansPerSecond = math.pi
-    kMaxAngularSpeedRadiansPerSecondSquared = math.pi
+    MAX_SPEED_METERS_PER_SECOND = 3
+    MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 3
+    MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = math.pi
+    MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED = math.pi

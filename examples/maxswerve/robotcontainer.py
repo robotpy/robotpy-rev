@@ -11,17 +11,16 @@ import wpimath
 import wpilib
 
 from commands2 import cmd
-from wpimath.controller import PIDController, ProfiledPIDControllerRadians
+from wpimath.controller import (
+    HolonomicDriveController,
+    PIDController,
+    ProfiledPIDControllerRadians,
+)
 from wpimath.geometry import Pose2d, Rotation2d, Translation2d
 from wpimath.trajectory import (
     TrajectoryConfig,
     TrajectoryGenerator,
     TrapezoidProfileRadians,
-)
-from wpimath.controller import (
-    HolonomicDriveController,
-    PIDController,
-    ProfiledPIDControllerRadians,
 )
 
 from constants import AutoConstants, DriveConstants, OIConstants
@@ -38,62 +37,64 @@ class RobotContainer:
 
     def __init__(self) -> None:
         # The robot's subsystems
-        self.robotDrive = DriveSubsystem()
+        self.robot_drive = DriveSubsystem()
 
         # The driver's controller
-        self.driverController = wpilib.XboxController(OIConstants.kDriverControllerPort)
+        self.driver_controller = wpilib.XboxController(
+            OIConstants.DRIVER_CONTROLLER_PORT
+        )
 
         # Configure the button bindings
-        self.configureButtonBindings()
+        self.configure_button_bindings()
 
         # Configure default commands
-        self.robotDrive.setDefaultCommand(
+        self.robot_drive.set_default_command(
             # The left stick controls translation of the robot.
             # Turning is controlled by the X axis of the right stick.
             commands2.RunCommand(
-                lambda: self.robotDrive.drive(
-                    -wpimath.applyDeadband(
-                        self.driverController.getLeftY(), OIConstants.kDriveDeadband
+                lambda: self.robot_drive.drive(
+                    -wpimath.apply_deadband(
+                        self.driver_controller.get_left_y(), OIConstants.DRIVE_DEADBAND
                     ),
-                    -wpimath.applyDeadband(
-                        self.driverController.getLeftX(), OIConstants.kDriveDeadband
+                    -wpimath.apply_deadband(
+                        self.driver_controller.get_left_x(), OIConstants.DRIVE_DEADBAND
                     ),
-                    -wpimath.applyDeadband(
-                        self.driverController.getRightX(), OIConstants.kDriveDeadband
+                    -wpimath.apply_deadband(
+                        self.driver_controller.get_right_x(), OIConstants.DRIVE_DEADBAND
                     ),
                     True,
                     True,
                 ),
-                self.robotDrive,
+                self.robot_drive,
             )
         )
 
-    def configureButtonBindings(self) -> None:
+    def configure_button_bindings(self) -> None:
         """
         Use this method to define your button->command mappings. Buttons can be created by
         instantiating a :GenericHID or one of its subclasses (Joystick or XboxController),
         and then passing it to a JoystickButton.
         """
 
-    def disablePIDSubsystems(self) -> None:
+    def disable_pid_subsystems(self) -> None:
         """Disables all ProfiledPIDSubsystem and PIDSubsystem instances.
         This should be called on robot disable to prevent integral windup."""
 
-    def getAutonomousCommand(self) -> commands2.Command:
+    def get_autonomous_command(self) -> commands2.Command:
         """Use this to pass the autonomous command to the main {@link Robot} class.
 
         :returns: the command to run in autonomous
         """
         # Create config for trajectory
         config = TrajectoryConfig(
-            AutoConstants.kMaxSpeedMetersPerSecond,
-            AutoConstants.kMaxAccelerationMetersPerSecondSquared,
+            AutoConstants.MAX_SPEED_METERS_PER_SECOND,
+            AutoConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED,
         )
         # Add kinematics to ensure max speed is actually obeyed
-        config.setKinematics(DriveConstants.kDriveKinematics)
+        config.set_kinematics(DriveConstants.DRIVE_KINEMATICS)
 
         # An example trajectory to follow. All units in meters.
-        exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+        example_trajectory = TrajectoryGenerator.generate_trajectory(
             # Start at the origin facing the +X direction
             Pose2d(0, 0, Rotation2d(0)),
             # Pass through these two interior waypoints, making an 's' curve path
@@ -104,39 +105,39 @@ class RobotContainer:
         )
 
         # Constraint for the motion profiled robot angle controller
-        kThetaControllerConstraints = TrapezoidProfileRadians.Constraints(
-            AutoConstants.kMaxAngularSpeedRadiansPerSecond,
-            AutoConstants.kMaxAngularSpeedRadiansPerSecondSquared,
+        theta_controller_constraints = TrapezoidProfileRadians.Constraints(
+            AutoConstants.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND,
+            AutoConstants.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED,
         )
 
-        kPXController = PIDController(1.0, 0.0, 0.0)
-        kPYController = PIDController(1.0, 0.0, 0.0)
-        kPThetaController = ProfiledPIDControllerRadians(
-            1.0, 0.0, 0.0, kThetaControllerConstraints
+        x_controller = PIDController(1.0, 0.0, 0.0)
+        y_controller = PIDController(1.0, 0.0, 0.0)
+        theta_controller = ProfiledPIDControllerRadians(
+            1.0, 0.0, 0.0, theta_controller_constraints
         )
-        kPThetaController.enableContinuousInput(-math.pi, math.pi)
+        theta_controller.enable_continuous_input(-math.pi, math.pi)
 
-        kPIDController = HolonomicDriveController(
-            kPXController, kPYController, kPThetaController
+        pid_controller = HolonomicDriveController(
+            x_controller, y_controller, theta_controller
         )
 
-        swerveControllerCommand = commands2.SwerveControllerCommand(
-            exampleTrajectory,
-            self.robotDrive.getPose,  # Functional interface to feed supplier
-            DriveConstants.kDriveKinematics,
+        swerve_controller_command = commands2.SwerveControllerCommand(
+            example_trajectory,
+            self.robot_drive.get_pose,  # Functional interface to feed supplier
+            DriveConstants.DRIVE_KINEMATICS,
             # Position controllers
-            kPIDController,
-            self.robotDrive.setModuleStates,
-            (self.robotDrive,),
+            pid_controller,
+            self.robot_drive.set_module_states,
+            (self.robot_drive,),
         )
 
         # Reset odometry to the starting pose of the trajectory.
-        self.robotDrive.resetOdometry(exampleTrajectory.initialPose())
+        self.robot_drive.reset_odometry(example_trajectory.initial_pose())
 
         # Run path following command, then stop at the end.
-        return swerveControllerCommand.andThen(
+        return swerve_controller_command.and_then(
             cmd.run(
-                lambda: self.robotDrive.drive(0, 0, 0, False, False),
-                self.robotDrive,
+                lambda: self.robot_drive.drive(0, 0, 0, False, False),
+                self.robot_drive,
             )
         )

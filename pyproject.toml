@@ -136,6 +136,10 @@ scan_headers_ignore = [
     # .
     "sparkbaseconfig_apply.h",
 ]
+[tool.semiwrap.name_transform]
+default = "snake_case"
+enum_value = "CAPS_CASE"
+known_words = []
 
 [tool.semiwrap.extension_modules."rev._rev"]
 name = "rev"

@@ -6,60 +6,58 @@
 #
 
 import rev
+import telemetry
 import wpilib
 
 
 class Robot(wpilib.TimedRobot):
-    def robotInit(self):
+    def __init__(self):
+        super().__init__()
         # Create motor
-        self.motor = rev.CANSparkMax(1, rev.CANSparkMax.MotorType.kBrushless)
+        self.motor = rev.SparkMax(
+            wpilib.CANPort.CAN_S0, 1, rev.SparkLowLevel.MotorType.BRUSHLESS
+        )
 
         self.joystick = wpilib.Joystick(0)
 
-        # The restoreFactoryDefaults method can be used to reset the
-        # configuration parameters in the SPARK MAX to their factory default
-        # state. If no argument is passed, these parameters will not persist
-        # between power cycles
-        self.motor.restoreFactoryDefaults()
+        # Configuration parameters are set by calling the appropriate method on
+        # a SparkMaxConfig object, then applying that configuration to the SPARK.
+        self.config = rev.SparkMaxConfig()
+        self.config.set_idle_mode(rev.SparkBaseConfig.IdleMode.COAST)
+        self.config.open_loop_ramp_rate(0)
 
-        # Parameters can be set by calling the appropriate set() method on the
-        # CANSparkMax object whose properties you want to change
-        #
-        # Set methods will return one of three CANError values which will let
-        # you know if the parameter was successfully set:
-        #   CANError.kOk
-        #   CANError.kError
-        #   CANError.kTimeout
         if (
-            self.motor.setIdleMode(rev.CANSparkMax.IdleMode.kCoast)
-            != rev.REVLibError.kOk
+            self.motor.configure(
+                self.config,
+                rev.ResetMode.RESET_SAFE_PARAMETERS,
+                rev.PersistMode.NO_PERSIST_PARAMETERS,
+            )
+            != rev.REVLibError.OK
         ):
-            wpilib.SmartDashboard.putString("Idle Mode", "Error")
+            telemetry.log("Config", "Error")
 
-        # Similarly, parameters will have a get() method which allows you to
-        # retrieve their values from the controller
-        if self.motor.getIdleMode() == rev.CANSparkMax.IdleMode.kCoast:
-            wpilib.SmartDashboard.putString("Idle Mode", "Coast")
+        # Configuration accessors retrieve values currently stored on the
+        # controller.
+        if (
+            self.motor.config_accessor.get_idle_mode()
+            == rev.SparkBaseConfig.IdleMode.COAST
+        ):
+            telemetry.log("Idle Mode", "Coast")
         else:
-            wpilib.SmartDashboard.putString("Idle Mode", "Brake")
+            telemetry.log("Idle Mode", "Brake")
 
-        # Set ramp rate to 0
-        if self.motor.setOpenLoopRampRate(0) != rev.REVLibError.kOk:
-            wpilib.SmartDashboard.putString("Ramp Rate", "Error")
-
-        # Read back ramp value
-        wpilib.SmartDashboard.putString(
-            "Ramp Rate", str(self.motor.getOpenLoopRampRate())
+        telemetry.log(
+            "Ramp Rate", str(self.motor.config_accessor.get_open_loop_ramp_rate())
         )
 
-    def teleopPeriodic(self):
+    def teleop_periodic(self):
         # Pair motor and the joystick's Y Axis
-        self.motor.set(self.joystick.getY())
+        self.motor.set_throttle(self.joystick.get_y())
 
-        # Put Voltage, Temperature, and Motor Output onto SmartDashboard
-        wpilib.SmartDashboard.putNumber("Voltage", self.motor.getBusVoltage())
-        wpilib.SmartDashboard.putNumber("Temperature", self.motor.getMotorTemperature())
-        wpilib.SmartDashboard.putNumber("Output", self.motor.getAppliedOutput())
+        # Log Voltage, Temperature, and Motor Output to the Telemetry table.
+        telemetry.log("Voltage", self.motor.get_bus_voltage().get())
+        telemetry.log("Temperature", self.motor.get_motor_temperature().get())
+        telemetry.log("Output", self.motor.get_applied_output().get())
 
 
 if __name__ == "__main__":

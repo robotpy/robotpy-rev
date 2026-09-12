@@ -6,18 +6,18 @@ BASE_TESTS = [
     "can-arcade-drive",
     "can-tank-drive",
     "getting-started",
-]
-
-IGNORED_TESTS = [
     "color_match",
     "get-set-params",
-    "limit-switch",  # TODO(davo): SmartDashboard -> tunables
-    "maxswerve",
+    "limit-switch",
     "position-pid-control",
     "read_rgb_values",
     "read-encoder-values",
     "smart-motion",
     "velocity-pid-control",
+]
+
+IGNORED_TESTS = [
+    "maxswerve",
 ]  # Add ignored tests if any
 EVERY_TESTS = BASE_TESTS + IGNORED_TESTS
 TESTS = BASE_TESTS
