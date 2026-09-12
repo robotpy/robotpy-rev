@@ -6,17 +6,18 @@
 #
 
 import rev
+import telemetry
+import tunables
 import wpilib
-
-# Before Running:
-# Open Shuffleboard, select File->Load Layout and select the
-# shuffleboard.json that is in the root directory of this example
 
 
 class Robot(wpilib.TimedRobot):
-    def robot_init(self):
+    def __init__(self):
+        super().__init__()
         # Create motor
-        self.motor = rev.SparkMax(0, 1, rev.SparkLowLevel.MotorType.BRUSHLESS)
+        self.motor = rev.SparkMax(
+            wpilib.CANPort.CAN_S0, 1, rev.SparkLowLevel.MotorType.BRUSHLESS
+        )
 
         # Use the SPARK closed loop controller for PID functionality.
         self.pid_controller = self.motor.get_closed_loop_controller()
@@ -29,7 +30,7 @@ class Robot(wpilib.TimedRobot):
         self.i_gain = 1e-4
         self.d_gain = 0
         self.i_zone = 0
-        self.feed_forward = 0
+        self.feed_forward = 0  # kV in volts/RPM
         self.min_output = -1
         self.max_output = 1
 
@@ -37,22 +38,25 @@ class Robot(wpilib.TimedRobot):
         self._update_closed_loop_config()
         self._apply_config()
 
-        # Push PID Coefficients to SmartDashboard
-        wpilib.SmartDashboard.put_number("P Gain", self.p_gain)
-        wpilib.SmartDashboard.put_number("I Gain", self.i_gain)
-        wpilib.SmartDashboard.put_number("D Gain", self.d_gain)
-        wpilib.SmartDashboard.put_number("I Zone", self.i_zone)
-        wpilib.SmartDashboard.put_number("Feed Forward", self.feed_forward)
-        wpilib.SmartDashboard.put_number("Min Output", self.min_output)
-        wpilib.SmartDashboard.put_number("Max Output", self.max_output)
-        wpilib.SmartDashboard.put_number("Set Rotations", 0)
+        # Publish editable PID coefficients in the Tunables table.
+        # Use doubles even for integer defaults so fractional tuning is supported.
+        self.p_gain_tunable = tunables.add_double("P Gain", self.p_gain)
+        self.i_gain_tunable = tunables.add_double("I Gain", self.i_gain)
+        self.d_gain_tunable = tunables.add_double("D Gain", self.d_gain)
+        self.i_zone_tunable = tunables.add_double("I Zone", self.i_zone)
+        self.feed_forward_tunable = tunables.add_double(
+            "Feed Forward", self.feed_forward
+        )
+        self.min_output_tunable = tunables.add_double("Min Output", self.min_output)
+        self.max_output_tunable = tunables.add_double("Max Output", self.max_output)
+        self.rotations_tunable = tunables.add_double("Set Rotations", 0.0)
 
     def _update_closed_loop_config(self):
-        self.config.closed_loop.P(self.p_gain)
-        self.config.closed_loop.I(self.i_gain)
-        self.config.closed_loop.D(self.d_gain)
+        self.config.closed_loop.p(self.p_gain)
+        self.config.closed_loop.i(self.i_gain)
+        self.config.closed_loop.d(self.d_gain)
         self.config.closed_loop.i_zone(self.i_zone)
-        self.config.closed_loop.velocity_ff(self.feed_forward)
+        self.config.closed_loop.feed_forward.v(self.feed_forward)
         self.config.closed_loop.output_range(self.min_output, self.max_output)
 
     def _apply_config(self):
@@ -63,27 +67,27 @@ class Robot(wpilib.TimedRobot):
         )
 
     def teleop_periodic(self):
-        # Read data from SmartDashboard
-        p = wpilib.SmartDashboard.get_number("P Gain", 0)
-        i = wpilib.SmartDashboard.get_number("I Gain", 0)
-        d = wpilib.SmartDashboard.get_number("D Gain", 0)
-        iz = wpilib.SmartDashboard.get_number("I Zone", 0)
-        ff = wpilib.SmartDashboard.get_number("Feed Forward", 0)
-        min_out = wpilib.SmartDashboard.get_number("Min Output", 0)
-        max_out = wpilib.SmartDashboard.get_number("Max Output", 0)
-        rotations = wpilib.SmartDashboard.get_number("Set Rotations", 0)
+        # Read the latest dashboard values from the tunables.
+        p = self.p_gain_tunable.get()
+        i = self.i_gain_tunable.get()
+        d = self.d_gain_tunable.get()
+        iz = self.i_zone_tunable.get()
+        ff = self.feed_forward_tunable.get()
+        min_out = self.min_output_tunable.get()
+        max_out = self.max_output_tunable.get()
+        rotations = self.rotations_tunable.get()
 
-        # Update closed loop config with the latest values from SmartDashboard.
+        # Update closed loop config with the latest tunable values.
         if p != self.p_gain:
-            self.config.closed_loop.P(p)
+            self.config.closed_loop.p(p)
             self.p_gain = p
             self._apply_config()
         if i != self.i_gain:
-            self.config.closed_loop.I(i)
+            self.config.closed_loop.i(i)
             self.i_gain = i
             self._apply_config()
         if d != self.d_gain:
-            self.config.closed_loop.D(d)
+            self.config.closed_loop.d(d)
             self.d_gain = d
             self._apply_config()
         if iz != self.i_zone:
@@ -91,7 +95,7 @@ class Robot(wpilib.TimedRobot):
             self.i_zone = iz
             self._apply_config()
         if ff != self.feed_forward:
-            self.config.closed_loop.velocity_ff(ff)
+            self.config.closed_loop.feed_forward.v(ff)
             self.feed_forward = ff
             self._apply_config()
         if (min_out != self.min_output) or (max_out != self.max_output):
@@ -101,15 +105,15 @@ class Robot(wpilib.TimedRobot):
             self._apply_config()
 
         # Closed loop controllers are commanded to a set point using the
-        # set_reference() method.
+        # set_setpoint() method.
         #
         # The first parameter is the value of the set point, whose units vary
         # depending on the control type set in the second parameter.
-        self.pid_controller.set_reference(rotations, rev.SparkBase.ControlType.POSITION)
+        self.pid_controller.set_setpoint(rotations, rev.SparkBase.ControlType.POSITION)
 
-        # Push Setpoint and the motor's current position to SmartDashboard.
-        wpilib.SmartDashboard.put_number("SetPoint", rotations)
-        wpilib.SmartDashboard.put_number("ProcessVariable", self.encoder.get_position())
+        # Log the setpoint and the motor's current position to the Telemetry table.
+        telemetry.log("SetPoint", rotations)
+        telemetry.log("ProcessVariable", self.encoder.get_position().get())
 
 
 if __name__ == "__main__":

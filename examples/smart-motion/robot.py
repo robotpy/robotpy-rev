@@ -6,11 +6,9 @@
 #
 
 import rev
+import telemetry
+import tunables
 import wpilib
-
-# Before Running:
-# Open Shuffleboard, select File->Load Layout and select the
-# shuffleboard.json that is in the root directory of this example
 
 # REV MAXMotion Guide
 #
@@ -35,15 +33,17 @@ import wpilib
 #    2) The commanded velocity value (‘Setpoint’)
 #    3) The applied output
 #
-# This example will use ShuffleBoard to graph the above parameters. Make sure to
-# load the shuffleboard.json file in the root of this directory to get the full
-# effect of the GUI layout.
+# Graph these values from the Telemetry table in your dashboard, and edit
+# coefficients and setpoints in the Tunables table.
 
 
 class Robot(wpilib.TimedRobot):
-    def robot_init(self):
+    def __init__(self):
+        super().__init__()
         # initialize motor
-        self.motor = rev.SparkMax(0, 1, rev.SparkLowLevel.MotorType.BRUSHLESS)
+        self.motor = rev.SparkMax(
+            wpilib.CANPort.CAN_S0, 1, rev.SparkLowLevel.MotorType.BRUSHLESS
+        )
 
         self.pid_controller = self.motor.get_closed_loop_controller()
         self.encoder = self.motor.get_encoder()
@@ -53,7 +53,8 @@ class Robot(wpilib.TimedRobot):
         self.i_gain = 1e-6
         self.d_gain = 0
         self.i_zone = 0
-        self.feed_forward = 0.000156
+        # Convert the legacy duty-cycle/RPM gain to kV in volts/RPM at 12 V.
+        self.feed_forward = 0.000156 * 12
         self.max_output = 1
         self.min_output = -1
         self.max_rpm = 5700
@@ -68,37 +69,44 @@ class Robot(wpilib.TimedRobot):
         self._update_max_motion_config()
         self._apply_config()
 
-        # display PID coefficients on SmartDashboard
-        wpilib.SmartDashboard.put_number("P Gain", self.p_gain)
-        wpilib.SmartDashboard.put_number("I Gain", self.i_gain)
-        wpilib.SmartDashboard.put_number("D Gain", self.d_gain)
-        wpilib.SmartDashboard.put_number("I Zone", self.i_zone)
-        wpilib.SmartDashboard.put_number("Feed Forward", self.feed_forward)
-        wpilib.SmartDashboard.put_number("Max Output", self.max_output)
-        wpilib.SmartDashboard.put_number("Min Output", self.min_output)
+        # Publish editable PID coefficients in the Tunables table.
+        # Use doubles even for integer defaults so fractional tuning is supported.
+        self.p_gain_tunable = tunables.add_double("P Gain", self.p_gain)
+        self.i_gain_tunable = tunables.add_double("I Gain", self.i_gain)
+        self.d_gain_tunable = tunables.add_double("D Gain", self.d_gain)
+        self.i_zone_tunable = tunables.add_double("I Zone", self.i_zone)
+        self.feed_forward_tunable = tunables.add_double(
+            "Feed Forward", self.feed_forward
+        )
+        self.max_output_tunable = tunables.add_double("Max Output", self.max_output)
+        self.min_output_tunable = tunables.add_double("Min Output", self.min_output)
 
-        # display MAXMotion coefficients
-        wpilib.SmartDashboard.put_number("Max Velocity", self.max_vel)
-        wpilib.SmartDashboard.put_number("Max Acceleration", self.max_acc)
-        wpilib.SmartDashboard.put_number("Allowed Closed Loop Error", self.allowed_err)
-        wpilib.SmartDashboard.put_number("Set Position", 0)
-        wpilib.SmartDashboard.put_number("Set Velocity", 0)
+        # Publish editable MAXMotion coefficients and setpoints.
+        self.max_velocity_tunable = tunables.add_double("Max Velocity", self.max_vel)
+        self.max_acceleration_tunable = tunables.add_double(
+            "Max Acceleration", self.max_acc
+        )
+        self.allowed_error_tunable = tunables.add_double(
+            "Allowed Closed Loop Error", self.allowed_err
+        )
+        self.position_tunable = tunables.add_double("Set Position", 0.0)
+        self.velocity_tunable = tunables.add_double("Set Velocity", 0.0)
 
-        # button to toggle between velocity and MAXMotion modes
-        wpilib.SmartDashboard.put_boolean("Mode", True)
+        # Button to toggle between velocity and MAXMotion modes.
+        self.mode_tunable = tunables.add_boolean("Mode", True)
 
     def _update_closed_loop_config(self):
-        self.config.closed_loop.P(self.p_gain)
-        self.config.closed_loop.I(self.i_gain)
-        self.config.closed_loop.D(self.d_gain)
+        self.config.closed_loop.p(self.p_gain)
+        self.config.closed_loop.i(self.i_gain)
+        self.config.closed_loop.d(self.d_gain)
         self.config.closed_loop.i_zone(self.i_zone)
-        self.config.closed_loop.velocity_ff(self.feed_forward)
+        self.config.closed_loop.feed_forward.v(self.feed_forward)
         self.config.closed_loop.output_range(self.min_output, self.max_output)
 
     def _update_max_motion_config(self):
-        self.config.closed_loop.max_motion.max_velocity(self.max_vel)
+        self.config.closed_loop.max_motion.cruise_velocity(self.max_vel)
         self.config.closed_loop.max_motion.max_acceleration(self.max_acc)
-        self.config.closed_loop.max_motion.allowed_closed_loop_error(self.allowed_err)
+        self.config.closed_loop.allowed_closed_loop_error(self.allowed_err)
 
     def _apply_config(self):
         self.motor.configure(
@@ -108,29 +116,29 @@ class Robot(wpilib.TimedRobot):
         )
 
     def teleop_periodic(self):
-        # read PID coefficients from SmartDashboard
-        p = wpilib.SmartDashboard.get_number("P Gain", 0)
-        i = wpilib.SmartDashboard.get_number("I Gain", 0)
-        d = wpilib.SmartDashboard.get_number("D Gain", 0)
-        iz = wpilib.SmartDashboard.get_number("I Zone", 0)
-        ff = wpilib.SmartDashboard.get_number("Feed Forward", 0)
-        max_out = wpilib.SmartDashboard.get_number("Max Output", 0)
-        min_out = wpilib.SmartDashboard.get_number("Min Output", 0)
-        max_velocity = wpilib.SmartDashboard.get_number("Max Velocity", 0)
-        max_acceleration = wpilib.SmartDashboard.get_number("Max Acceleration", 0)
-        allowed_error = wpilib.SmartDashboard.get_number("Allowed Closed Loop Error", 0)
+        # Read the latest dashboard values from the tunables.
+        p = self.p_gain_tunable.get()
+        i = self.i_gain_tunable.get()
+        d = self.d_gain_tunable.get()
+        iz = self.i_zone_tunable.get()
+        ff = self.feed_forward_tunable.get()
+        max_out = self.max_output_tunable.get()
+        min_out = self.min_output_tunable.get()
+        max_velocity = self.max_velocity_tunable.get()
+        max_acceleration = self.max_acceleration_tunable.get()
+        allowed_error = self.allowed_error_tunable.get()
 
-        # if config values on SmartDashboard have changed, write new values to controller
+        # If tunable values have changed, write new values to the controller.
         if p != self.p_gain:
-            self.config.closed_loop.P(p)
+            self.config.closed_loop.p(p)
             self.p_gain = p
             self._apply_config()
         if i != self.i_gain:
-            self.config.closed_loop.I(i)
+            self.config.closed_loop.i(i)
             self.i_gain = i
             self._apply_config()
         if d != self.d_gain:
-            self.config.closed_loop.D(d)
+            self.config.closed_loop.d(d)
             self.d_gain = d
             self._apply_config()
         if iz != self.i_zone:
@@ -138,7 +146,7 @@ class Robot(wpilib.TimedRobot):
             self.i_zone = iz
             self._apply_config()
         if ff != self.feed_forward:
-            self.config.closed_loop.velocity_ff(ff)
+            self.config.closed_loop.feed_forward.v(ff)
             self.feed_forward = ff
             self._apply_config()
         if max_out != self.max_output or min_out != self.min_output:
@@ -148,7 +156,7 @@ class Robot(wpilib.TimedRobot):
             self._apply_config()
 
         if max_velocity != self.max_vel:
-            self.config.closed_loop.max_motion.max_velocity(max_velocity)
+            self.config.closed_loop.max_motion.cruise_velocity(max_velocity)
             self.max_vel = max_velocity
             self._apply_config()
         if max_acceleration != self.max_acc:
@@ -156,27 +164,27 @@ class Robot(wpilib.TimedRobot):
             self.max_acc = max_acceleration
             self._apply_config()
         if allowed_error != self.allowed_err:
-            self.config.closed_loop.max_motion.allowed_closed_loop_error(allowed_error)
+            self.config.closed_loop.allowed_closed_loop_error(allowed_error)
             self.allowed_err = allowed_error
             self._apply_config()
 
-        mode = wpilib.SmartDashboard.get_boolean("Mode", False)
+        mode = self.mode_tunable.get()
         if mode:
-            setpoint = wpilib.SmartDashboard.get_number("Set Velocity", 0)
-            self.pid_controller.set_reference(
+            setpoint = self.velocity_tunable.get()
+            self.pid_controller.set_setpoint(
                 setpoint, rev.SparkBase.ControlType.VELOCITY
             )
-            pv = self.encoder.get_velocity()
+            pv = self.encoder.get_velocity().get()
         else:
-            setpoint = wpilib.SmartDashboard.get_number("Set Position", 0)
-            self.pid_controller.set_reference(
+            setpoint = self.position_tunable.get()
+            self.pid_controller.set_setpoint(
                 setpoint, rev.SparkBase.ControlType.MAX_MOTION_POSITION_CONTROL
             )
-            pv = self.encoder.get_position()
+            pv = self.encoder.get_position().get()
 
-        wpilib.SmartDashboard.put_number("SetPoint", setpoint)
-        wpilib.SmartDashboard.put_number("Process Variable", pv)
-        wpilib.SmartDashboard.put_number("Output", self.motor.get_applied_output())
+        telemetry.log("SetPoint", setpoint)
+        telemetry.log("Process Variable", pv)
+        telemetry.log("Output", self.motor.get_applied_output().get())
 
 
 if __name__ == "__main__":

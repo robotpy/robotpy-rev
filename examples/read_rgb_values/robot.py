@@ -5,6 +5,7 @@
 # the WPILib BSD license file in the root directory of this project.
 #
 
+import telemetry
 import wpilib
 from rev import ColorSensorV3
 
@@ -15,7 +16,8 @@ class MyRobot(wpilib.TimedRobot):
     Color Sensor V3
     """
 
-    def robot_init(self):
+    def __init__(self):
+        super().__init__()
         self.color_sensor = ColorSensorV3(wpilib.I2C.Port.PORT_0)
 
     def robot_periodic(self):
@@ -32,12 +34,11 @@ class MyRobot(wpilib.TimedRobot):
         # The sensor returns a raw IR value of the infrared light detected.
         ir = self.color_sensor.get_ir()
 
-        # Open Smart Dashboard or Shuffleboard to see the color detected by the
-        # sensor.
-        wpilib.SmartDashboard.put_number("Red", detected_color.red)
-        wpilib.SmartDashboard.put_number("Green", detected_color.green)
-        wpilib.SmartDashboard.put_number("Blue", detected_color.blue)
-        wpilib.SmartDashboard.put_number("IR", ir)
+        # Open the Telemetry table in your dashboard to see the detected color.
+        telemetry.log("Red", detected_color.red)
+        telemetry.log("Green", detected_color.green)
+        telemetry.log("Blue", detected_color.blue)
+        telemetry.log("IR", ir)
 
         # In addition to RGB IR values, the color sensor can also return an
         # infrared proximity value. The chip contains an IR led which will emit
@@ -50,7 +51,7 @@ class MyRobot(wpilib.TimedRobot):
         # accurate color values.
         proximity = self.color_sensor.get_proximity()
 
-        wpilib.SmartDashboard.put_number("Proximity", proximity)
+        telemetry.log("Proximity", proximity)
 
         # `self.color_sensor.get_color()` returns a Color that is normalized.
         # The R, G, B values are scaled so that they add up to 1.
@@ -60,10 +61,10 @@ class MyRobot(wpilib.TimedRobot):
 
         raw_detected_color = self.color_sensor.get_raw_color()
 
-        wpilib.SmartDashboard.put_number("Raw Red", raw_detected_color.red)
-        wpilib.SmartDashboard.put_number("Raw Green", raw_detected_color.green)
-        wpilib.SmartDashboard.put_number("Raw Blue", raw_detected_color.blue)
-        wpilib.SmartDashboard.put_number("Raw IR", raw_detected_color.ir)
+        telemetry.log("Raw Red", raw_detected_color.red)
+        telemetry.log("Raw Green", raw_detected_color.green)
+        telemetry.log("Raw Blue", raw_detected_color.blue)
+        telemetry.log("Raw IR", raw_detected_color.ir)
 
 
 if __name__ == "__main__":

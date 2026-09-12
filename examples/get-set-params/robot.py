@@ -6,13 +6,17 @@
 #
 
 import rev
+import telemetry
 import wpilib
 
 
 class Robot(wpilib.TimedRobot):
-    def robot_init(self):
+    def __init__(self):
+        super().__init__()
         # Create motor
-        self.motor = rev.SparkMax(0, 1, rev.SparkLowLevel.MotorType.BRUSHLESS)
+        self.motor = rev.SparkMax(
+            wpilib.CANPort.CAN_S0, 1, rev.SparkLowLevel.MotorType.BRUSHLESS
+        )
 
         self.joystick = wpilib.Joystick(0)
 
@@ -30,7 +34,7 @@ class Robot(wpilib.TimedRobot):
             )
             != rev.REVLibError.OK
         ):
-            wpilib.SmartDashboard.put_string("Config", "Error")
+            telemetry.log("Config", "Error")
 
         # Configuration accessors retrieve values currently stored on the
         # controller.
@@ -38,24 +42,22 @@ class Robot(wpilib.TimedRobot):
             self.motor.config_accessor.get_idle_mode()
             == rev.SparkBaseConfig.IdleMode.COAST
         ):
-            wpilib.SmartDashboard.put_string("Idle Mode", "Coast")
+            telemetry.log("Idle Mode", "Coast")
         else:
-            wpilib.SmartDashboard.put_string("Idle Mode", "Brake")
+            telemetry.log("Idle Mode", "Brake")
 
-        wpilib.SmartDashboard.put_string(
+        telemetry.log(
             "Ramp Rate", str(self.motor.config_accessor.get_open_loop_ramp_rate())
         )
 
     def teleop_periodic(self):
         # Pair motor and the joystick's Y Axis
-        self.motor.set(self.joystick.get_y())
+        self.motor.set_throttle(self.joystick.get_y())
 
-        # Put Voltage, Temperature, and Motor Output onto SmartDashboard
-        wpilib.SmartDashboard.put_number("Voltage", self.motor.get_bus_voltage())
-        wpilib.SmartDashboard.put_number(
-            "Temperature", self.motor.get_motor_temperature()
-        )
-        wpilib.SmartDashboard.put_number("Output", self.motor.get_applied_output())
+        # Log Voltage, Temperature, and Motor Output to the Telemetry table.
+        telemetry.log("Voltage", self.motor.get_bus_voltage().get())
+        telemetry.log("Temperature", self.motor.get_motor_temperature().get())
+        telemetry.log("Output", self.motor.get_applied_output().get())
 
 
 if __name__ == "__main__":

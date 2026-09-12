@@ -6,12 +6,13 @@
 #
 
 import rev
+import telemetry
 import wpilib
 
 
 class Robot(wpilib.TimedRobot):
     # This sample program displays the position and velocity of the integrated
-    # encoder onto the SmartDashboard.
+    # encoder in the Telemetry table.
     #
     # Position is displayed in revolutions (of the motor's axle) and velocity
     # is displayed in revolutions per minute (RPM)
@@ -20,9 +21,12 @@ class Robot(wpilib.TimedRobot):
     # encoder config and give it a measurement of how far one revolution is, the
     # get_velocity() and get_position() methods return a scaled output in the
     # units of your choice after configuring the SPARK.
-    def robot_init(self):
+    def __init__(self):
+        super().__init__()
         # Instantiate SPARK MAX object
-        self.motor = rev.SparkMax(0, 1, rev.SparkLowLevel.MotorType.BRUSHLESS)
+        self.motor = rev.SparkMax(
+            wpilib.CANPort.CAN_S0, 1, rev.SparkLowLevel.MotorType.BRUSHLESS
+        )
 
         self.motor.configure(
             rev.SparkMaxConfig(),
@@ -35,25 +39,21 @@ class Robot(wpilib.TimedRobot):
 
     def teleop_periodic(self):
         # Set motor output to the joystick's Y-axis
-        self.motor.set(self.joystick.get_y())
+        self.motor.set_throttle(self.joystick.get_y())
 
         # Encoder position is read from a RelativeEncoder object by calling the
         # get_position() method.
         #
         # get_position() returns the position of the encoder in units of
         # revolutions (unless overridden)
-        wpilib.SmartDashboard.put_number(
-            "Encoder Position", self.encoder.get_position()
-        )
+        telemetry.log("Encoder Position", self.encoder.get_position().get())
 
         # Encoder velocity is read from a RelativeEncoder object by calling the
         # get_velocity() method.
         #
         # get_velocity() returns the position of the encoder in units of
         # revolutions (unless overridden)
-        wpilib.SmartDashboard.put_number(
-            "Encoder Velocity", self.encoder.get_velocity()
-        )
+        telemetry.log("Encoder Velocity", self.encoder.get_velocity().get())
 
 
 if __name__ == "__main__":

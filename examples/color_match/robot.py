@@ -5,8 +5,10 @@
 # the WPILib BSD license file in the root directory of this project.
 #
 
+import telemetry
 import wpilib
 from rev import ColorSensorV3, ColorMatch
+from wpiutil import Color
 
 
 class MyRobot(wpilib.TimedRobot):
@@ -15,7 +17,8 @@ class MyRobot(wpilib.TimedRobot):
     Color Sensor V3
     """
 
-    def robot_init(self):
+    def __init__(self):
+        super().__init__()
         self.color_sensor = ColorSensorV3(wpilib.I2C.Port.PORT_0)
 
         # A Rev Color Match object is used to register and detect known colors. This can
@@ -27,10 +30,10 @@ class MyRobot(wpilib.TimedRobot):
 
         # Note: Any example colors should be calibrated as the user needs, these
         # are here as a basic example.
-        self.blue_target = wpilib.Color(0.143, 0.427, 0.429)
-        self.green_target = wpilib.Color(0.197, 0.561, 0.240)
-        self.red_target = wpilib.Color(0.561, 0.232, 0.114)
-        self.yellow_target = wpilib.Color(0.361, 0.524, 0.113)
+        self.blue_target = Color(0.143, 0.427, 0.429)
+        self.green_target = Color(0.197, 0.561, 0.240)
+        self.red_target = Color(0.561, 0.232, 0.114)
+        self.yellow_target = Color(0.361, 0.524, 0.113)
 
         self.color_matcher.add_color_match(self.blue_target)
         self.color_matcher.add_color_match(self.green_target)
@@ -66,13 +69,12 @@ class MyRobot(wpilib.TimedRobot):
         else:  # match is black
             color_string = "Unknown"
 
-        # Open Smart Dashboard or Shuffleboard to see the color detected by the
-        # sensor.
-        wpilib.SmartDashboard.put_number("Red", detected_color.red)
-        wpilib.SmartDashboard.put_number("Green", detected_color.green)
-        wpilib.SmartDashboard.put_number("Blue", detected_color.blue)
-        wpilib.SmartDashboard.put_number("Confidence", confidence)
-        wpilib.SmartDashboard.put_string("Detected Color", color_string)
+        # Open the Telemetry table in your dashboard to see the detected color.
+        telemetry.log("Red", detected_color.red)
+        telemetry.log("Green", detected_color.green)
+        telemetry.log("Blue", detected_color.blue)
+        telemetry.log("Confidence", confidence)
+        telemetry.log("Detected Color", color_string)
 
 
 if __name__ == "__main__":

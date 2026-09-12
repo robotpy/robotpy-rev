@@ -6,11 +6,9 @@
 #
 
 import rev
+import telemetry
+import tunables
 import wpilib
-
-# Before Running:
-# Open Shuffleboard, select File->Load Layout and select the
-# shuffleboard.json that is in the root directory of this example
 
 
 class Robot(wpilib.TimedRobot):
@@ -59,10 +57,11 @@ class Robot(wpilib.TimedRobot):
             != 0
         )
 
-        wpilib.SmartDashboard.put_boolean(
+        # Publish editable enable flags in the Tunables table.
+        self.forward_limit_enabled = tunables.add_boolean(
             "Forward Limit Enabled", self.prev_forward_limit_enabled
         )
-        wpilib.SmartDashboard.put_boolean(
+        self.reverse_limit_enabled = tunables.add_boolean(
             "Reverse Limit Enabled", self.prev_reverse_limit_enabled
         )
 
@@ -70,13 +69,9 @@ class Robot(wpilib.TimedRobot):
         # Pair motor output and the joystick's Y Axis
         self.motor.set_voltage(self.joystick.get_y() * 12)
 
-        # enable/disable limit switches based on value read from SmartDashboard
-        if self.prev_forward_limit_enabled != wpilib.SmartDashboard.get_boolean(
-            "Forward Limit Enabled", False
-        ):
-            self.prev_forward_limit_enabled = wpilib.SmartDashboard.get_boolean(
-                "Forward Limit Enabled", False
-            )
+        # Enable/disable limit switches using the latest tunable values.
+        if self.prev_forward_limit_enabled != self.forward_limit_enabled.get():
+            self.prev_forward_limit_enabled = self.forward_limit_enabled.get()
             self.limit_config.limit_switch.forward_limit_switch_trigger_behavior(
                 rev.LimitSwitchConfig.Behavior.STOP_MOVING_MOTOR
                 if self.prev_forward_limit_enabled
@@ -87,12 +82,8 @@ class Robot(wpilib.TimedRobot):
                 rev.ResetMode.RESET_SAFE_PARAMETERS,
                 rev.PersistMode.NO_PERSIST_PARAMETERS,
             )
-        if self.prev_reverse_limit_enabled != wpilib.SmartDashboard.get_boolean(
-            "Reverse Limit Enabled", False
-        ):
-            self.prev_reverse_limit_enabled = wpilib.SmartDashboard.get_boolean(
-                "Reverse Limit Enabled", False
-            )
+        if self.prev_reverse_limit_enabled != self.reverse_limit_enabled.get():
+            self.prev_reverse_limit_enabled = self.reverse_limit_enabled.get()
             self.limit_config.limit_switch.reverse_limit_switch_trigger_behavior(
                 rev.LimitSwitchConfig.Behavior.STOP_MOVING_MOTOR
                 if self.prev_reverse_limit_enabled
@@ -111,12 +102,8 @@ class Robot(wpilib.TimedRobot):
         # closed. In this case, get() will return true if the switch is
         # pressed. It will also return true if you do not have a switch
         # connected. get() will return false when the switch is released.
-        wpilib.SmartDashboard.put_boolean(
-            "Forward Limit Switch", self.forward_limit.get().get()
-        )
-        wpilib.SmartDashboard.put_boolean(
-            "Reverse Limit Switch", self.reverse_limit.get().get()
-        )
+        telemetry.log("Forward Limit Switch", self.forward_limit.get().get())
+        telemetry.log("Reverse Limit Switch", self.reverse_limit.get().get())
 
 
 if __name__ == "__main__":
