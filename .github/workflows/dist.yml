@@ -16,6 +16,7 @@ jobs:
     with:
       artifactory_repo_type: vendor
       enable_raspbian: false
+      windows_build_args: --config-setting=setup-args=-Dcpp_std=none --config-setting=setup-args="-Dcpp_args=['/std:c++23preview', '/permissive-']"
     secrets:
       META_REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
       RTD_TOKEN: ${{ secrets.RTD_TOKEN }}
