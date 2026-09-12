@@ -16,20 +16,20 @@ class MyRobot(wpilib.TimedRobot):
         This function is called upon program startup and
         should be used for any initialization code.
         """
-        self.leftDrive = rev.SparkMax(
-            wpilib.CANPort.CAN_S0, 1, rev.SparkMax.MotorType.kBrushless
+        self.left_drive = rev.SparkMax(
+            wpilib.CANPort.CAN_S0, 1, rev.SparkLowLevel.MotorType.BRUSHLESS
         )
-        self.rightDrive = rev.SparkMax(
-            wpilib.CANPort.CAN_S0, 2, rev.SparkMax.MotorType.kBrushless
+        self.right_drive = rev.SparkMax(
+            wpilib.CANPort.CAN_S0, 2, rev.SparkLowLevel.MotorType.BRUSHLESS
         )
-        self.robotDrive = wpilib.DifferentialDrive(self.leftDrive, self.rightDrive)
+        self.robot_drive = wpilib.DifferentialDrive(self.left_drive, self.right_drive)
         self.controller = wpilib.Gamepad(0)
         self.timer = wpilib.Timer()
 
         # We need to invert one side of the drivetrain so that positive voltages
         # result in both sides moving forward. Depending on how your robot's
         # gearbox is constructed, you might have to invert the left side instead.
-        self.rightDrive.setInverted(True)
+        self.right_drive.set_inverted(True)
 
     def autonomous_init(self):
         """This function is run once each time the robot enters autonomous mode."""
@@ -41,16 +41,16 @@ class MyRobot(wpilib.TimedRobot):
         # Drive for two seconds
         if self.timer.get() < 2.0:
             # Drive forwards half speed, make sure to turn input squaring off
-            self.robotDrive.arcade_drive(0.5, 0, square_inputs=False)
+            self.robot_drive.arcade_drive(0.5, 0, square_inputs=False)
         else:
-            self.robotDrive.stop_motor()  # Stop robot
+            self.robot_drive.stop_motor()  # Stop robot
 
     def teleop_init(self):
         """This function is called once each time the robot enters teleoperated mode."""
 
     def teleop_periodic(self):
         """This function is called periodically during teleoperated mode."""
-        self.robotDrive.arcade_drive(
+        self.robot_drive.arcade_drive(
             -self.controller.get_left_y(), -self.controller.get_right_x()
         )
 

@@ -16,36 +16,44 @@ class Robot(wpilib.TimedRobot):
     # Position is displayed in revolutions (of the motor's axle) and velocity
     # is displayed in revolutions per minute (RPM)
     #
-    # Optionally, if you call the setPositionConversionFactor() method on the
-    # encoder and give it a measurement of how far one revolution is, the
-    # getVelocity() and getPosition() methods return a scaled output in the
-    # units of your choice.
-    def robotInit(self):
+    # Optionally, if you call the position_conversion_factor() method on the
+    # encoder config and give it a measurement of how far one revolution is, the
+    # get_velocity() and get_position() methods return a scaled output in the
+    # units of your choice after configuring the SPARK.
+    def robot_init(self):
         # Instantiate SPARK MAX object
-        self.motor = rev.CANSparkMax(1, rev.CANSparkMax.MotorType.kBrushless)
+        self.motor = rev.SparkMax(0, 1, rev.SparkLowLevel.MotorType.BRUSHLESS)
 
-        self.motor.restoreFactoryDefaults()
-        self.encoder = self.motor.getEncoder()
+        self.motor.configure(
+            rev.SparkMaxConfig(),
+            rev.ResetMode.RESET_SAFE_PARAMETERS,
+            rev.PersistMode.NO_PERSIST_PARAMETERS,
+        )
+        self.encoder = self.motor.get_encoder()
 
         self.joystick = wpilib.Joystick(0)
 
-    def teleopPeriodic(self):
+    def teleop_periodic(self):
         # Set motor output to the joystick's Y-axis
-        self.motor.set(self.joystick.getY())
+        self.motor.set(self.joystick.get_y())
 
-        # Encoder position is read from a CANEncoder object by calling the
-        # getPosition() method.
+        # Encoder position is read from a RelativeEncoder object by calling the
+        # get_position() method.
         #
-        # getPosition() returns the position of the encoder in units of
+        # get_position() returns the position of the encoder in units of
         # revolutions (unless overridden)
-        wpilib.SmartDashboard.putNumber("Encoder Position", self.encoder.getPosition())
+        wpilib.SmartDashboard.put_number(
+            "Encoder Position", self.encoder.get_position()
+        )
 
-        # Encoder velocity is read from a CANEncoder object by calling the
-        # getVelocity() method.
+        # Encoder velocity is read from a RelativeEncoder object by calling the
+        # get_velocity() method.
         #
-        # getVelocity() returns the position of the encoder in units of
+        # get_velocity() returns the position of the encoder in units of
         # revolutions (unless overridden)
-        wpilib.SmartDashboard.putNumber("Encoder Velocity", self.encoder.getVelocity())
+        wpilib.SmartDashboard.put_number(
+            "Encoder Velocity", self.encoder.get_velocity()
+        )
 
 
 if __name__ == "__main__":

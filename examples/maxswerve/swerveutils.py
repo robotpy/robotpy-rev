@@ -7,7 +7,7 @@
 import math
 
 
-def stepTowards(current: float, target: float, stepsize: float) -> float:
+def step_towards(current: float, target: float, stepsize: float) -> float:
     """Steps a value towards a target with a specified step size.
 
     :param current:  The current or starting value.  Can be positive or negative.
@@ -27,7 +27,7 @@ def stepTowards(current: float, target: float, stepsize: float) -> float:
         return current + stepsize
 
 
-def stepTowardsCircular(current: float, target: float, stepsize: float) -> float:
+def step_towards_circular(current: float, target: float, stepsize: float) -> float:
     """Steps a value (angle) towards a target (angle) taking the shortest path with a specified step size.
 
     :param current:  The current or starting angle (in radians).  Can lie outside the 0 to 2*PI range.
@@ -38,10 +38,10 @@ def stepTowardsCircular(current: float, target: float, stepsize: float) -> float
               This value will always lie in the range 0 to 2*PI (exclusive).
     """
 
-    current = wrapAngle(current)
-    target = wrapAngle(target)
+    current = wrap_angle(current)
+    target = wrap_angle(target)
 
-    stepDirection = math.copysign(1, target - current)
+    step_direction = math.copysign(1, target - current)
     difference = abs(current - target)
 
     if difference <= stepsize:
@@ -55,24 +55,24 @@ def stepTowardsCircular(current: float, target: float, stepsize: float) -> float
             return target
         else:
             # this will handle wrapping gracefully
-            return wrapAngle(current - stepDirection * stepsize)
+            return wrap_angle(current - step_direction * stepsize)
     else:
-        return current + stepDirection * stepsize
+        return current + step_direction * stepsize
 
 
-def angleDifference(angleA: float, angleB: float) -> float:
+def angle_difference(angle_a: float, angle_b: float) -> float:
     """Finds the (unsigned) minimum difference between two angles including calculating across 0.
 
-    :param angleA: An angle (in radians).
-    :param angleB: An angle (in radians).
+    :param angle_a: An angle (in radians).
+    :param angle_b: An angle (in radians).
 
     :returns: The (unsigned) minimum difference between the two angles (in radians).
     """
-    difference = abs(angleA - angleB)
+    difference = abs(angle_a - angle_b)
     return math.tau - difference if difference > math.pi else difference
 
 
-def wrapAngle(angle: float) -> float:
+def wrap_angle(angle: float) -> float:
     """Wraps an angle until it lies within the range from 0 to 2*PI (exclusive).
 
     :param angle: The angle (in radians) to wrap.  Can be positive or negative and can lie multiple wraps outside the output range.
@@ -80,14 +80,14 @@ def wrapAngle(angle: float) -> float:
     :returns: An angle (in radians) from 0 and 2*PI (exclusive).
     """
 
-    twoPi = math.tau
+    two_pi = math.tau
 
     # Handle this case separately to avoid floating point errors with the floor after the division in the case below
-    if angle == twoPi:
+    if angle == two_pi:
         return 0.0
-    elif angle > twoPi:
-        return angle - twoPi * math.floor(angle / twoPi)
+    elif angle > two_pi:
+        return angle - two_pi * math.floor(angle / two_pi)
     elif angle < 0.0:
-        return angle + twoPi * (math.floor((-angle) / twoPi) + 1)
+        return angle + two_pi * (math.floor((-angle) / two_pi) + 1)
     else:
         return angle

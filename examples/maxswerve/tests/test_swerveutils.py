@@ -7,11 +7,11 @@
 import swerveutils
 
 
-def test_stepTowardsCircular1():
+def test_step_towards_circular1():
     current = 0.6408134451373411
     stepsize = 0.3455804605358387
     target = 0.0  # stepping towards zero direction
-    result = swerveutils.stepTowardsCircular(
+    result = swerveutils.step_towards_circular(
         current=current, stepsize=stepsize, target=target
     )
     # stepping towards zero angle should result in smaller absolute value

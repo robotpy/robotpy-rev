@@ -12,24 +12,24 @@ from robotcontainer import RobotContainer
 
 
 class MyRobot(commands2.TimedCommandRobot):
-    def robotInit(self):
+    def robot_init(self):
         # Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         # autonomous chooser on the dashboard.
         self.container = RobotContainer()
-        self.autonomousCommand = None
+        self.autonomous_command = None
 
-    def autonomousInit(self) -> None:
-        self.autonomousCommand = self.container.getAutonomousCommand()
+    def autonomous_init(self) -> None:
+        self.autonomous_command = self.container.get_autonomous_command()
 
-        if self.autonomousCommand:
-            self.autonomousCommand.schedule()
+        if self.autonomous_command:
+            self.autonomous_command.schedule()
 
-    def teleopInit(self) -> None:
-        if self.autonomousCommand:
-            self.autonomousCommand.cancel()
+    def teleop_init(self) -> None:
+        if self.autonomous_command:
+            self.autonomous_command.cancel()
 
-    def testInit(self) -> None:
-        commands2.CommandScheduler.getInstance().cancelAll()
+    def test_init(self) -> None:
+        commands2.CommandScheduler.get_instance().cancel_all()
 
 
 if __name__ == "__main__":

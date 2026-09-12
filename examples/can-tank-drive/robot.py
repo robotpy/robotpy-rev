@@ -13,7 +13,7 @@ class Robot(wpilib.TimedRobot):
     def __init__(self):
         super().__init__()
         # SPARK MAX controllers are intialized over CAN by constructing a
-        # CANSparkMax object
+        # SparkMax object.
         #
         # The CAN bus ID is passed as the first parameter, and the device ID,
         # which can be configured using the SPARK MAX Client, is passed as the
@@ -21,33 +21,33 @@ class Robot(wpilib.TimedRobot):
         #
         # The motor type is passed as the third parameter.
         # Motor type can either be:
-        #   rev.CANSparkMax.MotorType.kBrushless
-        #   rev.CANSparkMax.MotorType.kBrushed
+        #   rev.SparkLowLevel.MotorType.BRUSHLESS
+        #   rev.SparkLowLevel.MotorType.BRUSHED
         #
         # The example below initializes two brushless motors with CAN IDs
         # 1 and 2. Change these parameters to match your setup
-        self.leftMotor = rev.SparkMax(
-            wpilib.CANPort.CAN_S0, 1, rev.SparkMax.MotorType.kBrushless
+        self.left_motor = rev.SparkMax(
+            wpilib.CANPort.CAN_S0, 1, rev.SparkLowLevel.MotorType.BRUSHLESS
         )
-        self.rightMotor = rev.SparkMax(
-            wpilib.CANPort.CAN_S0, 2, rev.SparkMax.MotorType.kBrushless
+        self.right_motor = rev.SparkMax(
+            wpilib.CANPort.CAN_S0, 2, rev.SparkLowLevel.MotorType.BRUSHLESS
         )
 
         # Configure for factory defaults and invert right side motor
-        self.globalConfig = rev.SparkMaxConfig()
-        self.rightConfig = self.globalConfig.inverted(True)
-        self.leftMotor.configure(
-            self.globalConfig,
-            rev.ResetMode.kResetSafeParameters,
-            rev.PersistMode.kPersistParameters,
+        self.global_config = rev.SparkMaxConfig()
+        self.right_config = self.global_config.inverted(True)
+        self.left_motor.configure(
+            self.global_config,
+            rev.ResetMode.RESET_SAFE_PARAMETERS,
+            rev.PersistMode.PERSIST_PARAMETERS,
         )
-        self.rightMotor.configure(
-            self.rightConfig,
-            rev.ResetMode.kResetSafeParameters,
-            rev.PersistMode.kPersistParameters,
+        self.right_motor.configure(
+            self.right_config,
+            rev.ResetMode.RESET_SAFE_PARAMETERS,
+            rev.PersistMode.PERSIST_PARAMETERS,
         )
 
-        self.drivetrain = wpilib.DifferentialDrive(self.leftMotor, self.rightMotor)
+        self.drivetrain = wpilib.DifferentialDrive(self.left_motor, self.right_motor)
         self.l_stick = wpilib.Joystick(0)
         self.r_stick = wpilib.Joystick(1)
 

@@ -5,26 +5,26 @@ from rev import REVLibError
 
 
 def test_setfeedbackdevice():
-    s = rev.SparkMax(wpilib.CANPort.CAN_S0, 1, rev.SparkLowLevel.MotorType.kBrushless)
-    e = s.getEncoder()
-    p = s.getClosedLoopController()
-    # assert p.setFeedbackDevice(e) == REVLibError.kOk
+    s = rev.SparkMax(wpilib.CANPort.CAN_S0, 1, rev.SparkLowLevel.MotorType.BRUSHLESS)
+    e = s.get_encoder()
+    p = s.get_closed_loop_controller()
+    # assert p.set_feedback_device(e) == REVLibError.OK
 
 
 def test_get_fwd_limit():
-    sm = rev.SparkMax(wpilib.CANPort.CAN_S0, 2, rev.SparkLowLevel.MotorType.kBrushless)
-    switch = sm.getForwardLimitSwitch()
+    sm = rev.SparkMax(wpilib.CANPort.CAN_S0, 2, rev.SparkLowLevel.MotorType.BRUSHLESS)
+    switch = sm.get_forward_limit_switch()
     switch.get()
 
 
 def test_current_limit():
-    sm = rev.SparkMax(wpilib.CANPort.CAN_S0, 1, rev.SparkLowLevel.MotorType.kBrushless)
+    sm = rev.SparkMax(wpilib.CANPort.CAN_S0, 1, rev.SparkLowLevel.MotorType.BRUSHLESS)
     cfg = rev.SparkMaxConfig()
-    cfg.secondaryCurrentLimit(50)
+    cfg.secondary_current_limit(50)
     sm.configure(
         cfg,
-        rev.ResetMode.kResetSafeParameters,
-        rev.PersistMode.kPersistParameters,
+        rev.ResetMode.RESET_SAFE_PARAMETERS,
+        rev.PersistMode.PERSIST_PARAMETERS,
     )
 
     # assert hal_data["CAN"]["sparkmax-1"]["currentChop"] == 50.0
@@ -36,23 +36,23 @@ def test_current_limit():
 
 
 # def test_faults(rev, hal_data):
-#     sm = rev.CANSparkMax(1, rev.MotorType.kBrushed)
-#     rev_sw = sm.getReverseLimitSwitch(rev.LimitSwitchPolarity.kNormallyOpen)
-#     hal_data["CAN"]["sparkmax-1"]["faults"][rev.FaultID.kHardLimitRev] = False
+#     sm = rev.SparkMax(wpilib.CANPort.CAN_S0, 1, rev.SparkLowLevel.MotorType.BRUSHED)
+#     rev_sw = sm.get_reverse_limit_switch()
+#     hal_data["CAN"]["sparkmax-1"]["faults"][rev.FaultID.HARD_LIMIT_REV] = False
 #     assert not rev_sw.get()
 
 
 # def test_frame_period():
-#     sm = rev.CANSparkMax(2, rev.CANSparkLowLevel.MotorType.kBrushed)
-#     sm.setPeriodicFramePeriod(rev.CANSparkLowLevel.PeriodicFrame.kStatus2, 20)
+#     sm = rev.SparkMax(wpilib.CANPort.CAN_S0, 2, rev.SparkLowLevel.MotorType.BRUSHED)
+#     sm.set_periodic_frame_period(rev.SparkLowLevel.PeriodicFrame.STATUS_2, 20)
 #     assert (
-#         hal_data["CAN"]["sparkmax-2"]["frame_period"][rev.PeriodicFrame.kStatus2] == 20
+#         hal_data["CAN"]["sparkmax-2"]["frame_period"][rev.PeriodicFrame.STATUS_2] == 20
 #     )
 
 
 def test_pid_set():
-    sm = rev.SparkMax(wpilib.CANPort.CAN_S0, 0, rev.SparkLowLevel.MotorType.kBrushless)
-    pid = sm.getClosedLoopController()
-    # pid.setOutputRange(-1, 1)
-    # pid.setP(0.005)
-    pid.setSetpoint(5, rev.SparkBase.ControlType.kPosition)
+    sm = rev.SparkMax(wpilib.CANPort.CAN_S0, 0, rev.SparkLowLevel.MotorType.BRUSHLESS)
+    pid = sm.get_closed_loop_controller()
+    # cfg = rev.SparkMaxConfig()
+    # cfg.closed_loop.P(0.005).output_range(-1, 1)
+    pid.set_setpoint(5, rev.SparkBase.ControlType.POSITION)
