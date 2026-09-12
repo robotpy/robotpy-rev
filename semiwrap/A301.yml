@@ -72,12 +72,25 @@ classes:
       AbsoluteEncoderPositionPeriodMs:
       GetAbsoluteEncoderPositionPeriodMs:
   first::a301::A301::FirmwareVersion:
+    inline_code: |
+      .def("__repr__", [](const first::a301::A301::FirmwareVersion &self) {
+        return py::str("A301.FirmwareVersion(major={!r}, minor={!r}, patch={!r}, prerelease={!r})")
+          .format(self.major, self.minor, self.patch, self.prerelease);
+      });
     attributes:
       major:
       minor:
       patch:
       prerelease:
   first::a301::A301::Faults:
+    inline_code: |
+      .def("__repr__", [](const first::a301::A301::Faults &self) {
+        return py::str("A301.Faults(other={!r}, sensor={!r}, can={!r}, temperature={!r}, "
+                       "gate_driver={!r}, esc_eeprom={!r}, firmware={!r}, "
+                       "motor_startup={!r}, raw_bits={!r})")
+          .format(self.other, self.sensor, self.can, self.temperature, self.gateDriver,
+                  self.escEeprom, self.firmware, self.motorStartup, self.rawBits);
+      });
     attributes:
       other:
       sensor:
@@ -94,6 +107,15 @@ classes:
           "":
           uint16_t:
   first::a301::A301::Warnings:
+    inline_code: |
+      .def("__repr__", [](const first::a301::A301::Warnings &self) {
+        return py::str("A301.Warnings(overvoltage={!r}, motor_loop_speed={!r}, "
+                       "brownout={!r}, overcurrent={!r}, esc_eeprom={!r}, ext_eeprom={!r}, "
+                       "sensor={!r}, stall={!r}, has_reset={!r}, other={!r}, raw_bits={!r})")
+          .format(self.overvoltage, self.motorLoopSpeed, self.brownout, self.overcurrent,
+                  self.escEeprom, self.extEeprom, self.sensor, self.stall, self.hasReset,
+                  self.other, self.rawBits);
+      });
     attributes:
       overvoltage:
       motorLoopSpeed:

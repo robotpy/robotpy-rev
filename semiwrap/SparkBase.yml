@@ -112,6 +112,14 @@ classes:
       SetThrottle:
       GetThrottle:
   rev::spark::SparkBase::Faults:
+    inline_code: |
+      .def("__repr__", [](const rev::spark::SparkBase::Faults &self) {
+        return py::str("SparkBase.Faults(other={!r}, motor_type={!r}, sensor={!r}, "
+                       "can={!r}, temperature={!r}, gate_driver={!r}, esc_eeprom={!r}, "
+                       "firmware={!r}, raw_bits={!r})")
+          .format(self.other, self.motorType, self.sensor, self.can, self.temperature,
+                  self.gateDriver, self.escEeprom, self.firmware, self.rawBits);
+      });
     attributes:
       other:
       motorType:
@@ -128,6 +136,14 @@ classes:
           "":
           uint16_t:
   rev::spark::SparkBase::Warnings:
+    inline_code: |
+      .def("__repr__", [](const rev::spark::SparkBase::Warnings &self) {
+        return py::str("SparkBase.Warnings(brownout={!r}, overcurrent={!r}, "
+                       "esc_eeprom={!r}, ext_eeprom={!r}, sensor={!r}, stall={!r}, "
+                       "has_reset={!r}, other={!r}, raw_bits={!r})")
+          .format(self.brownout, self.overcurrent, self.escEeprom, self.extEeprom,
+                  self.sensor, self.stall, self.hasReset, self.other, self.rawBits);
+      });
     attributes:
       brownout:
       overcurrent:

@@ -6,6 +6,12 @@ extra_includes_first:
 
 classes:
   rev::util::Signal:
+    template_inline_code: |
+      std::string clsNameCopy = clsName;
+      cls_Signal.def("__repr__", [clsNameCopy](const rev::util::Signal<T> &self) {
+        return py::str("{}(value={!r}, error={!r}, timestamp={!r})")
+          .format(clsNameCopy, self.Get(), self.GetError(), self.GetTimestamp());
+      });
     template_params:
     - T
     typealias:

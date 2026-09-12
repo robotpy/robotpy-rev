@@ -33,6 +33,13 @@ classes:
       GetServoChannel:
       SetBankPulsePeriod:
   rev::servohub::ServoHub::Faults:
+    inline_code: |
+      .def("__repr__", [](const rev::servohub::ServoHub::Faults &self) {
+        return py::str("ServoHub.Faults(regulator_power_good={!r}, hardware={!r}, "
+                       "firmware={!r}, low_battery={!r}, raw_bits={!r})")
+          .format(self.regulatorPowerGood, self.hardware, self.firmware,
+                  self.lowBattery, self.rawBits);
+      });
     attributes:
       regulatorPowerGood:
       hardware:
@@ -45,6 +52,17 @@ classes:
           "":
           uint16_t:
   rev::servohub::ServoHub::Warnings:
+    inline_code: |
+      .def("__repr__", [](const rev::servohub::ServoHub::Warnings &self) {
+        return py::str("ServoHub.Warnings(brownout={!r}, can_warning={!r}, can_bus_off={!r}, "
+                       "has_reset={!r}, channel0_overcurrent={!r}, channel1_overcurrent={!r}, "
+                       "channel2_overcurrent={!r}, channel3_overcurrent={!r}, "
+                       "channel4_overcurrent={!r}, channel5_overcurrent={!r}, raw_bits={!r})")
+          .format(self.brownout, self.canWarning, self.canBusOff, self.hasReset,
+                  self.channel0Overcurrent, self.channel1Overcurrent, self.channel2Overcurrent,
+                  self.channel3Overcurrent, self.channel4Overcurrent, self.channel5Overcurrent,
+                  self.rawBits);
+      });
     attributes:
       brownout:
       canWarning:

@@ -18,6 +18,13 @@ classes:
       DetachedEncoderLowLevel:
       GetCanPort:
   rev::detached::DetachedEncoderLowLevel::FirmwareVersion:
+    inline_code: |
+      .def("__repr__", [](const rev::detached::DetachedEncoderLowLevel::FirmwareVersion &self) {
+        return py::str("DetachedEncoderLowLevel.FirmwareVersion(year={!r}, minor={!r}, "
+                       "fix={!r}, prerelease={!r}, hardware_major={!r}, hardware_minor={!r})")
+          .format(self.year, self.minor, self.fix, self.prerelease,
+                  self.hardwareMajor, self.hardwareMinor);
+      });
     attributes:
       year:
       minor:
@@ -26,9 +33,25 @@ classes:
       hardwareMajor:
       hardwareMinor:
   rev::detached::DetachedEncoderLowLevel::PeriodicStatus0:
+    inline_code: |
+      .def("__repr__", [](const rev::detached::DetachedEncoderLowLevel::PeriodicStatus0 &self) {
+        return py::str("DetachedEncoderLowLevel.PeriodicStatus0(model={!r})").format(self.model);
+      });
     attributes:
       model:
   rev::detached::DetachedEncoderLowLevel::PeriodicStatus1:
+    inline_code: |
+      .def("__repr__", [](const rev::detached::DetachedEncoderLowLevel::PeriodicStatus1 &self) {
+        return py::str("DetachedEncoderLowLevel.PeriodicStatus1(unexpected_fault={!r}, "
+                       "has_reset_fault={!r}, can_tx_fault={!r}, can_rx_fault={!r}, eeprom_fault={!r}, "
+                       "sticky_unexpected_fault={!r}, sticky_has_reset_fault={!r}, "
+                       "sticky_can_tx_fault={!r}, sticky_can_rx_fault={!r}, "
+                       "sticky_eeprom_fault={!r}, timestamp={!r})")
+          .format(self.unexpectedFault, self.hasResetFault, self.canTxFault, self.canRxFault,
+                  self.eepromFault, self.stickyUnexpectedFault, self.stickyHasResetFault,
+                  self.stickyCanTxFault, self.stickyCanRxFault, self.stickyEepromFault,
+                  self.timestamp);
+      });
     attributes:
       unexpectedFault:
       hasResetFault:
@@ -42,15 +65,30 @@ classes:
       stickyEepromFault:
       timestamp:
   rev::detached::DetachedEncoderLowLevel::PeriodicStatus2:
+    inline_code: |
+      .def("__repr__", [](const rev::detached::DetachedEncoderLowLevel::PeriodicStatus2 &self) {
+        return py::str("DetachedEncoderLowLevel.PeriodicStatus2(raw_angle={!r}, angle={!r}, timestamp={!r})")
+          .format(self.rawAngle, self.angle, self.timestamp);
+      });
     attributes:
       rawAngle:
       angle:
       timestamp:
   rev::detached::DetachedEncoderLowLevel::PeriodicStatus3:
+    inline_code: |
+      .def("__repr__", [](const rev::detached::DetachedEncoderLowLevel::PeriodicStatus3 &self) {
+        return py::str("DetachedEncoderLowLevel.PeriodicStatus3(position={!r}, timestamp={!r})")
+          .format(self.position, self.timestamp);
+      });
     attributes:
       position:
       timestamp:
   rev::detached::DetachedEncoderLowLevel::PeriodicStatus4:
+    inline_code: |
+      .def("__repr__", [](const rev::detached::DetachedEncoderLowLevel::PeriodicStatus4 &self) {
+        return py::str("DetachedEncoderLowLevel.PeriodicStatus4(velocity={!r}, timestamp={!r})")
+          .format(self.velocity, self.timestamp);
+      });
     attributes:
       velocity:
       timestamp:
