@@ -9,7 +9,7 @@ build:
     python: "3.14"
   jobs:
     post_install:
-    - python -m robotpy_sphinx.download_and_install robotpy robotpy-rev main dist pypi-Linux-3.11
+    - python -m robotpy_sphinx.download_and_install robotpy robotpy-rev main dist pypi-Linux-X64-3.14
 
 python:
   install:
