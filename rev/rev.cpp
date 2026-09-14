@@ -8,7 +8,5 @@ void setREVLibDriver(void *newDriver);
 }
 
 SEMIWRAP_PYBIND11_MODULE(m) {
-  setREVLibDriver(getRevLibWpiDriver());
-
   initWrapper(m);
 }

@@ -13,6 +13,8 @@ dist
 
 /rev/version.py
 /rev/_init__rev.py
+/rev/_init_revlib.py
+/rev/native
 /rev/trampolines
 /rev/*.pc
 

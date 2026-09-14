@@ -8,18 +8,14 @@ rev_sources += files(
   'rev/rev.cpp',
 )
 
-#
-# Static link
-#
-
+# Match the vendor JSON: static REVLib/REVLibDriver, shared backend drivers.
+# The shared libraries are supplied by the hatch-nativelib revlib dependency.
 cpp = meson.get_compiler('cpp')
 libs_path = meson.current_source_dir() + '/lib/lib'
 
 rev_deps += [
-    cpp.find_library('BackendDriver', dirs: libs_path),
-    cpp.find_library('REVLibWpi', dirs: libs_path),
-    cpp.find_library('REVLibDriver', dirs: libs_path),
-    cpp.find_library('REVLib', dirs: libs_path),
+    cpp.find_library('REVLibDriver', dirs: libs_path, static: true),
+    cpp.find_library('REVLib', dirs: libs_path, static: true),
 ]
 
 subdir('semiwrap/modules')
