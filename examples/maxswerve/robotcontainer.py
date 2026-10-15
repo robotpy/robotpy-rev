@@ -7,24 +7,22 @@
 import math
 
 import commands2
-import wpimath
+import commands2.button
 import wpilib
-
-from commands2 import cmd
-from wpimath.controller import (
-    HolonomicDriveController,
+import wpimath
+from wpimath import (
+    DrivetrainSplineTrajectoryGenerator,
     PIDController,
+    Pose2d,
     ProfiledPIDControllerRadians,
-)
-from wpimath.geometry import Pose2d, Rotation2d, Translation2d
-from wpimath.trajectory import (
+    Rotation2d,
     TrajectoryConfig,
-    TrajectoryGenerator,
-    TrapezoidProfileRadians,
+    Translation2d,
 )
 
 from constants import AutoConstants, DriveConstants, OIConstants
 from subsystems.drivesubsystem import DriveSubsystem
+from swervecontrollercommand import SwerveControllerCommand
 
 
 class RobotContainer:
@@ -36,6 +34,7 @@ class RobotContainer:
     """
 
     def __init__(self) -> None:
+        """The container for the robot. Contains subsystems, OI devices, and commands."""
         # The robot's subsystems
         self.robot_drive = DriveSubsystem()
 
@@ -63,7 +62,6 @@ class RobotContainer:
                         self.driver_controller.get_right_x(), OIConstants.DRIVE_DEADBAND
                     ),
                     True,
-                    True,
                 ),
                 self.robot_drive,
             )
@@ -71,17 +69,25 @@ class RobotContainer:
 
     def configure_button_bindings(self) -> None:
         """
-        Use this method to define your button->command mappings. Buttons can be created by
-        instantiating a :GenericHID or one of its subclasses (Joystick or XboxController),
-        and then passing it to a JoystickButton.
+        Use this method to define your button->command mappings. Buttons can be
+        created by instantiating a :class:`wpilib.GenericHID` or one of its
+        subclasses (:class:`wpilib.Joystick` or :class:`wpilib.XboxController`),
+        and then passing it to a :class:`commands2.button.JoystickButton`.
         """
+        driver_hid = self.driver_controller.get_hid()
 
-    def disable_pid_subsystems(self) -> None:
-        """Disables all ProfiledPIDSubsystem and PIDSubsystem instances.
-        This should be called on robot disable to prevent integral windup."""
+        commands2.button.JoystickButton(
+            driver_hid, wpilib.XboxController.Button.RIGHT_BUMPER.value
+        ).while_true(commands2.RunCommand(self.robot_drive.set_x, self.robot_drive))
+
+        commands2.button.JoystickButton(
+            driver_hid, wpilib.XboxController.Button.MENU.value
+        ).on_true(
+            commands2.InstantCommand(self.robot_drive.zero_heading, self.robot_drive)
+        )
 
     def get_autonomous_command(self) -> commands2.Command:
-        """Use this to pass the autonomous command to the main {@link Robot} class.
+        """Use this to pass the autonomous command to the main :class:`.Robot` class.
 
         :returns: the command to run in autonomous
         """
@@ -94,7 +100,7 @@ class RobotContainer:
         config.set_kinematics(DriveConstants.DRIVE_KINEMATICS)
 
         # An example trajectory to follow. All units in meters.
-        example_trajectory = TrajectoryGenerator.generate_trajectory(
+        example_trajectory = DrivetrainSplineTrajectoryGenerator.generate(
             # Start at the origin facing the +X direction
             Pose2d(0, 0, Rotation2d(0)),
             # Pass through these two interior waypoints, making an 's' curve path
@@ -104,31 +110,24 @@ class RobotContainer:
             config,
         )
 
-        # Constraint for the motion profiled robot angle controller
-        theta_controller_constraints = TrapezoidProfileRadians.Constraints(
-            AutoConstants.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND,
-            AutoConstants.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED,
-        )
-
-        x_controller = PIDController(1.0, 0.0, 0.0)
-        y_controller = PIDController(1.0, 0.0, 0.0)
         theta_controller = ProfiledPIDControllerRadians(
-            1.0, 0.0, 0.0, theta_controller_constraints
+            AutoConstants.P_THETA_CONTROLLER,
+            0,
+            0,
+            AutoConstants.THETA_CONTROLLER_CONSTRAINTS,
         )
         theta_controller.enable_continuous_input(-math.pi, math.pi)
 
-        pid_controller = HolonomicDriveController(
-            x_controller, y_controller, theta_controller
-        )
-
-        swerve_controller_command = commands2.SwerveControllerCommand(
+        swerve_controller_command = SwerveControllerCommand(
             example_trajectory,
             self.robot_drive.get_pose,  # Functional interface to feed supplier
             DriveConstants.DRIVE_KINEMATICS,
             # Position controllers
-            pid_controller,
+            PIDController(AutoConstants.P_X_CONTROLLER, 0, 0),
+            PIDController(AutoConstants.P_Y_CONTROLLER, 0, 0),
+            theta_controller,
             self.robot_drive.set_module_states,
-            (self.robot_drive,),
+            self.robot_drive,
         )
 
         # Reset odometry to the starting pose of the trajectory.
@@ -136,8 +135,5 @@ class RobotContainer:
 
         # Run path following command, then stop at the end.
         return swerve_controller_command.and_then(
-            cmd.run(
-                lambda: self.robot_drive.drive(0, 0, 0, False, False),
-                self.robot_drive,
-            )
+            commands2.InstantCommand(lambda: self.robot_drive.drive(0, 0, 0, False))
         )
