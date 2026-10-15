@@ -5,28 +5,26 @@
 #
 
 import math
-import typing
 
+import commands2
+import hal
 import wpilib
-
-from commands2 import Subsystem
 from wpimath import (
     ChassisVelocities,
     Pose2d,
     Rotation2d,
-    SlewRateLimiter,
     SwerveDrive4Kinematics,
     SwerveDrive4Odometry,
     SwerveModuleVelocity,
 )
 
 from constants import DriveConstants
-import swerveutils
 from .maxswervemodule import MAXSwerveModule
 
 
-class DriveSubsystem(Subsystem):
+class DriveSubsystem(commands2.Subsystem):
     def __init__(self) -> None:
+        """Creates a new DriveSubsystem."""
         super().__init__()
 
         # Create MAXSwerveModules
@@ -55,39 +53,31 @@ class DriveSubsystem(Subsystem):
         )
 
         # The gyro sensor
-        self.gyro = wpilib.OnboardIMU()
-
-        # Slew rate filter variables for controlling lateral acceleration
-        self.current_rotation = 0.0
-        self.current_translation_dir = 0.0
-        self.current_translation_mag = 0.0
-
-        self.mag_limiter = SlewRateLimiter(DriveConstants.MAGNITUDE_SLEW_RATE)
-        self.rot_limiter = SlewRateLimiter(DriveConstants.ROTATIONAL_SLEW_RATE)
-        self.prev_time = wpilib.Timer.get_timestamp()
+        self.gyro = wpilib.OnboardIMU(wpilib.OnboardIMU.MountOrientation.FLAT)
 
         # Odometry class for tracking robot pose
         self.odometry = SwerveDrive4Odometry(
             DriveConstants.DRIVE_KINEMATICS,
-            Rotation2d(self.gyro.get_angle_z()),
-            (
-                self.front_left.get_position(),
-                self.front_right.get_position(),
-                self.rear_left.get_position(),
-                self.rear_right.get_position(),
-            ),
+            Rotation2d(self.gyro.get_yaw()),
+            self._get_module_positions(),
+        )
+
+        # Usage reporting for MAXSwerve template
+        hal.report_usage("RobotDrive", "MAXSwerve")
+
+    def _get_module_positions(self):
+        return (
+            self.front_left.get_position(),
+            self.front_right.get_position(),
+            self.rear_left.get_position(),
+            self.rear_right.get_position(),
         )
 
     def periodic(self) -> None:
         # Update the odometry in the periodic block
         self.odometry.update(
-            Rotation2d(self.gyro.get_angle_z()),
-            (
-                self.front_left.get_position(),
-                self.front_right.get_position(),
-                self.rear_left.get_position(),
-                self.rear_right.get_position(),
-            ),
+            Rotation2d(self.gyro.get_yaw()),
+            self._get_module_positions(),
         )
 
     def get_pose(self) -> Pose2d:
@@ -101,123 +91,40 @@ class DriveSubsystem(Subsystem):
         """Resets the odometry to the specified pose.
 
         :param pose: The pose to which to set the odometry.
-
         """
         self.odometry.reset_position(
-            Rotation2d(self.gyro.get_angle_z()),
-            (
-                self.front_left.get_position(),
-                self.front_right.get_position(),
-                self.rear_left.get_position(),
-                self.rear_right.get_position(),
-            ),
+            Rotation2d(self.gyro.get_yaw()),
+            self._get_module_positions(),
             pose,
         )
 
     def drive(
-        self,
-        x_speed: float,
-        y_speed: float,
-        rot: float,
-        field_relative: bool,
-        rate_limit: bool,
+        self, x_speed: float, y_speed: float, rot: float, field_relative: bool
     ) -> None:
         """Method to drive the robot using joystick info.
 
         :param x_speed:        Speed of the robot in the x direction (forward).
         :param y_speed:        Speed of the robot in the y direction (sideways).
-        :param rot:           Angular rate of the robot.
+        :param rot:            Angular rate of the robot.
         :param field_relative: Whether the provided x and y speeds are relative to the
-                              field.
-        :param rate_limit:     Whether to enable rate limiting for smoother control.
+                               field.
         """
-
-        x_speed_commanded = x_speed
-        y_speed_commanded = y_speed
-
-        if rate_limit:
-            # Convert XY to polar for rate limiting
-            input_translation_dir = math.atan2(y_speed, x_speed)
-            input_translation_mag = math.hypot(x_speed, y_speed)
-
-            # Calculate the direction slew rate based on an estimate of the lateral acceleration
-            if self.current_translation_mag != 0.0:
-                direction_slew_rate = abs(
-                    DriveConstants.DIRECTION_SLEW_RATE / self.current_translation_mag
-                )
-            else:
-                direction_slew_rate = 500.0
-                # some high number that means the slew rate is effectively instantaneous
-
-            current_time = wpilib.Timer.get_timestamp()
-            elapsed_time = current_time - self.prev_time
-            angle_difference = swerveutils.angle_difference(
-                input_translation_dir, self.current_translation_dir
-            )
-            if angle_difference < 0.45 * math.pi:
-                self.current_translation_dir = swerveutils.step_towards_circular(
-                    self.current_translation_dir,
-                    input_translation_dir,
-                    direction_slew_rate * elapsed_time,
-                )
-                self.current_translation_mag = self.mag_limiter.calculate(
-                    input_translation_mag
-                )
-
-            elif angle_difference > 0.85 * math.pi:
-                # some small number to avoid floating-point errors with equality checking
-                # keep current_translation_dir unchanged
-                if self.current_translation_mag > 1e-4:
-                    self.current_translation_mag = self.mag_limiter.calculate(0.0)
-                else:
-                    self.current_translation_dir = swerveutils.wrap_angle(
-                        self.current_translation_dir + math.pi
-                    )
-                    self.current_translation_mag = self.mag_limiter.calculate(
-                        input_translation_mag
-                    )
-
-            else:
-                self.current_translation_dir = swerveutils.step_towards_circular(
-                    self.current_translation_dir,
-                    input_translation_dir,
-                    direction_slew_rate * elapsed_time,
-                )
-                self.current_translation_mag = self.mag_limiter.calculate(0.0)
-
-            self.prev_time = current_time
-
-            x_speed_commanded = self.current_translation_mag * math.cos(
-                self.current_translation_dir
-            )
-            y_speed_commanded = self.current_translation_mag * math.sin(
-                self.current_translation_dir
-            )
-            self.current_rotation = self.rot_limiter.calculate(rot)
-
-        else:
-            self.current_rotation = rot
-
         # Convert the commanded speeds into the correct units for the drivetrain
-        x_speed_delivered = (
-            x_speed_commanded * DriveConstants.MAX_SPEED_METERS_PER_SECOND
+        x_speed_delivered = x_speed * DriveConstants.MAX_SPEED_METERS_PER_SECOND
+        y_speed_delivered = y_speed * DriveConstants.MAX_SPEED_METERS_PER_SECOND
+        rot_delivered = rot * DriveConstants.MAX_ANGULAR_SPEED
+
+        chassis_velocities = ChassisVelocities(
+            x_speed_delivered, y_speed_delivered, rot_delivered
         )
-        y_speed_delivered = (
-            y_speed_commanded * DriveConstants.MAX_SPEED_METERS_PER_SECOND
-        )
-        rot_delivered = self.current_rotation * DriveConstants.MAX_ANGULAR_SPEED
+        if field_relative:
+            chassis_velocities = chassis_velocities.to_robot_relative(
+                Rotation2d(self.gyro.get_yaw())
+            )
 
         swerve_module_states = (
             DriveConstants.DRIVE_KINEMATICS.to_swerve_module_velocities(
-                ChassisVelocities(
-                    x_speed_delivered,
-                    y_speed_delivered,
-                    rot_delivered,
-                ).to_robot_relative(Rotation2d(self.gyro.get_angle_z()))
-                if field_relative
-                else ChassisVelocities(
-                    x_speed_delivered, y_speed_delivered, rot_delivered
-                )
+                chassis_velocities
             )
         )
         fl, fr, rl, rr = SwerveDrive4Kinematics.desaturate_wheel_velocities(
@@ -245,7 +152,7 @@ class DriveSubsystem(Subsystem):
 
     def set_module_states(
         self,
-        desired_states: typing.Tuple[
+        desired_states: tuple[
             SwerveModuleVelocity,
             SwerveModuleVelocity,
             SwerveModuleVelocity,
@@ -280,13 +187,13 @@ class DriveSubsystem(Subsystem):
 
         :returns: the robot's heading in degrees, from -180 to 180
         """
-        return Rotation2d(self.gyro.get_angle_z()).degrees()
+        return Rotation2d(self.gyro.get_yaw()).degrees()
 
     def get_turn_rate(self) -> float:
         """Returns the turn rate of the robot.
 
-        :returns: The turn rate of the robot, in radians per second
+        :returns: The turn rate of the robot, in degrees per second
         """
-        return self.gyro.get_gyro_rate_z() * (
+        return math.degrees(self.gyro.get_gyro_rate_z()) * (
             -1.0 if DriveConstants.GYRO_REVERSED else 1.0
         )

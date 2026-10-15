@@ -9,6 +9,7 @@ BASE_TESTS = [
     "color_match",
     "get-set-params",
     "limit-switch",
+    "maxswerve",
     "position-pid-control",
     "read_rgb_values",
     "read-encoder-values",
@@ -16,9 +17,7 @@ BASE_TESTS = [
     "velocity-pid-control",
 ]
 
-IGNORED_TESTS = [
-    "maxswerve",
-]  # Add ignored tests if any
+IGNORED_TESTS = []  # Add ignored tests if any
 EVERY_TESTS = BASE_TESTS + IGNORED_TESTS
 TESTS = BASE_TESTS
 
