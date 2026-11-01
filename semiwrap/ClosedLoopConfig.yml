@@ -33,3 +33,6 @@ classes:
           FeedbackSensor, int:
           FeedbackSensor, const rev::detached::DetachedEncoder&:
       Flatten:
+      PositionWrappingMinInput:
+      PositionWrappingMaxInput:
+      PositionWrappingInputRange:

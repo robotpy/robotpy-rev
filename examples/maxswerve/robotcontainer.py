@@ -131,7 +131,7 @@ class RobotContainer:
         )
 
         # Reset odometry to the starting pose of the trajectory.
-        self.robot_drive.reset_odometry(example_trajectory.initial_pose())
+        self.robot_drive.reset_odometry(example_trajectory.start().pose)
 
         # Run path following command, then stop at the end.
         return swerve_controller_command.and_then(
