@@ -15,3 +15,5 @@ classes:
       GetAllowedClosedLoopError:
       GetPositionWrappingEnabled:
       GetFeedbackSensor:
+      GetPositionWrappingMinInput:
+      GetPositionWrappingMaxInput:

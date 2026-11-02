@@ -7,7 +7,7 @@ requires = [
     "hatch-meson~=0.1.2",
     "hatch-robotpy~=0.2.1",
     "hatch-nativelib~=0.2.2",
-    "wpilib==2027.0.0a7",
+    "wpilib==2027.0.0a8",
 ]
 
 
@@ -17,7 +17,7 @@ dynamic = ["version"]
 description = "REVLib for RobotPy"
 license = "BSD-3-Clause"
 dependencies = [
-    "wpilib==2027.0.0a7",
+    "wpilib==2027.0.0a8",
 ]
 
 [[project.authors]]
@@ -45,7 +45,7 @@ packages = ["rev"]
 artifact_id = "REVLib-cpp"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2027.0.0-alpha-7"
+version = "2027.0.0-alpha-9"
 staticlibs = ["REVLib"]
 extract_to = "lib"
 
@@ -53,7 +53,7 @@ extract_to = "lib"
 artifact_id = "REVLib-driver"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2027.0.0-alpha-7"
+version = "2027.0.0-alpha-9"
 staticlibs = [ "REVLibDriver"]
 extract_to = "lib"
 
@@ -61,7 +61,7 @@ extract_to = "lib"
 artifact_id = "RevLibBackendDriver"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2027.0.0-alpha-7"
+version = "2027.0.0-alpha-9"
 libs = [
     "BackendDriver",
 ]
@@ -72,7 +72,7 @@ use_headers = false
 artifact_id = "RevLibWpiBackendDriver"
 group_id = "com.revrobotics.frc"
 repo_url = "https://maven.revrobotics.com"
-version = "2027.0.0-alpha-7"
+version = "2027.0.0-alpha-9"
 libs = [
     "REVLibWpi",
 ]
@@ -126,6 +126,8 @@ scan_headers_ignore = [
     "rev/REVUtils.h",
     "rev/SparkFrameManager.h",
     "rev/StatusLoggerDriver.h",
+    # Internal log-format and filesystem helpers
+    "rev/StatusLoggerUtil.h",
 
     # rev/canupdate
     "rev/canupdate/CANSparkSWDL.h",

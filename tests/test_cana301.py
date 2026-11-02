@@ -31,6 +31,9 @@ def test_motioncore_construction_in_fresh_process():
         ],
         capture_output=True,
         text=True,
-        timeout=30,
+        # Temporary workaround: REVLib alpha-9 polls CAN for simulated A301
+        # status periods. Scheduling delays can stretch those waits on CI.
+        # Restore 30 seconds once REVLib's simulated status-period fix ships.
+        timeout=120,
     )
     assert result.returncode == 0, result.stdout + result.stderr

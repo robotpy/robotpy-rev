@@ -4,3 +4,5 @@ classes:
       Start:
       Stop:
       DisableAutoLogging:
+      SetLogDirectory:
+      GetLogDirectory:
